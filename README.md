@@ -26,6 +26,10 @@ Notes on Lee's variant of Khovanov homology, which leads to a spectral sequence.
 
 Notes I made while preparing for my [oral exam](./oral-exam).
 
+## [Knot Theory](./knot-theory)
+
+Very rough and incomplete notes on some basic knot theory.
+
 ## [Oral Exam Syllabus](./oral-syllabus)
 
 Syllabus for my oral exam in graduate school.
@@ -33,3 +37,7 @@ Syllabus for my oral exam in graduate school.
 ## [Spectral Sequences](./spectral-sequences)
 
 An incredibly complicated object arising often in algebra and topology.
+
+## [State Sum Invariants of Links and Manifolds](./state-sum-invariants-of-links-and-manifolds)
+
+Very rough and incomplete notes on some basic state sum invariants of links and manifolds.
