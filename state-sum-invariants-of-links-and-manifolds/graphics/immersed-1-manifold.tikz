@@ -1,0 +1,31 @@
+\begin{tikzpicture}
+[
+	scale=3,
+	bd/.style={circle,draw,fill=black,inner sep=0pt,minimum size=1mm}
+]
+
+	\draw (-1,0) -- (1,0);
+	\draw (-1,1) -- (1,1);
+	\draw[dashed] (-1.25,0) -- (-1,0);
+	\draw[dashed] (1,0) -- (1.25,0);
+	\draw[dashed] (-1.25,1) -- (-1,1);
+	\draw[dashed] (1,1) -- (1.25,1);
+	
+	\node[bd] (b1) at (-.5,0) {};
+	\node[bd] (b2) at (0,0) {};
+	\node[bd] (b3) at (.5,0) {};
+	
+	\node[bd] (t1) at (-.75,1) {};
+	\node[bd] (t2) at (-.5,1) {};
+	\node[bd] (t3) at (0,1) {};
+	\node[bd] (t4) at (.25,1) {};
+	\node[bd] (t5) at (.75,1) {};
+	
+	\draw (b1) -- (t2);
+	\draw[out=90,in=270] (b2) to node {} (t5);
+	\draw[out=90,in=270] (b3) to node {} (t3);
+	\draw[out=270,in=270,distance=8mm] (t1) to node {} (t4);
+	
+	\node[ellipse,draw,inner sep=0pt,minimum width=7mm,minimum height=10mm] at (-.3,.4) {};
+	
+\end{tikzpicture}

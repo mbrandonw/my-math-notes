@@ -1,0 +1,492 @@
+
+
+\input{"/Users/brandonwilliams/Documents/LaTeX Includes/hwpreamble.tex"}
+\input{"/Users/brandonwilliams/Documents/LaTeX Includes/extrapackages.tex"}
+\input{"/Users/brandonwilliams/Documents/LaTeX Includes/extracommands.tex"}
+
+
+\begin{document}
+
+
+\title{\Large Spectral Sequences}
+\author{\large Brandon Williams}
+
+\maketitle
+
+
+\tableofcontents
+
+
+\section{Graded Objects in Algebra}
+
+We will first take the time to carefully develop the notion of graded objects, which are required for the study of spectral sequences.
+
+Let us fix a ring $R$ throughout this section, and all $R$-modules will be considered as left $R$-modules. A graded $R$-module $A$ is a collection of $R$-modules $\lcb A_i \rcb$ indexed by the integers $i \in \mathbb Z$. Right now each module $A_i$ exists separately from each other module $A_j$, but often we want to bring them together into one object, so we will abuse the notation a little and write $A = \oplus_i A_i$. An element $x \in A_n$ is called a homogeneous element of degree $n$, and similarly if an element $x \in \oplus_i A_i$ really lives in some $A_n$ we also call it a homogeneous element of degree $n$. We will sometimes write $\deg x$ to denote the degree of a homogeneous element. Note that degree does not make any sense for a non-homogeneous element, i.e. an element of $\oplus_i A_i$ living in more than one summand.
+
+A morphism $f : A \rightarrow B$ of graded $R$-modules is just an $R$-linear map $f : \oplus_i A_i \rightarrow \oplus_i B_i$. This makes all graded $R$-modules into a category, which we denote by $\GLMod{R}$. Clearly the hom-sets of $\GLMod{R}$ form an abelian group such that composition is bilinear, so $\GLMod{R}$ is actually a pre-additive category. A morphism $f : A \rightarrow B$ is said to be homogeneous of degree $n$ if $f$ restricted to $A_i$ is a map $f|_{A_i} : A_i \rightarrow B_{i+n}$. In this case we write $f_i$ to denote the restriction of $f$ to $A_i$. We can make the hom-sets into a graded abelian group (i.e. a $\mathbb Z$-module) by defining $\hom(A,B)_i$ to be the collection of morphisms that are homogeneous of degree $i$. It is easy to see that degree is additive with respect to composition, therefore $\GLMod{R}$ is a graded category.
+
+Let $A$ and $B$ be graded $R$-modules. We define their direct sum to be the graded module $A \oplus B$ given by the collection $\lcb A_i \oplus B_i \rcb$. We say that $B$ is a graded submodule of $A$ if $B_i$ is a submodule of $A_i$ for all $i \in \mathbb Z$. For example, given a morphism $f$ of homogeneous degree $n$, the graded modules $\ker f$ and $\image f$ given by $(\ker f)_i = \ker f_i$ and $(\image f)_i = \image f_{i-n}$ are graded submodules of $A$ and $B$ respectively. If $B$ is a graded submodule of $A$ we can define their quotient to be the grade module $A/B$ given by the collection $\lcb A_i / B_i \rcb$. Finally, we define their tensor product to be the graded module $A \otimes B$ given by
+\[ (A \otimes B)_i = \sum_{j+k=i} A_j \otimes B_k \]
+
+Given just a plain $R$-module $A$, a differential on $A$ is an $R$-linear map $d : A \rightarrow A$ such that $d \circ d = 0$. This condition is equivalent to saying that $\image d \subset \ker d$, so we can take the quotient of these submodules. We define the homology module of $(A,d)$ to be $H(A,d) := \ker d / \image d$. A module $A$ equipped with a differential is called a differential module. A morphism $f : (A,d) \rightarrow (B,d')$ of differential modules is an $R$-linear map $f : A \rightarrow B$ such that $f \circ d = d' \circ f$. This makes all differential modules into a category, which we denote by $\DLMod{R}$. The condition on $f$ to be a morphism of differential modules ensures that $f(\ker d) \subseteq \ker d'$ and $f(\image d) \subseteq \image d'$, so $f$ induces a map $H(A) \rightarrow H(B)$. This means that $H$ is actually a functor $H : \DLMod{R} \rightarrow \LMod{R}$.
+
+Now suppose $A$ is graded, $A = \lcb A_i \rcb$. Then our previous remarks and definitions concerning differentials still makes sense. If $d : A \rightarrow A$ is just any morphism such that $d \circ d = 0$, then $H(A,d)$ is not necessarily graded. However, if $d$ is a homogeneous morphism, then $\ker d$ and $\image d$ are graded submodules, and so their quotient is a grade module. If $d$ is of homogeneous degree $-1$ we say that $(A,d)$ is a differential graded module, and its homology is a graded module with elements of degree $i$ given by
+\[ H_i(A,d) = \frac{\ker d_i}{\image d_{i+1}} \]
+Notice that we are writing $H_i(A,d)$ instead of $H(A,d)_i$ as our notation of graded modules dictates; it is nicer this way. A morphism $f : (A,d) \rightarrow (B,d')$ of differential graded modules is a morphism $f : A \rightarrow B$ of degree 0 such that $f_{i-1} \circ d_i = d_i \circ f_i$. This makes all differential graded modules into a category, which we will denote by $\DGLMod{R}$, and $H$ is a functor $H : \DGLMod{R} \rightarrow \GLMod{R}$. Note that $\DGLMod{R}$ is a subcategory of $\DLMod{R}$, but not a full subcategory; we are only taking the morphisms from $\DLMod{R}$ that are of degree 0.
+
+For a differential graded module $(A,d)$, elements of $\ker d$ are called cycles and elements of $\image d$ are called boundaries. In homology we say that two cycles are equivalent if their difference is a boundary. A morphism $f : (A,d) \rightarrow (B,d')$ that induces an isomorphism $H(f) : H(A,d) \rightarrow H(B,d')$ is called a quasi-isomorphism. Two morphisms $f,g : (A,d) \rightarrow (B,d')$ are said to be homotopic if there is a degree 1 morphism $h : (A,d) \rightarrow (B,d')$ such that $f_i - g_i = d_{i+1} \circ h_i + h_{i-1} \circ d_i$. This concept can be visualized in the following diagram:
+\[
+\xymatrix
+@C=5pc
+@R=3pc
+{
+ 	\cdots \ar[rd]
+ 	& A_{n-1} \ar@<-0.5ex>[d]_{f_{i-1}} \ar@<1ex>[d]^{g_{i-1}} \ar[rd]^{h_{n-1}} \ar[l]
+ 	& A_n     \ar@<-0.5ex>[d]_{f_i}     \ar@<1ex>[d]^{g_i}     \ar[rd]^{h_n}     \ar[l]_{d_n} 
+ 	& A_{n+1} \ar@<-0.5ex>[d]_{f_{i+1}} \ar@<1ex>[d]^{g_{i+1}} \ar[rd]           \ar[l]_{d_{n+1}} 
+ 	& \cdots \ar[l]
+ 	\\
+ 	\cdots
+ 	& B_{n-1} \ar[l] 
+ 	& B_n     \ar[l]^{d'_n}
+ 	& B_{n+1} \ar[l]^{d'_{n+1}}
+ 	& \cdots  \ar[l]
+}
+\]
+
+If $(A,d)$ is a differential graded module such that $A_i = 0$ for all $i<0$, then we say that $(A,d)$ is a chain complex. We let the full subcategory of chain complexes in $\DGLMod{R}$ be denoted by $\ChLMod{R}$. On the other hand, if $A_i = 0$ for all $i>0$, then we say that $(A,d)$ is a cochain complex. In this case we use the convention that $A^i = A_{-i}$, which means we can write $d : A^i \rightarrow A^{i+1}$, and so $d$ has upper degree equal to $+1$, and we write $H^i(A,d)$ for $H_{-i}(A,d)$. The full subcategory of these objects is denoted by $\CoChLMod{R}$. For a cochain complex we say that elements of $\ker d$ are cocycles and elements of $\image d$ are coboundaries, and the quotient graded module is called the cohomology module.
+
+
+\section{A Non-Sense Definition}
+
+Even though spectral sequences are quite complicated objects, they can be defined in just a few sentences. Unfortunately spectral sequences are very difficult to motivate, so at first the definition will seem non-sensical, and it will be hard to see why such a thing would be useful or occur in nature.
+
+We can make our theory of graded objects a little bit more complicated by defining a bigraded module $A$ to be a collection of modules $\lcb A_{i,j} \rcb$ indexed by pairs of integers $i,j$. Again we will sometimes blur the notation by writing $A = \oplus_{i,j} A_{i,j}$. We can define morphisms of bigraded modules just like we did for graded modules, except this time the homogeneous morphisms have a bidegree. We say that $f : A \rightarrow B$ has bidegree $(m,n)$ if $f$ restricted to $A_{i,j}$ is of the form $f|_{A_{i,j}} : A_{i,j} \rightarrow B_{i+m,j+n}$, and we denote this restriction by $f_{i,j}$. We will not carry out the theory of bigraded modules as far as we did for graded modules since it is easy to make the generalizations, and we will only need their basic properties.
+
+A differential bigraded module is a bigraded module $A = \lcb A_{i,j} \rcb$ with a homogeneous morphism $d : A \rightarrow A$ such that $d \circ d = 0$. If $d$ has bidegree of the form $(-r,r-1)$ for some $r$ we say that $A$ is of homological type. If $(A,d)$ is of homological type, then with upper indices $d$ has bidegree $(r,1-r)$, and so when using upper indices we say that such an object has cohomological type.
+
+Our non-sense definition of spectral sequences can now be stated as follows: a spectral sequence of homological type is a sequence of differential bigraded modules $\lcb E^r,d^r \rcb_{r \geq 0}$ such that the bidegree of $d^r$ is of bidegree $(-r,r-1)$, and such that $E^{r+1}$ is isomorphic to the homology of $E^r$, i.e.:
+\begin{align}
+\label{(r+1)-th page isomorphic to r-th page}
+	E^{r+1}_{p,q} &\cong H_{p,q}(E^r,d^r) \\
+	              &:= \frac{ \ker d^r : E_{p,q}^r \rightarrow E_{p-r,q+r-1}^r }{ \image d^r : E_{p+r,q-r+1}^r \rightarrow E_{p,q}^r }
+\end{align}
+Here $E^r$ does not have anything to do with lower/upper indices, it is just a term in a sequence of bigraded modules. We are forced to use an upper index for $r$ since the bigraded indices are lower. It may seem weird that in \eqref{(r+1)-th page isomorphic to r-th page} we have some isomorphism floating around in the background, but we take this isomorphism as a part of the structure of a spectral sequence and so forget it altogether. By switching lower indices to upper indices we immediately get the definition of a spectral sequence of cohomological type, but for the sake of completeness we will state the definition. A spectral sequence of cohomological type is a sequence of differential bigraded modules $\lcb E_r, d_r \rcb_{r \geq 0}$ such that the bidegree of $d_r$ is $(r,1-r)$ and
+\begin{align}
+	E_{r+1}^{p,q} &\cong H^{p,q}(E_r,d_r) \\
+	              &:= \frac{ \ker d_r : E_r^{p,q} \rightarrow E_r^{p+r,q+1-r} }{ \image d_r : E_r^{p-r,q+r-1} \rightarrow E_r^{p,q} }
+\end{align}
+
+The theories of spectral sequences of homological and cohomological type run parallel, so for now we will restrict ourselves to cohomological type and only state the companion results for homological type.
+
+Intuitively we think of spectral sequences as pages of modules ($E_r$ is called the $r$-th page of the spectral sequence) such that the $(r+1)$-th page is isomorphic to the homology of the $r$-th page. Because the homology of a module is a subquotient (that is, a quotient of a submodule) we would expect that the modules on the $(r+1)$-th page to be ``smaller'' than the modules on the $r$-th page. If we fix a grid position $(p,q) \in \mathbb Z \times \mathbb Z$ and look at the sequence of modules $E_r^{p,q}$ as $r$ increases, we hope that either $E_r^{p,q}$ eventually becomes zero, or stabilizes so that $E_r^{p,q} = E_{r+1}^{p,q}$ for all $r$ greater than some $R$. This leads us to wanting to define a ``limit'' page, called the $E_\infty$ page.
+
+To do this, let us for a moment drop the bigrading on our modules $E_r$. This is only done to prevent a superfluous amount of indices floating around, but they can easily be added back in. Since we have dropped bigradings we now just have a sequence of differential modules $(E_r,d_r)$ such that $H(E_r,d_r) \cong E_{r+1}$. Let $Z_1 = \ker d_1$ and $B_1 = \ker d_1$ be the cycles and boundaries so that $E_2 \cong Z_1 / B_1$. Next, let $\overline{Z}_2 = \ker d_2$, which is a submodule of a quotient $Z_1/B_1$, so it can be written as $\overline{Z}_2 = Z_2/B_1$ for some $Z_2 \subseteq Z_1$. Similarly, if $\overline{B}_2 = \image d_2$, then $\overline{B}_2$ can be written as $B_2/B_1$ for some $B_2 \supseteq B_1$. These last two statements follow from the fact that submodules $\overline{P}$ of a quotient $M/N$ are in one-to-one correspondence with submodules $M \supseteq P \supseteq N$.
+
+We now have the $E_3$ page of the spectral sequence given by
+\[ E_3 = \frac{\overline{Z}_2}{\overline{B}_2} = \frac{Z_2/B_1}{B_2/B_1} = \frac{Z_2}{B_2} \]
+and we have the tower of submodules
+\[ 0 \subseteq B_1 \subseteq B_2 \subseteq Z_2 \subseteq Z_1 \subseteq E_1 \]
+So we have now show that $E_3$ is a subquotient of $E_1$; we already know that $E_2$ is a subquotient by definition, but the fact that $E_3$ is too is nice. Continuing this process we see that we can find a tower of submodules
+\begin{align}
+\label{tower of boundaries and cycles}
+0 \subseteq B_1 \subseteq B_2 \subseteq \cdots \subseteq B_n \subseteq \cdots \subseteq Z_n \subseteq \cdots \subseteq Z_2 \subseteq Z_1 \subseteq E_1
+\end{align}
+such that 
+\[ E_{n+1} = \frac{Z_n}{B_n} \]
+and $d_{n+1} : E_{n+1} \rightarrow E_{n+1}$ induces a map $d_{n+1} : Z_n/B_n \rightarrow Z_n/B_n$ such that
+\[ \ker d_{n+1} = \frac{Z_{n+1}}{B_n} \]
+\[ \image d_{n+1} = \frac{B_{n+1}}{B_n} \]
+Notice that this gives us a short exact sequence
+\[ 0 \longrightarrow \frac{Z_{n+1}}{B_n} \longrightarrow \frac{Z_n}{B_n} \stackrel{d_{n+1}}{\longrightarrow} \frac{B_{n+1}}{B_n} \longrightarrow 0 \]
+hence we have an isomorphism
+\begin{align}
+\label{spectral sequence structural isomorphism}
+\frac{Z_n}{Z_{n+1}} \cong \frac{B_{n+1}}{B_n}
+\end{align}
+In fact, it can be shown that given just a tower as in \eqref{tower of boundaries and cycles} and isomorphisms as in \eqref{spectral sequence structural isomorphism}, we can work backwards and construct a spectral sequence.
+
+We say that $Z_n$ is the set of elements that ``survived'' to the $n$-th page, and $B_n$ is the set of elements that are boundaries by the $n$-th page. Seeing as how the $B_n$'s form an increasing tower and the $Z_n$'s form a decreasing tower, it is natural to define $Z_\infty = \cap_n Z_n$ (called the set of elements that ``survive forever'') and $B_\infty = \cup_n B_n$ (called the set of elements that ``eventually bound''). Now we simply define the limiting page of the spectral sequence to be $E_\infty = Z_\infty / B_\infty$. 
+
+An obvious, but useful, consequence of the definition of homology is that if the differential is zero, then $H(A,d)=A$. This allows spectral sequences to degenerate in very specific ways, and makes it easy to determine the $E_\infty$ page. Let us look at some examples.
+
+\begin{example}[First Quadrant Spectral Sequence]
+Suppose $\lcb E_r,d_r \rcb$ is a first quadrant spectral sequence, that is $E^{p,q}_r = 0$ whenever $p<0$ or $q<0$. Pick a grid position $(p,q) \in \mathbb Z \times \mathbb Z$, and let $R = \max(p+1,q+2)$. We claim that the differential going into and out of $E^{p,q}_r$ are zero for all $r \geq R$. The differential going out is $d^{p,q}_r : E^{p,q}_r \rightarrow E^{p-r,q+r-1}_r$. But, $p-r \leq p-R \leq p-(p+1) = -1$, hence $E^{p-r,q+r-1}_r = 0$, and so $d_r^{p,q}$ must be zero. The differential going into $E_r^{p,q}$ is $d_r^{p+r,q-r+1} : E_r^{p+r,q-r+1} \rightarrow E_r^{p,q}$. But, $q-r+1 \leq q-R+1 \leq q-(q+2)+1 = -1$, hence $E_r^{p+r,q-r+1}=0$, and so $d_r^{p+r,q-r+1}$ is zero. Since homology with a zero differential does not change the module, we have $E_R^{p,q} = E_{R+1}^{p,q} = \cdots E_\infty^{p,q}$. In this case we have determine one entry in the $E_\infty$ page in a finite number of steps. It should also be noted that similar results can be found for spectral sequences of cohomological type, and for third quadrant spectral sequences, but not necessarily for second and fourth quadrant spectral sequences.
+\end{example}
+
+\begin{example}[Vanishing Differentials]
+Suppose there is some integer $R$ such that $d_r^{p,q} = 0$ for all $r \geq R$ and all $(p,q) \in \mathbb Z \times \mathbb Z$. Then $E_R = E_{R+1} = \cdots E_\infty$, and so we have determined the entire $E_\infty$ page in a finite number of steps. We say that a spectral sequence collapses if there is some large enough $R$ such that $E_R = E_{R+1} = \cdots = E_\infty$, and in this case we say that the spectral sequence collapses at the $E_R$ page.
+\end{example}
+
+\begin{example}[Bounded Spectral Sequence]
+Suppose the $E_1$ page has the property that $E_2^{p,q} = 0$ unless $M_1 \leq p \leq M_2$ and $N_1 \leq q \leq N_2$, i.e. $E_1$'s non-zero modules exist in some bounded region of the $E_1$ page. Then the spectral sequences collapses at the $E_R$ page, where \nolinebreak $R=\max(M_2-M_1+1,N_2-N_1+2)$. To see this let us fix any $(p,q)$ in the bounded range and look at the differentials going into and out of $E_R^{p,q}$. The former differential is $d_R^{p,q} : E_R^{p,q} \rightarrow E_N^{p-R,q+R-1}$, but $p-R \leq p-(M_2-M_1+1) \leq p-(p-M_1+1) = M_1-1$, hence $d_R^{p,q} = 0$. The latter differential is $d_{p+R,q-R+1} : E_{p+R,q-R+1} \rightarrow E_{p,q}$, but $q-R+1 \leq q-(N_2-N_1+2)+1 \leq q-(q-N_1+2)+1 = N_1-1$, hence $d_R^{p+R,q-R+1} = 0$. Therefore the spectral sequence collapses at the $E_R$ page. Note that we can get similar statements about spectral sequences whose $r$-th page is bounded, rather than just restricting our attention to $E_1$.
+\end{example}
+
+\begin{example}[Vanishing Columns]
+Suppose $E_1$ has only two non-zero columns, that is $E_1^{p,q} = 0$ for all $p \neq N,M$ for some integers $M<N$. In this case we see that all of the differentials in the pages $E_1,\ldots,E_{N-M-1}$ are zero, hence $E_1 = \cdots = E_{N-M}$. The $E_{N-M}$ page can have some non-zero differentials, but then $E_{N-M+1}$ and higher pages have zero differentials, hence $E_{N-M+1} = \cdots = E_\infty$.
+\end{example}
+
+
+
+\section{Construction of Spectral Sequences from Filtrations}
+
+We now develop the general theory of the situation that leads us to a spectral sequence. There are two methods to derive a spectral sequence: from an exact couple and from a filtration. The exact couple method is more elegant and easier to understand, but the filtration method is more geometric and easier to see in ``nature.''
+
+Let $A$ be an $R$-modules. A filtration on $A$ is a tower of submodules of $A$. In particular, $F$ is a filtration of $A$, then $F^n A$ is a sequence of submodules such that 
+\[ 0 \subseteq \cdots \subseteq F^{n+1} A \subseteq F^n A \subseteq F^{n-1} A \subseteq \cdots \subseteq A \]
+or
+\[ 0 \subseteq \cdots \subseteq F^{n-1} A \subseteq F^n A \subseteq F^{n+1} A \subseteq \cdots \subseteq A \]
+In the first case we say $F$ is a decreasing filtration, and in the second case we say that $F$ is an increasing filtration. A filtration of a module naturally defines a graded module, called the associated graded module. In particular, if $F$ is a filtration on $A$, then we define
+\[ E_0^n(A,F) = \begin{cases} F^n A / F^{n+1} A & \text{if $F$ is decreasing} \\ F^n A / F^{n-1} A & \text{if $F$ is increasing} \end{cases} \]
+This notation may seem weird since it seems to conflict with what we think of as the $E_0$ page of a spectral sequence, but later it will be shown that associated graded objects are closely related to the $E_0$ page of some spectral sequence. An obvious question is: why do we care about the associated graded module? It turns out that the ``answers'' we get from applying spectral sequences are given in terms of associated graded modules, and so we will want to reconstruct the module that gave the associated module.
+
+Let us see how the reconstruction process could be done in the case that our ground ring is a field $R = k$, and so our modules are actually vector spaces. Let $A$ be a finite dimensional vector space and $F$ a finite, decreasing filtration $F$ ($F^{N+1}=0$ and $F^0=A$ for some $N$) with associated graded vector space $E_0(A,F)$. Suppose we know everything about $E_0^n(A,F)$, and from this information we want to construct $A$. We have $E_0^n = 0$ for $n \geq N+1$ or $n \leq -1$, so we are only dealing with finitely many vector spaces $E_0^1, \ldots, E_0^N$. We immediately see that $E_0^N = F^N A/F^{N+1} A = F^N A$, so the first part of the filtration is determined from the associated graded module. Next we have $E_0^{N-1} = F^{N-1} A / F^N A = F^{N-1} A / E_0^N$, which implies that $F^{N-1} A \cong E_0^{N-1} \oplus E_0^N$ (these are vector spaces!), so now the second part of the filtration is determined from the associated graded module. Continuing this we find that $F^p A \cong E_0^p \oplus E_0^{p+1} \oplus \cdots \oplus E_0^N$. Finally, taking $p=0$ we see that
+\[ A = F^0 A = E_0^0 \oplus E_0^1 \oplus \cdots \oplus E_0^N \]
+and so we have reconstructed $A$ (up to isomorphism) from knowing what the associated graded vector space is. 
+
+The fact that we could reconstruct $A$ above was heavily dependent on the fact that we were working with vector spaces, where the only invariant is dimension and every short exact sequence splits. Suppose we are in the same position as above, except this time $R$ is just a ring. Then we still have $E_0^N = F^N A / F^{N+1} A = F^N A$, so again the first part of the filtration is determined from the associated graded module. However, in the next step we have $E_0^{N-1} = F^{N-1} A / F^N A = F^{N-1} A / E_0^N$, which means we have a short exact sequence
+\[ 0 \longrightarrow E_0^N \longrightarrow F^{N-1} A \longrightarrow E_0^{N-1} \longrightarrow 0 \]
+We are assuming we know two of the terms in this sequence, but unfortunately the third term is not uniquely determined from this information. Instead, the isomorphism classes of solutions (also called extensions) to this exact sequence are in bijective correspondence with $\Ext_R^1(E_0^{N-1},E_0^N)$, where $\Ext$ is the derived functor of $\Hom$. This means we can determine $F^{N-1} A$ only up to extension, whereas before we could determine it up to isomorphism. Continuing this we see that we can determine $A$ only up to many choices of extensions. 
+
+This may make reconstructing $A$ from $E_0$ seem hopeless, and indeed we can hardly ever solve these extension problems explicitly and get useful information. However, there is one degenerate situation that arises often enough where we can determine $A$. Suppose $F$ is a filtration such that $F^{N+1} = 0$ and $F^N = A$ for some $N$. Then $E_0^N = A$ and $E_0^n = 0$ for all $n \neq N$, therefore $E_0$ gives $A$ precisely.
+
+We will now repeat the theory of filtrations, except now we will filter a graded module $A$. Let $F$ be a filtration on $A$ in the previous sense, that is $F$ is a filtration of the regular module $\oplus_i A^i$. We say that the filtration respects the grading of $A$ if each $F^n A$ is a graded submodule of $A$. In this case $F$ restricts to a filtration of each $A^i$: $F^n A^i \subseteq F^{n-1} A^i$ for decreasing filtrations and $F^n A^i \subseteq F^{n+1} A^i$ for increasing filtrations. A graded module with a filtration that respects the grading naturally defines a bigraded module, called the associated bigraded module. In particular, if $F$ is a compatible filtration on $A$, then we define
+\begin{align}
+\label{associated bigraded module}
+E_0^{p,q}(A,F) = \begin{cases} F^p A^{p+q} / F^{p+1} A^{p+q} & \text{if $F$ is decreasing} \\ F^p A^{p+q} / F^{p-1} A^{p+q} & \text{if $F$ is increasing} \end{cases}
+\end{align}
+It may seem weird that we are using $A^{p+q}$, but this convention allows for many popular spectral sequences to live in the full first quadrant, rather than above the diagonal in the first quadrant (which is kind of awkward).
+
+Given the associated bigraded module $E_0^{p,q}$ of some graded module $A$ with filtration $F$, we again consider the problem of determining $A$. This reduces to our previous problem for non-graded modules by determining $A^N$ for each integer $N$, i.e. working in one degree at a time. We have a filtration $F$ on $A^N$ since $F$ respects the grading, so we can determine $A^N$ up to many choices of extensions. Note that because of our choice of indices in \eqref{associated bigraded module} we have that the associated graded module of the filtration $F$ on $A^N$ lives on the diagonal $p+q=N$. 
+
+Now suppose that our filtered, graded module $A,F$ also had a differential $d$ such that $d(F^i A^n) \subseteq F^i A^{n+1}$. Then we see that $d$ descends to a map on the associated bigraded module
+\[ d : F^p A^{p+q} / F^{p+1} A^{p+q} \rightarrow F^p A^{p+q+1} / F^{p+1} A^{p+q+1} \]
+since $d$ takes the numerator to the numerator and the denominator to the denominator. So we have an induced map $d : E_0^{p,q} \rightarrow E_0^{p,q+1}$ such that $d \circ d = 0$ since the original $d$ has this property. How do we interpret this intuitively? Well, we think of the filtration as a weaker notion of grading. That is, we do not necessarily want to know exactly in which filtration an element lives, but we are happy knowing that it lives in either the $p$-th filtration level or higher. The map $d$ also takes this lax view of the filtration, in that it does not have to map elements in one filtration level to the same filtration level, but rather can map to a higher filtration if needed. Once we take the quotient in \ref{associated bigraded module} we ``strictifying'' the filtration to become a grading. Elements of $E_0^{p,q}$ are like elements that live in $F^p A^{p+q}$ but not in $F^{p+q} A^{p+q}$. Likewise, the induced map $d$ on $E_0^{p,q}$ strictifies $d$ with respect to the filtration, in that it is the part of $d$ that precisely preserved the filtration rather than raising it.
+
+Next we want to discuss ideas of convergence of a spectral sequence. We have already defined the limiting page $E_\infty$, so we want to know what it means that the ``limit'' of the spectral sequence converged to something. Precisely, a spectral sequence $\lcb E_r,d_r \rcb$ is said to converge to a graded module $A$ if there is a filtration $F$ on $A$ such that
+\[ E_\infty^{p,q} = E_0^{p,q}(A,F) \]
+This is a complicated notion, and it takes time getting used to. In fact, as of right now there are a lot of ambiguities. First of all, in what sense is convergence unique? As of right now convergence is not unique at all, nor is convergence even guaranteed. Second, in many applications of spectral sequences the thing the spectral sequence converges to is what we want to compute, so by our previous remarks we see that we can only compute up to choices of extensions. This does not seem very good for getting concrete results, but nevertheless it is powerful machinery.
+
+We can now state the fundamental theorems for constructing spectral sequences.
+
+\begin{thm}[Cohomological Spectral Sequences]
+\label{fundamental theorem cohomological spectral sequence}
+Let $(A,d)$ be a cochain complex with decreasing filtration $F$ such that the filtration respects the grading and the differential respects the filtration, i.e. $d(F^n A^i) \subseteq F^n A^{i+1}$. Then there is a spectral sequence $\lcb E_r,d_r \rcb_{r \geq 0}$ of cohomological type such that $E_0 = E_0(A,F)$ and
+\[ E_1^{p,q} = H^{p+q}(F^p A / F^{p+1} A) \]
+If the filtration is bounded, that is, $F^N A = 0$ for sufficiently large $N$ and $F^M A = A$ for sufficiently small $M$, then the spectral sequence converges to $H(A,d)$.
+\end{thm}
+
+\begin{thm}[Homological Spectral Sequences]
+\label{fundamental theorem homological spectral sequence}
+Let $(A,d)$ be a chain complex with increasing filtration $F$ such that the filtration respects the grading and the differential respects the filtration, i.e. $d(F_n A_i) \subseteq F_n A_{i-1}$. Then there is a spectral sequence $\lcb E^r,d^r \rcb_{r \geq 0}$ of cohomological type such that $E^0 = E^0(A,F)$ and
+\[ E^1_{p,q} = H_{p+q}(F_p A / F_{p+1} A) \]
+If the filtration is bounded, that is, $F_N A = 0$ for sufficiently small $N$ and $F_M A = A$ for sufficiently large $M$, then the spectral sequence converges to $H(A,d)$.
+\end{thm}
+
+\begin{proof}(Wordy Proof of \ref{fundamental theorem cohomological spectral sequence})
+We are starting with a cochain complex $(A,d)$ with a filtration $F$ such that these structures are compatible. Let us define the following modules
+\begin{align*}
+	Z_r^{p,q} &= F^p A^{p+q} \cap d^{-1} (A^{p+q+1}) \\
+	B_r^{p,q} &= F^p A^{p+q} \cap d(F^{p-r} A^{p+q+1}) \\
+	Z_\infty^{p,q} &= F^p A^{p+q} \cap \ker d \\
+	B_\infty^{p,q} &= F^p A^{p+q} \cap \image d
+\end{align*}
+The elements of $Z_r^{p,q}$ are elements in the $p$-th level filtration whose boundaries are in the $(p+r)$-th level filtration. We could call these ``almost'' cocycles, as their boundaries are not zero, but their boundaries live in high levels of the filtration. Since the filtration is decreasing, we have that $F^n A$ gets smaller as $n$ gets larger, so the boundaries living in high levels of filtration is an approximation of the boundary being zero. In fact, if the filtration was exhaustive, i.e. $\cap_n F^n A = 0$ and $\cup_n F^n A = A$, then as $r \to \infty$ we would have elements of $Z_r^{p,q}$ become honest cocycles, hence our definition of $Z_\infty^{p,q}$. Similarly, elements of $B_r^{p,q}$ are elements in the $p$-th level filtration that are boundaries of things in the $(p-r)$-th level filtration. These are true boundaries, but they are boundaries of a restricted set of cochains. As $r \to \infty$ they become boundaries in the unrestricted sense.
+
+Since $d$ respects the filtration we get a tower of modules
+\[ B_0^{p,q} \subseteq B_1^{p,q} \subseteq \cdots \subseteq B_\infty^{p,q} \subseteq Z_\infty^{p,q} \subseteq \cdots \subseteq Z_1^{p,q} \subseteq Z_0^{p,q} \]
+With this tower we are going to define each page $E_r$ and differential $d_r$, and show they satisfy the following properties:
+\begin{enumerate}
+	\item $H^*(E_r,d_r) = E_{r+1}$
+	\item $E_1^{p,q} = H^{p+q}(F^p A / F^{p+1} A)$
+	\item $E_\infty^{p,q} = F^p H^{p+q}(A,d) / F^{p+1} H^{p+q}(A,d)$
+\end{enumerate}
+For $0 \leq r \leq \infty$ we define the $E_r$ page by
+\begin{equation}
+\label{definition of E_r-page}
+E_r^{p,q} := \frac{Z_r^{p,q}}{Z_{r-1}^{p+1,q-1} + B_{r-1}^{p,q}}
+\end{equation}
+This quotient makes sense because $Z_{r-1}^{p+1,q-1}$ and $B_{r-1}^{p,q}$ are submodules of $Z_r^{p,q}$. We can call the denominator of this quotient ``almost'' boundaries, and so the $r$-th page is intuitively the ``almost'' cycles modulo the ``almost'' boundaries. As $r$ gets bigger, the numerator and denominator get closer to being true cycles and boundaries.
+
+We would like to see that the differential $d$ on $A$ induces a differential $d_r$ on the $E_r$-page. To see this first notice that
+\begin{align*}
+	d(Z_r^{p,q}) &\subseteq d(F^p A^{p+q}) \cap F^{p+r} A^{p+q+1} \\
+						   &= F^{p+r} A^{p+q+1} \cap d(F^p A^{p+q}) \\
+						   &\subseteq B_r^{p+r,q-r+1} \\
+						   &\subseteq Z_r^{p+r,q-r+1} 
+\end{align*}
+So $d$ restricts to a map $d : Z_r^{p,q} \rightarrow Z_r^{p+r,q-r+1}$. As for the denominator of the quotient \ref{definition of E_r-page} we have
+\begin{align*}
+	d(Z_{r-1}^{p+1,q-1} + B_{r-1}^{p,q}) &\subseteq d(Z_{r-1}^{p+1,q-1}) + d(B_{r-1}^{p,q}) \\
+	                                     &\subseteq Z_{r-1}^{p+r,q-r+1} + 0 \\
+	                                     &\subseteq Z_{r-1}^{p+r,q-r+1} + B_{r-1}^{p+r,q-r+1}
+\end{align*}
+where the last equation follows since $B_{r-1}^{p+r,q-r+1} \subseteq Z_{r-1}^{p+r,q-r+1}$. Therefore the restriction of $d$ to $Z_r^{p,q}$ descends to a map $d_r : E_r^{p,q} \rightarrow E_r^{p+r,q-r+1}$, and since $d \circ d = 0$ we clearly have $d_r \circ d_r = 0$. This is our differential on the $E_r$-page.
+
+\todo{finish}
+\end{proof}
+
+These theorems can be interpreted in the following way. We have some cochain complex $(A,d)$ whose cohomology we want to compute. For whatever reason the module $A$ and its cohomology are inaccessible. However, we are lucky enough to have a filtration on $A$, and so we hope to get information on $H(A,d)$ by looking only at the cocycles/coboundaries that ``live'' in one filtration level. This is roughly the content of the $E_1$ page of the associated spectral sequence. The higher pages consist of coclycles/coboundaries that are allowed to travel farther through the filtration levels. By simple formalisms or intuition, we end up computing some (or all) of the modules in the higher pages of the spectral sequence. This will eventually give us information about the $E_\infty$ page, which by the theorem is the associated bigraded module of $H(A,d)$, so we can start the reconstruction process on $H(A,d)$.
+
+Some further remarks on \ref{fundamental theorem cohomological spectral sequence} and \ref{fundamental theorem homological spectral sequence}, as they are quite fundamental. The boundedness assumption on the filtration is not necessary to ensure convergence, but in the general setting we are stating our theorem it is needed. Many of the spectral sequence theorems will not have a bounded filtration, so we can use these theorems to show existence of the spectral sequence, but not to show it converges. 
+
+The moral of this story is the following: when you have a graded object, with a differential, with a filtration, such that everything is compatible with each other, think of spectral sequences.
+
+
+
+\section{Examples of Spectral Sequences}
+
+\subsection{The Spectral Sequence of a Double Complex}
+
+This spectral sequence is purely algebraic, and is perhaps the easiest to understand. It has many applications to geometric problems, such as the cohomology of $(p,q)$-forms on complex manifolds and hypercohomology. We start with a bigraded module $A = \lcb A^{p,q} \rcb$, and for now assume that it lives in the first quadrant $p \geq 0, q \geq 0$. Suppose we have two differentials $d_I,d_{II}$ of $A$, where $d_I$ is of bidegree $(1,0)$ and $d_{II}$ is of bidegree $(0,1)$, such that $d_I \circ d_{II} + d_{II} \circ d_I = 0$. We call such an object a double complex. We claim that this induces the structure of a complex on the total graded module $\Total(A)$ defined by
+\[ \Total(A)^n = \bigoplus_{p+q=n} A^{p,q} \]
+We define a morphism $d : \Total(A)^n \rightarrow \Total(A)^{n+1}$ by $d = d_I + d_{II}$. Since each of $d_I$ and $d_{II}$ maps the diagonal $p+q=n$ to $p+q=n+1$ we have that $d$ does in fact map $\Total(A)^n$ to $\Total(A)^{n+1}$. We also have $d^2 = 0$ since
+\begin{align*}
+	d^2(x) &= d(d_I(x) + d_{II}(x)) \\
+	           &= d_I^2(x) + d_I(d_{II}(x)) + d_{II}(d_I(x)) + d_{II}^2(x) \\
+	           &= 0
+\end{align*}
+where the last line follows since $d_I$ and $d_{II}$ anti-commute. We now have 3 cohomology theories running around: two coming from the differentials $d_I$ and $d_{II}$ on $A$, and the one coming from $d$ on $\Total(A)$. We will now derive a spectral sequence that relates these three cohomologies.
+
+Consider the filtration $F$ on $\Total(A)$ given by
+\[ F^p \Total(A)^n = \bigoplus_{\scriptsize \begin{array}{c} p'+q=n \\ p' \geq p \end{array} } A^{p',q} \]
+That is, we take the part of the $n$-th diagonal line that starts at column $p$ and contains higher columns (think of a vertical half-space). This filtration is decreasing. The differetial $d$ clearly respects this filtration since $d_I$ maps elements into higher columns and $d_{II}$ maps elements into the same column. By \ref{fundamental theorem cohomological spectral sequence} we know that this data leads to a spectral sequence with $E_0$ equal to the associated bigraded module, $E_1$ equal to the homology of the associated module, and converging to the homology of $\Total(A)$. Let us try to identify the $E_0$ and $E_1$ pages of this spectral sequence.
+
+Recall that we define the associated bigraded module by
+\[ E_0^{p,q} \Total(A) = F^p \Total(A)^{p+q} / F^{p+1} \Total(A)^{p+q} \]
+An inspection of this quotient shows that $E_0^{p,q}$ is nothing but the summands on the $(p+q)$-th diagonal that are in the $p$-th column but not in the $(p+1)$-st and higher columns. Clearly there is only one such summand, $A^{p,q}$, therefore $E_0^{p,q} = A^{p,q}$. The differential $d$ on the total complex induces a differential $d_0 : E_0^{p,q} \rightarrow E_0^{p,q+1}$. Using the definition of $d$ we see that $d_0$ acts on $[z] \in E_0^{p,q}$ by
+\begin{align*}
+	d_0[z] &= [d(z)] \\
+         &= [d_I(z) + d_{II}(z)] \\
+         &= [d_I(z)] + [d_{II}(z)] \\
+         &= [d_{II}(z)]
+\end{align*}
+where the last line follows since $d_I$ maps $z$ into the denominator of the quotient $E_0^{p+1,q}$. Therefore $(E_0,d_0)$ is isomorphic to $(A,d_{II})$ as complexes. It is now clear that $E_1$ is simply the homology of $A$ with respect to the differential $d_{II}$: 
+\[ E_1^{p,q} = H^{p,q}(A,d_{II}) := \frac{ \ker d_{II} : A^{p,q} \rightarrow A_{p,q+1} }{ \image d_{II} : A^{p,q-1} \rightarrow A^{p,q} } \]
+As we know from the proof of \ref{fundamental theorem cohomological spectral sequence}, the differential $d$ induces the differential $d_1$ on the $E_1$ page. 
+
+\unfinished
+
+
+
+
+
+Our filtration above had a little bit of an arbitrary choice in its definition. We could have just as easily defined a filtration $G$ on $\Total(A)$ by horizontal half-spaces
+\[ G^q \Total(A)^n = \bigoplus_{\scriptsize \begin{array}{c} p+q'=n \\ q' \geq q \end{array} } A^{p,q'} \]
+The differential $d$ on $\Total(A)$ respects this filtration too, so we get another spectral sequence. It is easy to repeat the steps above to determine the $E_0$ and $E_1$ pages of this new spectral sequence, so we just state the theorem:
+
+\begin{thm}[Spectral Sequence of a Double Complex]
+Let $(A,d_I,d_{II})$ be a double complex. Then there are two spectral sequences with
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|}
+	\hline
+	First & Second \\
+	\hline \hline
+	$(E_0^{p,q},d_0) \cong (A^{p,q},d_I)$ &		$(E_0^{p,q},d_0) \cong (A^{p,q},d_{II})$ \\
+	\hline
+	$(E_1,d_1) \cong (H(A,d_I),d_{II})$ & 		$(E_1,d_1) \cong (H(A,d_{II}),d_I)$ \\
+	\hline
+	$E_2 = H(H(A,d_I),d_{II})$ & 				$E_2 = H(H(A,d_{II}),d_I)$ \\
+	\hline
+	$\Longrightarrow H(\Total(A),d)$ & 		$\Longrightarrow H(\Total(A),d)$ \\	\hline
+\end{tabular}
+\end{table}
+\end{thm}
+
+
+
+\subsection{The \Kunneth Spectral Sequence}
+
+In homological algebra there are a collection of \Kunneth like theorems, which are supposed to help calculate the homology of a product from the homology of the factors. These theorems are usually stated for complexes whose modules are free (or more generally with some flatness condition) so that we can split the complexes into simpler pieces. We will discuss a spectral sequence version of these theorems which allows us to remove some of the restrictions.
+
+Let us first recall the regular \Kunneth formula. Let $(A,d_A)$ and $(B,d_B)$ be differential graded modules such that $\ker d_A$ and $\image d_A$ are flat modules. There is an obvious injective homomorphism $p : H(A) \otimes H(B) \rightarrow H(A \otimes B)$ given by $p([u] \otimes [v]) = [u \otimes v]$. The \Kunneth theorem identifies the cokernel of this map using the $\Tor$ functor, and gives the following short exact sequence for each $n$
+\[ 0 \longrightarrow \bigoplus_{p+q=n} H^p(A) \otimes H^q(B) \stackrel{p}{\longrightarrow} H^n(A \otimes B) \longrightarrow \bigoplus_{p+q=n-1} \Tor_R^1 (H^p(A),H^q(B)) \longrightarrow 0 \]
+Further, this exact sequence splits, but not naturally. 
+
+Now let $(A,d_A)$ and $(B,d_B)$ be differential graded modules again, except now we only require that $A$ is flat. Assume for a moment that both differentials of degree $-1$. Then there is a first quadrant spectral sequence with
+\[ E_2^{p,q} = \bigoplus_{s+t=q} \Tor_R^p (H^s(A), H^t(B)) \]
+and converging to $H(A \otimes B)$.
+
+
+\subsection{The Leray-Serre Spectral Sequence}
+
+We finally come to a geometric example of spectral sequences. In algebraic topology we like to study two algebraic aspects of spaces: their homology groups and their homotopy groups. Due to some kind of divine justice it turns out that homology groups are difficult to define but amazingly easy to compute, whereas homotopy groups are easy to define but incredibly difficult to compute. Further, anything that comes easy for homology will be difficult for homotopy theory, and vice versa. For example, given a cofibration $i : A \rightarrow X$, there is a nice way of computing the homology of the cofiber $X/A$ in terms of $X$ and $A$ (called exicision). However, no such property can exist in homotopy theory, although the Freudenthal suspension theorem is a very weak version of exicision. Dually, given a fibration $F \rightarrow E \stackrel{p}{\rightarrow} B$ there is a nice long exact sequence relating the homotopy groups of the spaces $F$, $E$ and $B$, but in homology the best we can get is a spectral sequence. This is the content of the Leray-Serre spectral sequence. 
+
+Let $F \rightarrow E \stackrel{p}{\rightarrow} B$ be a fibration where $B$ is a CW-complex (this can be weakened to spaces that are homotopy equivalent to CW-complexes). Let us also assume that the base space $B$ is simply connected. This assumption can be dropped if we introduce appropriate technical machinery. The base space $B$ is filtered by its skeleton: $B^{(0)} \subset B^{(1)} \subset \cdots \subset B^{(n)} \subset \cdots$, where $B^{(n)}$ are the $n$-cells in $B$. Let $X^n$ be the pre-image of the $n$-skeleton of $B$, i.e. $X_n = p^{-1}(B^{(n)})$. This topological filtration on $E$ leads to a decreasing filtration $F$ on the singular cochains of $E$ (with any coefficients) by defining
+\[ F^p C^n(E) = \image \left( C^n(X^{p+1}) \stackrel{C^n(\hookrightarrow)}{\longrightarrow} C^n(X^p) \right) \]
+We clearly have $F^p C^n(E) \subseteq F^{p-1} C^n(E)$ and the singular coboundary operator $\delta$ respects the filtration. This leads to a spectral sequence known as the Leray-Serre spectral sequence.
+
+
+\begin{thm}[Leray-Serre Spectral Sequence]
+For a fibration $F \rightarrow E \rightarrow B$, with $F$ connected and $B$ simply connected, there is a spectral sequence of cohomological type such that
+\[ E_2^{p,q} = H^p(B; H^q(F)) \]
+and converging to $H^*(E)$. There is also a spectral sequence of homological type such that
+\[ E^2_{p,q} = H_p(B; H_q(F)) \]
+and converging to $H_*(E)$.
+\end{thm}
+
+
+
+
+
+\subsection{The Atiyah-Hirzebruch Spectral Sequence}
+
+In the 40's a paper was published by Eilenberg and Steenrod that unified many of the homology theories defined on topological spaces. Most of the known homology theories satisfied the following basic properties: functorality, exicision, additivity, a long exact sequence for pairs, as well as a normalizing dimension axiom. It turns out that any two theories satisfying these 5 axioms on the category of spaces homotopy equivalent to CW-complexes will be naturally isomorphic, and so will yield isomorphic groups. Later on, many homology-like theories were discovered that did not satisfy the dimension axiom, and these theories were called generalized homology theories. If $h_*$ is a generalized homology theory, we call the graded abelian group $h_*(\text{pt})$ the coefficients of the theory.
+
+The Atiyah-Hirzebruch spectral sequence generalizes the Leray-Serre spectral sequence for generalized homology theories. Let $h^*$ be a generalized cohomology theory, i.e. a sequence of functors $h^n : \mathscr C \rightarrow \Ab$ satisfying the Eilenberg-Steenrod axioms except for the dimension axiom, where $\mathscr C$ is the category of spaces homotopy equivalent to CW-complexes. 
+
+\begin{thm}[Atiyah-Hirzebruch Spectral Sequence]
+Let $h^*$ be a generalized cohomology theory. For a fibration $F \rightarrow E \stackrel{p}{\rightarrow} B$ there is a spectral sequence of cohomological type such that
+\[ E_2^{p,q} = H^p(B; h^q(F)) \]
+and converging to $h^*(E)$. If $h_*$ is a generalized homology theory, then there is a spectral sequence of homological type such that
+\[ E^2_{p,q} = H_p(B; h_q(F)) \]
+and converging to $h_*(E)$.
+\end{thm}
+
+Consider the special case of the fibration $\text{pt} \rightarrow B \rightarrow B$. Then the Atiyah-Hirzebruch spectral sequence says that we can essentially compute the cohomology $h^*$ of $B$ by only knowing the singular homology and the coefficients of $h^*$.
+
+
+
+\subsection{The Spectral Sequence of a Covering Space}
+
+We can use the Leray-Serre spectral sequence to derive a spectral sequence for a regular covering space $p : \tilde{X} \rightarrow X$ with group of deck transformations $G$. First we review some concepts from group cohomology. Let $G$ be an arbitrary group, and consider the functor $-^G : \LMod{G} \rightarrow \Ab$ defined by
+\[ A \mapsto A^G = \lcb x \in A \st gx = x \text{ for all } g \in G \rcb \]
+where $\LMod{G}$ is the category of abelian groups with $G$-actions and $G$-equivariant morphisms. This functor is left exact, but not necessarily right exact, so we define the $n$-th cohomology group of $G$ with coefficients in $A$
+
+\unfinished
+
+
+
+\subsection{The Hypercohomology Spectral Sequence}
+
+
+\subsection{The Grothendieck Spectral Sequence}
+
+This spectral sequence is very general, and contains many other spectral sequence as a special case. Let $\mathscr A, \mathscr B, \mathscr C$ be abelian categories with enough injectives, and let $F : \mathscr A \rightarrow \mathscr B$, $G : \mathscr B \rightarrow \mathscr C$ be additive covariant functors. Assume that $G$ is left exact, and and $F$ takes injective objects to $G$-acyclic objects. Then for each object $A$ of $\mathscr A$ there is a spectral sequence with
+\[ E_2^{p,q} = (R^p G \circ R^q F)(A) \]
+and converging to $R^{p+q} (G \circ F)(A)$, where $R^*$ is the right derived functor. Essentially this says that we can compute the derived functors of a composition from the derived functors of each functor in the composition. 
+
+
+
+\section{Computations with Spectral Sequences}
+
+
+\subsection{Homology of Loop Spaces of Spheres}
+
+Consider the problem of computing $H^*(\Omega S^n)$, where $\Omega -$ is the functor that takes a space to its based loop space. This a very complicated space, but there is a simple fibration involving it. Consider the path-space fibration: $\Omega S^n \rightarrow PS^n \rightarrow S^n$. Here $P-$ is the functor that takes a space to its based path space, and the second map is evaluation at 1. By the Leray-Serre theorem we get a spectral sequence of homological type such that 
+\[ E_{p,q}^n = H_p(S^n, H_q(\Omega S^n)) \]
+and converging to $H_*(PS^n)$. The bidegree of the differential $d_r$ on the $E_r$ page is $(-r,r+1)$. The path space $PS^n$ is clearly contractible, so we have $H_*(PS^n,A) = A$, concentrated in degree 0, for any coefficient group $A$. We also know $H_*(S^n,A) = A \oplus A$ concentrated in degree 0 and $n$. Therefore we have a spectral sequence with 
+\[ E_{p,q}^2 = \begin{cases} H_q(\Omega S^n) & p=0 \text{ or } p=n \\ 0 & \text{otherwise} \end{cases} \]
+and the $E^\infty$ consists of a single copy of $\mathbb Z$ in bidegree $(0,0)$ since $PS^n$ is contractible. By the adjunction relation, $[\Sigma X,Y] = [X, \Omega Y]$, we see that since $S^n$ is $(n-1)$-connected we have that $\Omega S^n$ is $(n-2)$-connected, hence by Hurewicz's theorem $H_i(\Omega S^n)=0$ for $1 \leq i \leq n-2$. The following grid diagram of the $E_2$ page may be helpful.
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+	\hline
+	$\vdots$ & & & & $\vdots$ \\
+	\hline
+	$H_n(\Omega S^n)$ & & $\cdots$ & & $H_n(\Omega S^n)$ \\
+	\hline
+	$H_{n-1}(\Omega S^n)$ & & $\cdots$ & & $H_{n-1}(\Omega S^n)$ \\
+	\hline
+	$\vdots$ & & & & $\vdots$ \\
+	\hline
+	0 & & $\cdots$ & & 0 \\
+	\hline
+	$\mathbb Z$ & & $\cdots$ & & $\mathbb Z$ \\
+	\hline
+\end{tabular}
+\end{table}
+All the entries in the table that are not in the two main columns are zero. This implies that all the differentials on the $E^2$ page are zero. In fact, the differentials on the pages $E^3, E^4, \ldots, E^{n-1}$ are zero, and the differentials on $E^{n+1}$ and higher pages are also zero. Consider the differential $d_{n,0}^n : \mathbb Z \rightarrow H_{n-1}(\Omega S^n)$. This map must be an isomorphism, for otherwise its kernel and cokernel (one of which would be nonzero) would survive to the $E^\infty$ page. However, only one copy of $\mathbb Z$ can survive to $E^\infty$, which must be in bigrading $(0,0)$. Therefore this map is an isomorphism, and so $H_{n-1}(\Omega S^n) \cong \mathbb Z$. Similarly we get that the differential $d_{n,1}^n : H_1(\Omega X) \rightarrow H_n(\Omega X)$ is an isomorphism, hence $H_n(\Omega X) = 0$. More generally we see that the groups $H_i(\Omega X)$ and $H_{i+(n-1)k}(\Omega X)$ are isomorphic for any integer $k$. This finishes the computation of the homology of the loop space of $S^n$:
+\[ H_i(S^n) = \begin{cases} \mathbb Z & i = (n-1)k \text{ for some integer } k \\ 0 & \text{otherwise} \end{cases} \]
+
+
+
+
+\subsection{Hurewicz's Theorem}
+\label{Hurewicz's Theorem Discussion}
+
+We can us the path space fibration to come up with a spectral sequence proof of Hurewicz's theorem. Recall that this theorems says that for a connected topological space $X$, if $\pi_i(X) = 0$ for $i$ less than some fixed $n>1$, then $H_i(X) = 0$ for $1 \leq i < n$, and $\pi_n(X) \cong H_n(X)$. The full Hurewicz theorem actually says a little more; it provides an explicit isomorphism of the homotopy and homology groups, and states that the isomorphism is natural. We are not going to prove these two additional properties.
+
+Take some connected topological space $X$, and consider the path space fibration $\Omega X \rightarrow PX \rightarrow X$. We will prove this by induction. Suppose $n=2$ so that $\pi_1(X)=0$. Since $H_1(X)$ is the abelianization of the fundamental group, we already have that $H_1(X)=0$. To show that the second homotopy and homology groups are isomorphic, consider the Leray-Serre spectral sequence. It has $E^2$ page
+\[ E_{p,q}^2 = H_p(X,H_q(\Omega X)) \]
+On this page there is a differential $d_{2,0}^2 : E_{2,0}^2 \rightarrow E_{0,1}^2$, but we have $E_{2,0}^2 = H_2(X)$ and $E_{0,1}^2 = H_1(\Omega X)$. This map must be an isomorphism, for otherwise it would have some kernel or cokernel, and those groups would survive to the $E^3$ and higher pages, all the way to the $E^\infty$ page. But there is only one copy of $\mathbb Z$ in the $(0,0)$ grading on the $E^\infty$ page. Therefore $H_2(X) \cong H_1(\Omega X)$. Using the adjunction relation $[\Sigma X,Y] = [X,\Omega Y]$, where $\Sigma-$ is the suspension functor, we have the following string of isomorphisms
+\begin{align*}
+	H_1(\Omega X) &\cong \frac{\pi_1(\Omega X)}{[\pi_1(\Omega X),\pi_1(\Omega X)]} \\
+	              &\cong \frac{\pi_2(X)}{[\pi_2(X),\pi_2( X)]} \\
+	              &\cong \pi_2(X)
+\end{align*}
+where the last isomorphism follows from the fact that $\pi_2$ and higher homotopy groups are abelian. Therefore $H_2(X) \cong \pi_2(X)$, and so the base case is done.
+
+Now suppose the theorem is true for all integers less than $n$. Let $X$ be a space with $\pi_i(X) = 0$ for $i < n$. By induction we have $H_i(X) = 0$ for $1 \leq i < n$, so we only need to show $H_n(X) \cong \pi_n(X)$. By the adjunction relation we have that $\pi_i(\Omega X) = 0$ for $i < n-1$, and so by induction we also have $H_i(\Omega X)=0$ for $i < n-1$. Because of the vanishing of these homology groups we see that the region $\lcb 1 \leq p \leq n-1, q \geq 0 \rcb$ on the $E^2$ page is zero, hence that region is zero on all pages of the Leray-Serre spectral sequence. This implies that the first non-zero differential coming out of or going into the $(n,0)$ and $(0,n-1)$ slot is on the $n$-th page, in which case we have a differential $d_{n,0}^n : E_{n,0}^n \rightarrow E_{0,n-1}^n$. We must have that this differential is an isomorphism, for otherwise its kernel and cokernel would survive to the $E^\infty$ page, but there is only the one copy of $\mathbb Z$ in grading $(0,0)$. But also $E_{n,0}^n = H_n(X)$ and $E_{0,n-1}^n=H_{n-1}(\Omega X)$, therefore we get a string of isomorphisms
+\begin{align*}
+	H_n(X) &\cong H_{n-1}(\Omega X) \\
+	       &\cong \pi_{n-1}(\Omega X) \\
+	       &\cong \pi_n(X)
+\end{align*}
+This completes the proof of Hurewicz's theorem.
+
+
+
+\subsection{Cohomology of Lens Spaces}
+
+Consider the odd dimensional spheres $S^{2n-1}$ sitting in complex $n$-dimensional space $\mathbb C^n$. There is an action of $\mathbb Z/k = \< e^{2\pi/k} \>$ on $S^{2n-1}$ given by
+\[ e^{2\pi \ell/n} \cdot (z_1,\ldots,z_n) = (e^{2\pi \ell/n} z_1,\ldots, e^{2\pi \ell/n} z_n) \]
+This action is free, and so the quotient of $S^{2n-1}$ by this action is a manifold, called the $(n,k)$ lens space, and is denoted by $L(n,k)$. This gives us a fibration $\mathbb Z/k \rightarrow S^{2n-1} \rightarrow L(n,k)$ (in fact, a covering space), but we cannot apply the Leray-Serre spectral sequence since the fiber is not connected. However, consider the action of $S^1$ on $S^{2n-1}$ given by
+\[ w \cdot (z_1,\ldots,z_n) = (wz_1,\ldots,wz_n) \]
+This action is free and properly discontinuous, and the quotient of $S^{2n-1}$ by the action is simply complex projective space $\mathbb CP^{n-1}$. This leads to a fibration $S^1 \rightarrow S^{2n-1} \rightarrow \mathbb CP^{n-1}$. We can form a fibration $S^1 \rightarrow L(n,k) \rightarrow \mathbb CP^{n-1}$ where the second map makes the rest of the $S^1$ identifications.
+
+From this we see that we have a sequence of inclusions $L(1,k) \subset L(2,k) \subset \cdots$, and so taking the limit we form the infinite lens space, denoted by $L(k)$. By the covering space of $L(n,k)$ we see that $\pi_1(L(n,k)) = \mathbb Z/k$ and $\pi_i(L(n,k)) = 0$ for $2 \leq i \leq n-1$. Therefore we have $\pi_1(L(k)) = \mathbb Z/k$ and $\pi_i(L(k)) = 0$ for all $i > 1$; in other words, $L(k)$ is a $K(\mathbb Z/k,1)$ space.
+
+We now apply the Leray-Serre spectral sequence to the fibration $S^1 \rightarrow L(k) \rightarrow \mathbb CP^\infty$. We know that $H^*(S^1) = \Lambda(\alpha)$, with $\deg \alpha = 1$, and $H^*(\mathbb CP^\infty) = \Lambda(\beta)$, with $\deg \beta = 2$. We can easily see that $E_2^{p,q} = \mathbb Z$ for $p$ even and $q=0,1$, and $E_2^{p,q} = 0$ everywhere else. Due to degree considerations of the differentials, we see that $E_3 = E_4 = \cdots = E_\infty$. Since the second page $E_2^{p,q}=H^p(\mathbb CP^\infty,H^q(S^1))$ has a bialgebra structure, we can find generators for $E_2^{p,q}$, and they are listed below.
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+	\hline
+	$\alpha$ & 0 & $\alpha \beta$ & 0 & $\alpha\beta^2$ & $\cdots$ \\
+	\hline
+	1 & 0 & $\beta$ & 0 & $\beta^2$ & $\cdots$ \\
+	\hline
+\end{tabular}
+\end{table}
+The differential $d_2 : E_2^{0,1} \rightarrow E_2^{2,0}$ must map $d_2 \alpha = n\beta$ for some integer $n$, hence $E_3^{2,0} = E_\infty^{2,0} = \mathbb Z/n$. Since the other entries on the $p+q=2$ diagonal of the $E_\infty$ page, namely $E_\infty^{2,0}$ and $E_\infty^{1,1}$, are zero, we must have that $H^2(L(k)) = \mathbb Z/n$. To compute what $n$ is, let us apply the universal coefficient theorem to get the short exact sequence
+\[ 0 \longrightarrow \Ext(H_1(L(k)),\mathbb Z) \longrightarrow H^2(L(k)) \longrightarrow \Hom(H_2(L(n)),\mathbb Z) \longrightarrow 0 \]
+\[ 0 \longrightarrow \Ext(\mathbb Z/k,\mathbb Z) \longrightarrow \mathbb Z/n \longrightarrow \Hom(\mathbb Z/n, \mathbb Z) \longrightarrow \]
+Since $\Ext(\mathbb Z/k,\mathbb Z) = \mathbb Z/k$ and $\Hom(\mathbb Z/n,\mathbb Z) = 0$, we have $\mathbb Z/k \cong \mathbb Z/n$, hence $n = \pm k$. Therefore $H^2(L(k)) = \mathbb Z/k$, and since the $p+q=1$ diagonal consists of all zeros we have $H^1(L(k)) = 0$.
+
+We can repeat this argument on the other differentials to show that $d_2 :E_2^{p,1} \rightarrow E_2^{p+2,0}$ is multiplication by $\pm n$, hence $H^{2i}(L(k)) = \mathbb Z/k$. In general we have computed
+\[ H^i(L(k)) = \begin{cases} \mathbb Z & i = 0 \\ \mathbb Z/k & i \geq 2 \text{ and even} \\ 0 \text{otherwise} \end{cases} \]
+
+
+
+\subsection{Group Actions on Spheres}
+
+
+\subsection{Some Cohomology Groups of $K(\mathbb Z,3)$}
+
+Recall that the definition of a $K(G,n)$ space is a connected topological space $X$ such that $\pi_n(X) = G$ and all other homotopy groups vanish. In the category of spaces homotopy equivalent to CW-complexes the $K(G,n)$ spaces are unique up to homotopy equivalence. Therefore sometimes we refer to \emph{the} $K(G,n)$ space. 
+
+It is easy to construct a CW-complex that is a $K(G,n)$ space for any abelian group $G$ and integer $n$. Start with one 0-cell. Attach an $n$-cell for each generator of $G$ and an $(n+1)$-cell for each relation in the obvious way. The resulting space will have first nonzero homotopy group in dimension $n$, and it will be isomorphic to $G$. Unfortunately the higher homotopy groups are not necessarily zero since $S^n$ has highly nontrivial homotopy groups in dimensions $>n$, and we could not have killed them all when attaching the $(n+1)$-cells. Therefore we have to attach higher dimension cells in order to kill of all the higher homotopy groups. The resulting CW-complex will be infinite dimensional, and will be a $K(G,n)$ space.
+
+Even though it is easy to define and construct $K(G,n)$ spaces, the spaces do not seem to arise in nature. In fact, outside of $S^1, \mathbb CP^\infty$ and the infinite dimensional lens spaces, there are not many other natural examples. This makes it difficult to compute their cohomology groups. There is also a result that essentially says that all ``cohomological operations'' (which I will not define here) are somehow contained within the cohomology groups of $K(G,n)$ spaces, so these things are quite difficult to compute.
+
+We will now use the Leray-Serre spectral sequence to compute the first few cohomology groups of $K(\mathbb Z,3)$. We take the path space fibration $\Omega K(\mathbb Z,3) \rightarrow PK(\mathbb Z,3) \rightarrow K(\mathbb Z,3)$, but note that the loop space of a $K(\mathbb Z,3)$ space is simply a $K(\mathbb Z,2)$ space (i.e. $\mathbb CP^\infty$), and $PK(\mathbb Z,3)$ is contractible. Therefore we have a fibration (up to homotopy) $\mathbb CP^\infty \rightarrow \pt \rightarrow K(\mathbb Z,3)$. 
+
+Recall that the cohomology of topological spaces carries an algebra structure given by the cup product. The cohomological version of the Leray-Serre spectral sequence can be extended to take into account this extra structure. Without getting into the details let it be known that the algebra structure on the $E_2$ page coming from the cup product induces an algebra structure on the higher pages. The cohomology algebra of $\mathbb CP^\infty$ is isomorphic (as algebras) to the exterior product $\Lambda(x)$ on one element $x$ of degree 2. 
+
+\unfinished
+
+
+
+
+
+
+\subsection{$\pi_4(S^3)$}
+
+
+
+
+
+
+\end{document}
+

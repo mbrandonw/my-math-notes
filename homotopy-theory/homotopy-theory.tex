@@ -1,0 +1,1103 @@
+
+\input{"/Users/brandonwilliams/Documents/LaTeX Includes/notespreamble.tex"}
+\input{"/Users/brandonwilliams/Documents/LaTeX Includes/extrapackages.tex"}
+\input{"/Users/brandonwilliams/Documents/LaTeX Includes/extracommands.tex"}
+
+
+
+\begin{document}
+
+
+\title{Homotopy Theory}
+\author{Brandon Williams \\ \texttt{mbw@math.sunysb.edu}}
+\maketitle
+
+
+
+\tableofcontents
+
+
+
+
+
+
+
+\newpage
+\section{Some Category Theory}
+
+
+A \textbf{category} $\mathscr C$ consists of a class of \textbf{objects}, also denoted by $\mathscr C$, a class of \textbf{morphisms} $\hom_{\mathscr C}(X,Y)$ for any two objects $X$ and $Y$, and a binary operation $\hom_{\mathscr C}(X,Y) \times \hom_{\mathscr C}(Y,Z) \rightarrow \hom_{\mathscr C}(X,Z)$ called \textbf{composition} and denoted by $(f,g) \mapsto g \circ f$, such that the following holds:
+\begin{enumerate}
+	\item For morphisms $f \in \hom_{\mathscr C}(X,Y), g \in \hom_{\mathscr C}(Y,Z)$ and $g \in \hom_{\mathscr C}(Z,W)$ we have associativity composition: $h \circ (g \circ f) = (h \circ g) \circ f$. 
+	\item For each object $X$ there is a unique morphism $\id_X \in \hom_{\mathscr C}(X,X)$ such that for any morphism $f \in \hom_{\mathscr C}(X,Y)$ we have $f \circ \id_X = f = \id_Y \circ f$.
+\end{enumerate}
+We will usually write $f : X \rightarrow Y$ or $X \stackrel{f}{\rightarrow} Y$ as a shorthand for saying that $f$ is a morphism from $X$ to $Y$, and when the category $\mathscr C$ is clear from context we will write $\hom(X,Y)$ to denote the class of morphisms. A \textbf{small category} is one in which the objects and morphisms are sets, and a \textbf{locally small category} is one in which the morphisms are sets. The \textbf{opposite} of a category $\mathscr C$ is a category $\mathscr C^\op$ with the same objects, but $\hom_{\mathscr C^\op}(X,Y) := \hom_{\mathscr C}(Y,X)$. Intuitively we are just ``flipping'' the arrows in $\mathscr C$.
+
+A morphism $f : X \rightarrow Y$ is said to be an \textbf{isomorphism} if there is a morphism $g : Y \rightarrow X$ such that $g \circ f = \id_X$ and $f \circ g = \id_Y$. A category where all morphisms are isomorphisms is called a \textbf{groupoid}. An isomorphism is said to be an \textbf{automorphism} if the domain and codomain of $f$ are the same object. The class of automorphisms of an object $X$ is denoted by $\Aut_{\mathscr C}(X)$, or just $\Aut(X)$ when the category is clear from context. Many categories have their own notation for the class of automorphisms, such as $\Homeo(X)$ for the category of topological spaces and $\Diff(X)$ for the category of smooth manifolds.
+
+An object $X$ is said to be \textbf{initial} if there is a unique morphism from $X$ to any other object, and said to be \textbf{terminal} if there is a unique morphism from any other object to $X$. We say that $X$ is a \textbf{zero object} if it is both initial and terminal. If there is a family of morphism $0_{XY} : X \rightarrow Y$ such that for all morphisms $f : X \rightarrow Y$ and $g : Z \rightarrow W$ we have $0_{YW} \circ f = g \circ 0_{XZ}$, then we call this family a \textbf{family of zero morphisms}. If the category has a zero object, then these morphisms are unique, and so we call $0_{XY}$ \emph{the} \textbf{zero morphism} from $X$ to $Y$. 
+
+A \textbf{functor} between categories $F : \mathscr C \rightarrow \mathscr D$ assigns an object $F(X) \in \mathscr D$ to each object $X \in \mathscr C$ and a morphism $F(f) : F(X) \rightarrow F(Y)$ to each morphism $f : X \rightarrow Y$ such that
+\begin{enumerate}
+	\item $F(\id_X) = \id_{F(X)}$.
+	\item If $f : X \rightarrow Y$ and $g : Y \rightarrow Z$, then $F(g \circ f) = F(g) \circ F(f)$.
+\end{enumerate}
+A \textbf{cofunctor} between categories $F : \mathscr C \rightarrow \mathscr D$ is a functor in the above sense, except it assigns a morphism $F(f) : F(Y) \rightarrow F(X)$ to each morphism $f : X \rightarrow Y$ such that
+\begin{enumerate}
+	\item[$2^\prime$.] If $f : X \rightarrow Y$ and $g : Y \rightarrow Z$, then $F(g \circ f) = F(f) \circ F(g)$.
+\end{enumerate}
+It is easy to see that a cofunctor $F : X \rightarrow Y$ is just a functor $F : X^\op \rightarrow Y$, or equivalently $F : X \rightarrow Y^\op$.
+
+A \textbf{natural transformation} $\eta$ between functors $F,G : \mathscr C \rightarrow \mathscr D$, written as $\eta : F \rightarrow G$, assigns each object $X \in \mathscr C$ a morphism $\eta(X) : F(X) \rightarrow G(X)$ such that for any morphism $f : X \rightarrow Y$ we have the following commutative diagram
+\[
+\xymatrix
+@R=3pc
+@C=3pc
+{
+	F(X) \ar[r]^{F(f)} \ar[d]_{\eta(X)} & F(Y) \ar[d]^{\eta(Y)} \\
+	G(X) \ar[r]_{G(f)} & G(Y)
+}
+\]
+We can similarly define natural transformations between cofunctors. The natural transformation $\eta$ is said to be a \textbf{natural isomorphism} if $\eta(X)$ is an isomorphism for all $X$, in which case the functors $F$ and $G$ are said to be \textbf{naturally isomorphic}.
+
+\begin{example}
+One comes across the statement in linear algebra that a vector space $V$ is ``naturally'' isomorphic to its double dual $V^{**}$. In categorical terminology this means that the identity functor $\id : \Vect \rightarrow \Vect$ on the category of vector spaces is naturally isomorphic to the double dual functor $F : \Vect \rightarrow \Vect$, where $F(V) = V^{**}$ and $F(f) = f^{**}$. 
+\end{example}
+
+Many times we can only deal with objects that are unique only up to isomorphism, and so we usually need some kind of extra naturality when dealing with these objects. For example, it is trivial to see that if $A$ is isomorphic to $B$, then there is a bijective correspondence $\hom_{\mathscr C}(A,C) \leftrightarrow \hom_{\mathscr C}(B,C)$ for any object $C$. For if $f : A \rightarrow B$ is an isomorphism, then the correspondence $h \mapsto h \circ f$ is a bijection $\hom_{\mathscr C}(A,C) \rightarrow \hom_{\mathscr C}(B,C)$. So these hom-sets only depend on the isomorphism class of the objects. But, if $f : C \rightarrow C'$ is a morphism, how are all the hom-sets $\hom_{\mathscr C}(A,C), \hom_{\mathscr C}(B,C), \hom_{\mathscr C}(A,C')$ and $\hom_{\mathscr C}(B,C')$ related? Well, in general they won't be related in any natural way, but if the bijective we described above is denoted by $\varphi$, then we have the following commutative diagram
+\[
+\xymatrix
+{
+	\hom(A,C)  \ar[r]^\varphi \ar[d]_{f_*} & \hom(B,C) \ar[d]^{f_*} \\
+	\hom(A,C') \ar[r]_\varphi & \hom(B,C')
+}
+\]
+where $f_*$ is the induced map. So, we say that $\varphi$ is a natural bijective correspondence.
+
+There are many useful constructions in category theory, such as products, coproducts, direct limits, inverse limits, etc., but these are all special cases of limits and colimits. Let $\mathscr D$ be a small category and $\mathscr C$ any category. A \textbf{$\mathscr D$-shaped diagram in $\mathscr C$} is a functor $F : \mathscr D \rightarrow \mathscr C$. A morphism of $\mathscr D$-shaped diagrams $F$ and $F'$ is a natural transformation $F \rightarrow F'$, and so they form a category denoted by $\mathscr D(\mathscr C)$. There is a canonical functor $\Delta : \mathscr C \rightarrow \mathscr D(\mathscr C)$, called the diagonal functor, that assigns each object $X$ the constant diagram, which maps every object of $\mathscr D$ to $X$ and every morphism to the identity. Note that a morphism $F : \Delta(X) \rightarrow \Delta(Y)$ of constant diagrams must assign each object of $\mathscr D$ the same morphism $X \rightarrow Y$ by the commutativity of the natural transformation square, so we can think of morphisms of constant diagrams as just morphisms of the respective objects.
+
+Given a $\mathscr D$-shaped diagram $F$ in $\mathscr C$, we define its \textbf{limit} to be an object $\lim F$ in $\mathscr C$ and morphism $\pi : \Delta(\lim F) \rightarrow F$ such that for any object $X$ of $\mathscr C$ and morphism of diagrams $\varepsilon : \Delta(X) \rightarrow F$ there is a unique morphism $\tilde\varepsilon : \Delta(X) \rightarrow \Delta(\lim F)$ such that the following commutes
+\[
+\xymatrix
+{
+	\Delta(X) \ar@{-->}[d]_{\tilde\varepsilon} \ar@/_2.3pc/[dd]_{\varepsilon} \\
+	\Delta(\lim F) \ar[d]_{\pi} \\
+	F
+}
+\]
+The existence and uniqueness of the morphism $\tilde\varepsilon$ for any $\varepsilon$ ensures that limits are unique up to isomorphism, and so this is called the \textbf{universal property} of the limit.
+
+We can dualize this construction to define the \textbf{colimit} of a $\mathscr D$-shaped diagram in $\mathscr C$. In particular, the colimit consists of an object $\colim F$ in $\mathscr C$ and morphism $\iota : F \rightarrow \Delta(\colim F)$ such that for any object $X$ of $\mathscr C$ and morphism $\eta : F \rightarrow \Delta(X)$ there is a unique morphism $\tilde\eta : \Delta(\colim F) \rightarrow \Delta(X)$ such that the following commutes
+\[
+\xymatrix
+{
+	\Delta(X) \\
+	\Delta(\colim F) \ar@{-->}[u]^{\tilde\eta} \\
+	F \ar[u]^\iota \ar@/^2.5pc/[uu]^{\eta}
+}
+\]
+Again we have that colimits are unique up to isomorphism.
+
+\begin{example}[Products]
+\label{categorical product as a limit}
+Let $\mathscr D$ be a category with two objects and no non-identity morphisms. Then a $\mathscr D$-shaped diagram $F$ is simply a pair of objects $X,Y$ in $\mathscr C$, and let us denote the limit by $P$. The morphism $\pi : \Delta(P) \rightarrow F$ is just a pair of morphisms $\pi_X : P \rightarrow X$ and $\pi_Y : P \rightarrow Y$. Then the universal property of limits says that for any other object $P'$ and morphisms $\pi_X' : P' \rightarrow X$ and $\pi_Y' : P' \rightarrow Y$ there is a unique morphism $\epsilon : P' \rightarrow P$ such that the following diagram commutes
+\[
+\xymatrix
+@C=1pc
+{
+	  & P' \ar@{-->}[d]_{\varepsilon} \ar@/_1.5pc/[ddl]_{\pi_X'} \ar@/^1.5pc/[ddr]^{\pi_Y'} \\
+	  & P \ar[dl]_{\pi_X} \ar[dr]^{\pi_Y} & \\
+	X & & Y
+}
+\]
+In category theory $P$ is most commonly known as the \textbf{categorical product} of $X$ and $Y$ in $\mathscr C$, and $\pi_X$ and $\pi_Y$ are called the natural projections. We denote the product, which is unique up to isomorphism, by $X \times_{\mathscr C} Y$, or just $X \times Y$ when the category is understood.
+
+Therefore the product in category theory is just a special case of a limit when $\mathscr D$ is the discrete category with two objects. More generally, suppose we have a collection of objects $\lcb X_\alpha \rcb$ indexed by a set $\Lambda$. We can think of $\Lambda$ as a category whose objects are the elements of $\Lambda$ and there are no non-identity morphisms. Then the product of the objects $\lcb X_\alpha \rcb$ is just the limit of the $\Lambda$-shaped diagram that maps each index $\alpha$ to $X_\alpha$.
+\end{example}
+
+\begin{example}[Coproducts]
+Let $\mathscr D$ be the discrete category with two objects as in \cref{categorical product as a limit} so that a $\mathscr D$-shaped diagram $F$ is just a pair of objects $X,Y$ in $\mathscr C$. Let $C$ denote the colimit of $F$, and let $\iota_X : X \rightarrow C$ and $\iota_Y : Y \rightarrow C$ be the morphisms provided by the colimit. Then the universal property of colimits says that for any other object $C'$ and morphisms $\iota_X' : X \rightarrow C'$ and $\iota_Y' : Y \rightarrow C'$ there is a unique morphism $\eta : C \rightarrow C'$ such that the following diagram commutes
+\[
+\xymatrix
+@C=1pc
+{
+	  & C' \\
+	  & C \ar@{-->}[u]^{\eta} & \\
+	X \ar[ur]^{\iota_X} \ar@/^1.5pc/[uur]^{\iota_X'} & & Y \ar[ul]_{\iota_Y} \ar@/_1.5pc/[uul]_{\iota_Y'}
+}
+\]
+In category theory $C$ is most commonly known as the \textbf{categorical coproduct} of $X$ and $Y$ in $\mathscr C$, and $\iota_X$ and $\iota_Y$ are called the natural inclusions. We denote the coproduct, which is unique up to isomorphism, by $X \sqcup_{\mathscr C} Y$, or just $X \sqcup Y$ when the category is understood.
+\end{example}
+
+\begin{example}[Equalizers]
+\label{equalizer as a limit}
+Let $\mathscr D$ be the category with two objects and two non-identity morphisms with same domain and range. We can write this schematically as $\mathscr D = \lcb \xymatrix{ \cdot \ar@/_0.5pc/[r] \ar@/^0.5pc/[r] & \cdot } \rcb$. Then a $\mathscr D$-shaped diagram $F$ is simply a pair of objects $X,Y$ in $\mathscr C$ and a pair of morphisms $f,g : X \rightarrow Y$, which we can write as the diagram
+\[
+\xymatrix
+{
+	X \ar@/_0.5pc/[r]_g \ar@/^0.5pc/[r]^f & Y
+}
+\]
+Let $E$ denote the the limit of this diagram, and let $\pi : F \rightarrow \Delta(E)$ be the morphism provided by the limit. This is just a pair of morphisms $\pi_X : E \rightarrow X$ and $\pi_Y : E \rightarrow Y$, but $\pi_Y$ is determined from $\pi_X,f,g$ since the commutativity of the natural transformation square requires that $\pi_Y = f \circ \pi_X = g \circ \pi_Y$. The universal property of limits says that for any other object $E'$ and morphism $\pi_X' : E' \rightarrow X$ there is a unique morphism $\varepsilon : E' \rightarrow E$ such that the following diagram commutes
+\[
+\xymatrix
+{
+	E \ar[r]^{\pi_X} & X \ar@/_0.5pc/[r]_g \ar@/^0.5pc/[r]^f & Y \\
+	E' \ar@{-->}[u]^{\varepsilon} \ar[ur]_{\pi_X'}
+}
+\]
+In category theory $C$ is most commonly known as the \textbf{equalizer} of $f,g : X \rightarrow Y$ in $C$.
+\end{example}
+
+\begin{example}[Coequalizers]
+Dualizing everything in \cref{equalizer as a limit} gives us the definition of the \textbf{coequalizer} of $f,g : X \rightarrow Y$ as a colimit. Specifically, the coequalizer is an object $C$ and morphism $\iota_Y : Y \rightarrow C$ such that for any other object $C'$ and morphism $\iota_Y' : Y \rightarrow C$ there is a unique morphism $\eta : C \rightarrow C'$ such that the following diagram commutes
+\[
+\xymatrix
+{
+	X \ar@/_0.5pc/[r]_g \ar@/^0.5pc/[r]^f & Y \ar[r]^{\iota_Y} \ar[rd]_{\iota'_Y} & C \ar@{-->}[d]^{\eta} \\
+	 & & C'
+}
+\]
+\end{example}
+
+\begin{example}[Pullbacks]
+\label{pullback as a limit}
+Consider the category $\mathscr D = \lcb \cdot \rightarrow \cdot \leftarrow \cdot \rcb$, that is, $\mathscr D$ has three objects and two non-identity morphisms. A $\mathscr D$-shaped diagram $F$ is just a diagram of the form $Y \stackrel{g}{\rightarrow} Z \stackrel{f}{\leftarrow} X$. Let $P$ be the pullback of this diagram with induced morphisms $f' : P \rightarrow Y$ and $g' : P \rightarrow X$. Technically we should also include another morphism $P \rightarrow Z$, but it uniquely determined by $f,g,f',g'$ due to the commutativity square of the natural transformation. The universal property of this limit says that for any other object $P'$ and morphisms $f'' : P' \rightarrow Y$ and $g'' : P' \rightarrow X$ there is a unique morphism $\epsilon : P' \rightarrow P$ such that the following diagram commutes
+\[
+\xymatrix
+{
+	P' \ar@{-->}[rd]_{\epsilon} \ar@/_2pc/[rddd]_{f''} \ar@/^2pc/[rrrd]^{g''} &   &   \\
+	   & P \ar[rr]^{g'} \ar[dd]_{f'} & & X \ar[dd]^{f} \\
+	   & & & \\
+	   & Y \ar[rr]_{g} & & Z
+}
+\]
+In category theory we say that $P$ is the \textbf{pullback} of $X \stackrel{f}{\rightarrow} Z \stackrel{g}{\leftarrow} Y$, and will be denoted by $X \times_Z Y$. By the universal property there is a natural isomorphism $X \times_Z Y \cong Y \times_Z X$.
+\end{example}
+
+\begin{example}[Pushouts]
+Dualizing the construction in \cref{pullback as a limit} gives us the definition of the \textbf{pushout} of $Y \stackrel{g}{\leftarrow} Z \stackrel{f}{\rightarrow} X$. In particular, the pushout of this diagram is an object $P$ with morphisms $X \stackrel{g'}{\rightarrow} P$ and $Y \stackrel{f'}{\rightarrow} P$ such that for any other object $P'$ and morphisms $X \stackrel{g''}{\rightarrow} P'$ and $Y \stackrel{f''}{\rightarrow} P$ there is a unique morphism $\eta : P \rightarrow P'$ such that the following diagram commutes
+\[
+\xymatrix
+{
+	Z \ar[rr]^{f} \ar[dd]_{g} & & X \ar[dd]^{g'} \ar@/^2pc/[rddd]^{g''} \\
+	  & & \\
+	Y \ar[rr]_{f'} \ar@/_2pc/[rrrd]_{f''} & & P \ar@{-->}[rd]^{\eta} \\
+	  & & & P'
+}
+\]
+The pushout will be denoted by $X \cup_Z Y$. By the universal property there is a natural isomorphism $X \cup_Z Y \cong Y \cup_Z X$.
+\end{example}
+
+\begin{example}[Inverse Limits]
+Let $\Lambda$ be a partially ordered set with upper bounds. This means there is a binary relation $\leq$ on $\Lambda$ that is reflexive, antisymmetric, transitive and such that for any elements $i,j$ in $\Lambda$ there is an element $k$ such that $i \leq k$ and $j \leq k$. Such a set is sometimes called a directed set. Consider the category $\underleftarrow\Lambda$ whose objects are the elements of $\Lambda$ and such that there is a \emph{unique} morphism $f_{ij} : j \rightarrow i$ if $i \leq j$. A $\underleftarrow\Lambda$-shaped diagram $F : \underleftarrow\Lambda \rightarrow \mathscr C$ in $\mathscr C$ is called an \textbf{inverse system} over $\Lambda$ in $\mathscr C$ (older references say projective system). The limit of this diagram is called the \textbf{inverse limit} of the inverse system, and is written $\invlim F$. 
+
+Let us peel away the abstract nonsense for a moment to see what this definition really means. A $\underleftarrow\Lambda$-shaped diagram in $\mathscr C$ is just a collection of objects $A_i$, indexed by $\Lambda$, and one morphism $f_{ij} : A_j \rightarrow A_i$ for each $i \leq j$ such that $f_{ii} = \id_{A_i}$ and $f_{ik} = f_{ij} \circ f_{jk}$. The limit of this diagram is an object $A$ with morphisms $\pi_i : A \rightarrow A_i$ for each $i \in \Lambda$, such that $f_{ij} \circ \pi_j = \pi_i$ (this comes from commutativity of the natural transformation square). The object $A$ has to be universal in the sense that if $A'$ is another object with morphisms $\pi_i' : A' \rightarrow A_i$ and $f_{ij} \circ \pi_j' = \pi_i'$, then there is a unique morphism $\varepsilon : A' \rightarrow A$ such that $\pi_i \circ \varepsilon = \pi_i'$ for all $i \in \Lambda$. 
+\end{example}
+
+\begin{example}[Direct Limits]
+Dualizing the above gives the definition of direct limits in a category, but we spell out the details to make it more clear. Let $\Lambda$ be a partially ordered set with upper bounds. Consider the category $\underrightarrow\Lambda$ whose objects are the elements of $\Lambda$ and such that there is a \emph{unique} morphism $f_{ij} : i \rightarrow j$ if $i \leq j$. A $\underrightarrow\Lambda$-shaped diagram $F : \underrightarrow\Lambda \rightarrow \mathscr C$ in $\mathscr C$ is called a \textbf{direct system} over $\Lambda$ in $\mathscr C$. The colimit of this diagram is called the \textbf{direct limit} of the direct system, and is written $\dirlim F$. 
+
+Let us see what this means on a lower level. A $\underrightarrow\Lambda$-shaped diagram in $\mathscr C$ is just a collection of objects $A_i$, indexed by $\Lambda$, and one morphism $f_{ij} : A_i \rightarrow A_j$ for each $i \leq j$ such that $f_{ii} = \id_{A_i}$ and $f_{ik} = f_{jk} \circ f_{ij}$. The colimit of this diagram is an object $A$ with morphisms $\iota_i : A_i \rightarrow A$ for each $i \in \Lambda$, such that $\pi_j \circ f_{ij} = \pi_i$ (this comes from commutativity of the natural transformation square). The object $A$ has to be universal in the sense that if $A'$ is another object with morphisms $\iota_i' : A_i \rightarrow A'$ and $\iota_j' \circ f_{ij} = \iota_i'$, then there is a unique morphism $\eta : A \rightarrow A'$ such that $\eta \circ \iota_i = \iota_i'$ for all $i \in \Lambda$. 
+\end{example}
+
+
+Let us describe how $\lim$ can be thought of as a functor $\lim : \mathscr D(\mathscr C) \rightarrow \mathscr C$. The functor assigns a diagram $F$ in $\mathscr D(\mathscr C)$ the object $\lim F$. For two diagrams $F,G$ let $\pi_F,\pi_G$ denote the morphisms from their limits to $F$. If $t : F \rightarrow G$ is a morphism of these diagrams, then $t \circ \pi_F : \Delta(\lim F) \rightarrow G$, so by the universal property of limits there is a unique morphism $\tilde\varepsilon : \Delta(\lim F) \rightarrow \Delta(\lim G)$ such that the following commutes
+\[
+\xymatrix
+{
+	\Delta(\lim F) \ar@{-->}[d]_{\tilde\varepsilon} \ar@/_2.3pc/[dd]_{t \circ \pi_F} \\
+	\Delta(\lim G) \ar[d]_{\pi_G} \\
+	G
+}
+\]
+But we remarked earlier that a morphism between constant diagrams must map every object to the same morphism, so we define $\lim(t)$ be this unique morphism for $\tilde\varepsilon$. Doing something similar for $\colim$ shows how it can be turned into a functor $\mathscr D(\mathscr C) \rightarrow \mathscr C$. 
+
+Given a functor $F : \mathscr C \rightarrow \mathscr C'$ between categories and a diagram $G : \mathscr D \rightarrow \mathscr C$ in $\mathscr C$, we get an induced diagram $F \circ G$ in $\mathscr C'$. The functor $F$ is said to be \textbf{continuous} if $F(\lim G) = \lim(F \circ G)$ for all diagrams $G$, and otherwise is said to be \textbf{discontinuous}. Similarly, if $F(\colim G) = \colim(F \circ G)$ for all diagrams $G$, then $F$ is said to be \textbf{cocontinuous}, and otherwise is said to be \textbf{discocontinuous}. For example, the forgetful functor $\Ab \rightarrow \Set$ on the category of abelian groups is continuous, however the forgetful functor $\Setp \rightarrow \Set$ on the category of pointed sets is discocontinuous (coproducts are not preserved). A category such that limits of all diagrams exists is called \textbf{complete}, and if all colimits exists then it is called \textbf{cocomplete}. The following is a surprising theorem.
+\begin{thm}
+\label{complete and cocomplete characterization}
+A category is complete (cocomplete) if and only if all products (coproducts) and all equalizers (coequalizers) exist.
+\end{thm}
+
+\begin{example}
+We will show a specific example of \cref{complete and cocomplete characterization} by describing how a pullback can be formed as a product and equalizer, which is why we chose the notation $X \times_Z Y$ for pullbacks. Suppose we have two morphisms $f : X \rightarrow Z$ and $g : Y \rightarrow Z$. Let $P$ be the product of $X$ and $Y$, with projections $\pi_X : P \rightarrow X$ and $\pi_Y : P \rightarrow Y$, and let $E$ be the equalizer of $f \circ \pi_X$ and $g \circ \pi_Y$, with induced natural map $\pi : E \rightarrow P$. We claim that $E$ with maps $\pi_X \circ \pi$ and $\pi_Y \circ \pi$ is the pullback of $f$ and $g$. To show this we need to verify the universal property of the limit. So, let $E'$ be any other object with maps $f' : E' \rightarrow Y$ and $g' : E' \rightarrow X$. By the universal property of products we have that there is a unique morphism $\varepsilon : E' \rightarrow P$. But, now by the universal property of equalizers, we have that there is a unique morphism $\epsilon' : E' \rightarrow E$. The diagram looks like the following
+\[
+\xymatrix
+{
+	E' \ar@/_2.5pc/[rrdddd]_{f'} \ar@/^2.5pc/[rrrrdd]^{g'} \ar@{-->}[rd]^{\varepsilon'} \ar@{-->}@/_1.5pc/[rrdd]_{\varepsilon} &   &   & \\
+	   & E \ar@{-->}[rd]^{\pi} &   & \\
+	   &   & P \ar[rr]^{\pi_Y} \ar[dd]_{\pi_X} & & X \ar[dd]^{f} \\
+	   & & & & \\
+	   &   & Y \ar[rr]_{g} & & Z
+}
+\]
+We need to verify that $\pi_Y \circ \pi \circ \varepsilon' = g'$, and this is true since $\pi \circ \varepsilon' = \varepsilon$ by universality of equalizers, and then $\pi_Y \circ \varepsilon = g'$ by universality of products. We also need to verify that $\pi_X \circ \pi \circ \varepsilon' = f'$, but this is similar to what we just showed. Therefore $E$ is the pullback of $f$ and $g$. By dualizing this we can also show that pushouts can be expressed as a coproduct and coequalizer.
+\end{example}
+
+In set theory we define the exponential of sets $Y^X$ to be the set of functions $X \rightarrow Y$. There is an obvious map $e : Y^X \times X \rightarrow Y$ defined by $e(f,x) = f(x)$, and for any space $Z$ with function $Z \times X \rightarrow Y$ there is a unique $\lambda : Z \rightarrow Y^X$ such that $e \circ (\lambda \times \id) = g$, just take $\lambda(z)(x) = g(z,x)$. We can easily generalize this to other categories. Let $\mathscr C$ be a category with all finite products. The \textbf{exponential object} of $X$ and $Y$ is an object denoted by $Y^X$ and morphism $e : Y^X \times X \rightarrow Y$ such that for any other object $Z$ and morphism $g : Z \times X \rightarrow Y$, there is a unique morphism $\lambda : Z \rightarrow Y^X$ such that the following diagram commutes
+\[
+\xymatrix
+{
+	Z \times X \ar[rd]^{g} \ar@{-->}[d]_{\lambda \times \id_X} \\
+	Y^X \times X \ar[r]_-{e} & Y
+}
+\]
+We say that a category is \textbf{cartesian closed} if it has all finite products and if all exponential objects exist.
+
+
+
+Let $\mathscr C$ and $\mathscr D$ be two locally small categories, and consider two functors $F : \mathscr C \rightarrow \mathscr D$ and $G : \mathscr D \rightarrow \mathscr C$. We say that $F$ is a \textbf{left adjoint} of $G$ (or equivalently, $G$ is a \textbf{right adjoint} to $F$) if the bifunctors 
+\[ \hom_{\mathscr D}(F(-),-) : \mathscr C^\op \times \mathscr D \rightarrow \Set \]
+\[ \hom_{\mathscr C}(-,G(-)) : \mathscr C^\op \times \mathscr D \rightarrow \Set \]
+are naturally isomorphic. This means for every object $X$ in $\mathscr C$ and object $Y$ in $\mathscr D$, there is an isomorphism of sets
+\[ \hom_{\mathscr D}(F(X),Y) \cong \hom_{\mathscr C}(X,G(Y)) \]
+which is natural in $X$ and $Y$ (meaning, morphisms on $X$ and $Y$ give us the obvious commuting diagrams). Sometimes the hom-sets of $\mathscr C$ and $\mathscr D$ can be given extra structure, in which case we can usually say the above isomorphism of sets is actually an isomorphism of the extra structures too. Adjoint functors are unique up to natural isomorphism. 
+
+\begin{example}
+Let $F : \Grp \rightarrow \Set$ be the forgetful functor on the category of groups, and let $G : \Set \rightarrow \Grp$ be the functor that sends a set to the free group generated by its elements. Then $F$ is a left adjoint of $G$.
+\end{example}
+
+\begin{example}
+\label{forgetful functor on Top}
+The forgetful functor $F : \Top \rightarrow \Set$ on the category of topological spaces has both a left and right adjoint. Its left adjoint is the functor $D : \Set \rightarrow \Top$ that gives a set the discrete topology, and its right adjoint is the functor $I : \Set \rightarrow \Top$ that gives a set the indiscrete topology. A similar statement holds for the forgetful functor $\Topp \rightarrow \Setp$ on the category of pointed topological spaces. Therefore, by the upcoming \cref{adjoint functor continuity}, both of these forgetful functors are continuous and cocontinuous.
+\end{example}
+
+\begin{example}
+\label{product-exponential adjoint}
+Suppose all exponential objects $Y^X$ exist for a fixed object $X$. Then the functor $-\times X : \mathscr C \rightarrow \mathscr C$ is the left adjoint of $-^X : \mathscr C \rightarrow \mathscr C$. 
+\end{example}
+
+Adjoint functors have an amazing property.
+\begin{thm}
+\label{adjoint functor continuity}
+If $F$ has a left (right) adjoint, and hence is a right (left) adjoint, then $F$ is continuous (cocontinuous).
+\end{thm}
+
+
+
+
+
+
+\newpage
+\section{Some General Topology}
+
+
+\subsection{Categories, Limits and Colimits in Topology}
+
+The category of topological spaces and continuous maps will be denoted by $\Top$, and the category of based topological spaces with base-point preserving continuous maps will be denoted by $\Topp$. When it is understood that we are working in $\Top$ or $\Topp$, we will sometimes denote $\hom_{\Top}(X,Y)$ by $\hom(X,Y)$ and $\hom_{\Topp}(X,Y)$ by $\hom_*(X,Y)$. We saw in \cref{forgetful functor on Top} that the forgetful functors on $\Top$ and $\Topp$ have left and right adjoints, hence the forgetful functors are continuous and cocontinuous, and so $\Top $ and $\Topp$ are complete and cocomplete. This means that the underlying set of any limit or colimit in $\Top$ (resp. $\Topp$) is just the limit or colimit taken in $\Set$ (resp. $\Setp$) and topologized by the universal property. For example, the product of topological spaces is just the cartesian product of their underlying sets, and the unversal property gives the product the Tychonoff topology. The product of based spaces $(X,x_0)$ and $(Y,y_0)$ is the cartesian product $X \times Y$ with base point $(x_0,y_0)$. The coproduct of topological spaces is just the disjoint union of their underlying sets. 
+
+However, the coproduct of pointed topological spaces $(X,x_0)$ and $(Y,y_0)$ is a little more complicated. If we just take the disjoint union $X \sqcup Y$, then both $x_0$ and $y_0$ are in the coproduct, and which should we choose for the base point? Neither base point will suffice, so instead we glue together $X$ and $Y$ at their base points. This construction is called the \textbf{wedge sum}, its the coproduct in the category of based sets, and is denoted by $X \vee Y = \lcb (x,y) \in X \times Y \st x=x_0 \text{ or } y=y_0 \rcb$, with base point $(x_0,y_0)$. 
+
+Unfortunately, the categories $\Top$ and $\Topp$ have too many pathological spaces, for example indiscrete spaces. Even the nicer category $\Haus$ of Hausdorff spaces is still a little too unwieldy. This prevents $\Top$ and $\Haus$ from being cartesian closed, which is very important to have for homotopy theory since we like to think of homotopies as 1-parameter families of maps, i.e. we want $\hom_{\Top}(X \times I,Y) \cong \hom_{\Top}(X,Y^I)$. So we would like to find a subcategory of $\Top$ where exponential objects exists, but also contains all the spaces we usually work with. Steenrod found such a category of spaces (see \cite{steenrod67}). 
+
+We say that a topological space $X$ is \textbf{compactly generated} if a subset $C$ is closed if and only if $C \cap K$ is closed in $K$ for every compact set $K$ in $X$. Most spaces we work with are compactly generated, such as locally compact spaces, metric spaces, manifolds, and CW-complexes. Let $\CGTop$ denote the full subcategory of $\Top$ consisting of compactly generated topological spaces, and let $\CGHaus$ denote the full subcategory of $\CGTop$ consisting of Hausdorff spaces. Similarly define $\CGTopp$ and $\CGHausp$. There is a functor $k : \Haus \rightarrow \CGHaus$ that re-topologizes a space $X$ by declaring a subset $C$ closed if and only if $C \cap K$ is closed in $K$ for all compact subsets $K$ of $X$. One can show that $k$ is the identity on the subcategory $\CGHaus$ and $k$ is the right adjoint of the inclusion functor $\CGHaus \rightarrow \Haus$. The product in $\CGHaus$ is not just the product in $\Haus$ (the product of compactly generated spaces is not necessarily compactly generated), but we do have $X \times_{\CGHaus} Y = k(X \times_\Haus Y)$. Further, most importantly, the category $\CGHaus$ \emph{is} cartesian closed. The exponent object of $X$ and $Y$ is $k(Y^X)$, where $Y^X = \hom_{\Top}(X,Y)$ is given the compact-open topology. Similarly, $\CGHausp$ is cartesian closed. We now have
+\begin{prop}
+\sloppyspace
+\begin{enumerate}
+	\item For a space $X$ in $\CGHaus$, the functor $-\times X : \CGHaus \rightarrow \CGHaus$ is the left adjoint of $-^X : \CGHaus \rightarrow \CGHaus$. In particular, the function spaces $Z^{(X \times Y)}$ and $(Z^Y)^X$ are naturally homeomorphic. 
+	\item For a based space $X$ in $\CGHausp$, the functor $-\times X : \CGHausp \rightarrow \CGHausp$ is the left adjoint of $-^X : \CGHausp \rightarrow \CGHausp$. In particular, the function spaces $(Z,z_0)^{(X,x_0)\times(Y,y_0)} = ((Z,z_0)^{(Y,y_0)})^{(X,x_0)}$.
+\end{enumerate}
+\end{prop}
+We now see that $\CGHaus$ and $\CGHausp$ are very nice categories to do homotopy theory. Any time we consider a topological space, we are going to immediately apply the functor $k$ so that we can assume we always assume we are working in $\CGHaus$. In fact, we are going to adopt this doctrine to the extreme by \emph{redefining} $\Top$ to be the category of compactly generated, Hausdorff spaces, and similarly for $\Top_*$. 
+
+The category $\Top^2$ consists of pairs of topological spaces $(X,A)$ such that $A \subseteq X$, and a morphism $f : (X,A) \rightarrow (Y,B)$ is a continuous map $f : X \rightarrow Y$ such that $f(A) \subseteq f(B)$. Similarly $\Topp^2$ consists of pairs of topological spaces $(X,A)$ with base point in $A$ (and hence $X$ too), and a morphism is a morphism of pairs that preserves the base point. The product of pairs of spaces $(X,A)$ and $(Y,B)$ is simply $(X \times Y,A \times B)$, and the exponential $(Y,B)^{(X,A)}$ is the set of continuous maps $(X,A) \rightarrow (Y,B)$. We could also define the category of $n$-tuples of spaces $\Top^n$, but they will not be of use in these notes.
+
+
+
+
+\subsection{Functors in Topology}
+
+Since $\Top$ is cartesian closed, for a fixed space $X$ we get a functor $-^X : \Top \rightarrow \Top$. For a map $f : Y \rightarrow Z$, the induced map $f^X : Y^X \rightarrow Z^X$ is defined by $f^X(g)(x) = f(g(x))$. If $X$ is based, then we get a functor $-^{(X,x_0)} : \Topp \rightarrow \Topp$, where $(Y,y_0)^{(X,x_0)}$ is based at the constant map $y \mapsto x_0$. For a based map $f : (Y,y_0) \rightarrow (Z,z_0)$, the induced map is defined the exact same way as in the unbased case.
+
+We saw earlier that the regular cartesian product is the categorical product in $\Topp$ and serves as the left adjoint of $-^X$. There is another operation that is useful in $\Topp$ and is the left adjoint of $X^-$. Given two pointed spaces $(X,x_0)$ and $(Y,y_0)$, we define their \textbf{smash product} to be $X \wedge Y = X \times Y / X \vee Y$, which is based at the equivalence class of $(x_0,y_0)$. If $f : X \rightarrow Z$ and $g : Y \rightarrow W$ are based, continuous maps, then $f \wedge g : X \wedge Y \rightarrow Z \wedge W$ is the based, continuous map that sends $[x,y]$ to $[f(x),g(y)]$. It is easy to show that this is well-defined, and so $\wedge : \Topp \times \Topp \rightarrow \Topp$ is a bifunctor. The following proposition makes precise the statement that the smash product in $\Topp$ is like the tensor product in $\RMod{R}$.
+\begin{prop}
+\label{wedge and exponential adjoint}
+For a fixed space $Y$ in $\Topp$, the functor $- \wedge Y : \Topp \rightarrow \Topp$ is the left adjoint of $Y^- : \Topp \rightarrow \Topp$. In particular, the spaces
+\[ \hom_*(X \wedge Y,Z) \cong \hom_*(X,Y^Z) \]
+are naturally homeomorphic.
+\end{prop}
+
+The \textbf{free path space} functor is just exponentiation by the unit interval, $-^I$, and the \textbf{based path space} is just the based exponentiation by the unit interval based at 0, $-^{(I,0)}$. The \textbf{free loop space} functor $\Omega$ is just exponentiation by the circle, $\Omega = -^{S^1}$, and the \textbf{based loop space} functor $\Omega_*$ is just exponentiation by the based circle, $\Omega_* = -^{(S^1,1)}$, or equivalently, $\Omega_* = -^{(I,\lcb 0,1 \rcb)}$, which is sometimes easier to user.
+
+The \textbf{free suspension} functor $\Sigma : \Top \rightarrow \Top$ assigns a space $X$ to $X \times I / X \times \lcb 0,1 \rcb$. Intuitively, we take the cylinder on $X$ and then pinch the ends. Given a continuous function $f : X \rightarrow Y$, the induced map $\Sigma f : \Sigma X \rightarrow \Sigma Y$ is defined by $f([x,t]) = [f(x),t]$, which is easily verified to be well-defined. The \textbf{based suspension} functor $\Sigma_* : \Topp \rightarrow \Topp$ assigns a space $X$ to $\Sigma X / \lcb x_0 \rcb \times I$, that is, we identify all the points $\lcb x_0 \rcb \times I$ in the free suspension.  We base $\Sigma_* X$ at the equivalence class of $(x_0,0)$. Induced maps are defined in the exact same way, and are clearly well-defined. It is easy to see that for a based space $X$, the based suspesion can be written as $\Sigma_* X = X \wedge S^1$. Note that some people refer to $\Sigma$ as the unreduced suspension and $\Sigma_*$ as the reduced suspension.
+
+By \cref{wedge and exponential adjoint} we have
+\begin{cor}
+$\Sigma_*$ is the left adjoint of $\Omega_*$. In particular, the spaces
+\[ \hom_*(\Sigma_* X,Y) \cong \hom_*(X,\Omega_* Y) \]
+are naturally isomorphic.
+\end{cor}
+
+
+
+\subsection{The Homotopy Category}
+
+
+We want to consider homotopies in each of our categories $\Top,\Topp,\Top^2$ and $\Topp^2$. This can be done in one fell swoop by letting $I$ simultaneously denote 1.) just the unit interval, 2.) the unit interval based at 0, 3.) the pair of spaces $(I,I)$ and finally, 4.) the pair of spaces $(I,I)$ based at 0. Which interpretation of $I$ we use depends on which category we are working in. If $\mathscr C$ is any of our four categories of spaces, two morphisms $f,g : X \rightarrow Y$ in $\mathscr C$ are said to be homotopic in $\mathscr C$ if there is a map $H : X \times I \rightarrow Y$ in $\mathscr C$ such that $H(x,0) = f(x)$ and $H(x,1) = g(x)$, and we write $f \simeq g$. We will usually denote $H(-,t)$ by $H_t$. A homotopy in $\Top$ is called a \textbf{free homotopy} and in $\Topp$ it is called a \textbf{based homotopy}. A homotopy between maps $(X,A) \rightarrow (Y,B)$ in $\Top^2$ that fixes $A$ for all time, i.e. $H_t|A = \id_A$, is called a \textbf{homotopy relative $A$} and we write $f \simeq g \ (\rel A)$. Note that a homotopy in $\Topp$ could just as easily be defined as a map $H : X \wedge I_+ \rightarrow Y$ such that $H_0 = f$ and $H_1 = g$. 
+
+The notion of homotopy defines an equivalence relation on $\hom_{\mathscr C}(X,Y)$, and we call an equivalence class of maps a \textbf{homotopy class}. The set of homotopy classes of between $X$ and $Y$ in $\Top,\Topp,\Top^2,\Topp^2$ is denoted by $[X,Y], [X,Y]_*, [(X,A),(Y,B)]$ and $[(X,A),(Y,B)]_*$ respectively. Note that $[X,Y]_*$ for based spaces is the same thing as $[(X,x_0),(Y,y_0)]$. We do not have a notation for the equivalence classes of maps up to homotopy (rel $A$), but it will be an important ingredient in these notes.
+
+Let $\hTop$ denote the category whose objects are topological spaces, and $\hom_{\hTop}(X,Y) = [X,Y]$, and similarly for $\Topp,\Top^2,\Topp^2$. These categories are called the homotopy category and based homotopy category of topological spaces and pairs of topological spaces. An isomorphism in one of these homotopy categories is called a \textbf{homotopy equivalence}.
+
+The functors $\Omega$ and $\Sigma$ (and their based counterparts) descend to functors on $\hTop$ (and $\hTopp$).
+\begin{prop}
+\label{suspension and loop space are adjoint}
+$\Sigma_*$ is the left adjoint of $\Omega_*$ in $\hTopp$. In particular, the sets $[\Sigma_* X,Y]_*$ and $[X,\Omega_* Y]_*$ are naturally isomorphic.
+\end{prop}
+\begin{proof}
+Note that $[X,Y]_*$ is naturally isomorphic to $[S^0,\hom_*(X,Y)]_*$, so 
+\[ [\Sigma_*X,Y]_* \cong [S^0,\hom_*(\Sigma_*X,Y)]_* \cong [S^0,\hom_*(X,\Omega_*Y)]_* \cong [X,\Omega_*Y]_* \]
+and all isomorphisms are natural.
+\end{proof}
+
+
+
+
+
+
+
+\subsection{$H$-groups and $H$-cogroups}
+\label{H-groups and H-cogroups}
+
+
+Topological groups, spaces with a group structure such that the group operations are continuous, are very useful in geometry, but like most things from geometry they are far too restrictive for homotopy theory. We can reformulate the axioms of a group in terms of commutativity of certain digrams, and then define a homotopy theoretic topological group to be a space in which these diagrams only commute up to homotopy. Let $(X,x_0)$ be a based space, and let $x_0$ also denote the constant map $X \rightarrow X$ that maps everything to $x_0$. A map $\mu : X \times X \rightarrow X$ is said to be a \emph{multiplication with homotopy identity $x_0$} if the following diagram
+\[
+\xymatrix
+@R=3pc
+@C=4pc
+{
+	X \ar[r]^-{\id \times x_0} \ar[rd]_\id & X \times X \ar[d]_\mu & X \ar[l]_-{x_0 \times \id} \ar[ld]^\id \\
+	 & X &
+}
+\]
+commutes up to homotopy: $\mu \circ (\id \times x_0) \simeq \id \simeq \mu \circ (x_0 \times \id)$. Note that $\id \times x_0$ is the map induced by $\id$ and $x_0$ from the universal property of products. We say that $\mu$ is \emph{homotopy associative} if the following diagram commutes up to homotopy
+\[
+\xymatrix
+@R=3pc
+@C=4pc
+{
+	X \times X \times X \ar[r]^-{\id \times \mu} \ar[d]_-{\mu \times \id} & X \times X \ar[d]^\mu \\
+	X \times X \ar[r]_\mu & X
+}
+\]
+A map $\nu : X \rightarrow X$ is said to be a \emph{homotopy inverse} for $\mu$ if the following diagram commutes up to homotopy
+\[
+\xymatrix
+@R=3pc
+@C=4pc
+{
+	X \ar[r]^-{\nu \times \id} \ar[rd]_{x_0} & X \times X \ar[d]_\mu & X \ar[l]_-{\id \times \nu} \ar[dl]^{x_0} \\
+	& X &
+}
+\]
+We say that $(X,x_0)$ is an \textbf{$H$-group} if it has a multiplication $\mu$ with homotopy identity and inverse $\nu$ such that $\mu$ is homotopy associative. Further, we say that $X$ is a \textbf{commutative $H$-group} if the following diagram commutes up to homotopy
+\[
+\xymatrix
+{
+	X \times X \ar[rr]^-\tau \ar[rd]_\mu & & X \times X \ar[dl]^\mu \\
+	 & X
+}
+\]
+where $\tau$ is the flip map $\tau(x,y) = (y,x)$. We think of $H$-groups as groups where the axioms only have to hold up to homotopy. An \textbf{$H$-homomorphism} between $H$-groups $(X,x_0,\mu_X)$ and $(Y,y_0,\mu_Y)$ is a based map $f : X \rightarrow Y$ such that the following diagram commutes up to homotopy
+\[
+\xymatrix
+@R=3pc
+@C=3pc
+{
+	X \times X \ar[r]^-{\mu_X} \ar[d]_{f \times f} & X \ar[d]^f \\
+	Y \times Y \ar[r]_{\mu_Y} & Y
+}
+\]
+
+By reversing all arrows and replacing products with coproducts we get the dual notion of $H$-cogroups, but we will also spell out the details. Let $(X,x_0)$ be a pointed space and let $x_0$ also denote the constant map. A map $\mu' : X \rightarrow X \vee X$ is said to be a \emph{comultiplication with homotopy coidentity $x_0$} if the following diagram commutes up to homotopy
+\[
+\xymatrix
+@R=3pc
+@C=4pc
+{
+	X & X \vee X \ar[l]_-{\id \vee x_0} \ar[r]^-{x_0 \vee \id} & X \\
+	   & X \ar[lu]^\id \ar[ru]_\id \ar[u]^{\mu'}
+}
+\]
+where $\id \vee x_0$ is the map induced by $\id$ and $x_0$ from the universal property of coproducts. We say that $\mu$ is \emph{homotopy coassociative} if the following diagram commutes up to homotopy
+\[
+\xymatrix
+@R=3pc
+@C=4pc
+{
+	X \vee X \vee X & X \vee X \ar[l]_-{\id \vee \mu'} \\
+	X \vee X \ar[u]^{\mu' \vee \id} & X \ar[u]_{\mu'} \ar[l]^-{\mu'}
+}
+\]
+A map $\nu' : X \rightarrow X$ is said to be a \emph{homotopy coinverse} for $\mu'$ if the following diagram commutes up to homotopy
+\[
+\xymatrix
+@R=3pc
+@C=4pc
+{
+	X & X \vee X \ar[l]_{\nu' \vee \id} \ar[r]^{\id \vee \nu'} & X \\
+	  & X \ar[ul]^{x_0} \ar[ur]_{x_0} \ar[u]^{\mu'}
+}
+\]
+We say that $(X,x_0)$ is an \textbf{$H$-cogroup} if it has a comultiplication $\mu'$ with homotopy coidentity and coinverse $\nu'$ such that $\mu'$ is homotopy coassociative. Further, we say that $X$ is a \textbf{cocommutative $H$-cogroup} if the following diagram commutes up to homotopy
+\[
+\xymatrix
+{
+	X \vee X \ar[rr]^-\tau & & X \vee X \\
+	& X \ar[ul]^{\mu'} \ar[ur]_{\mu'}
+}
+\]
+where $\tau$ is the flip map $\tau(x,x_0) = (x_0,x)$ and $\tau(x_0,x) = (x,x_0)$. An \textbf{$H$-cohomomorphism} between $H$-cogroups $(X,x_0,\mu_X')$ and $(Y,y_0,\mu_Y')$ is a based map $f : X \rightarrow Y$ such that the following diagram commutes up to homotopy
+\[
+\xymatrix
+@R=3pc
+@C=3pc
+{
+	X \vee X \ar[d]_{f \vee f} & X \ar[l]_-{\mu_X'} \ar[d]^f \\
+	Y \vee Y & Y \ar[l]^-{\mu_Y'}
+}
+\]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\comment{
+\note{should all the stuff down here just be in the next section?}
+
+Given two paths $\alpha,\beta : I \rightarrow X$ such that $\alpha(1) = \beta(0)$, we can define their juxtaposition to be the path $\beta*\alpha : I \rightarrow X$ defined by
+\[ (\beta * \alpha)(t) = \begin{cases} \alpha(2t) & 0 \leq t \leq 1/2 \\ \beta(2t-1) & 1/2 \leq t \leq 1 \end{cases} \]
+This just means to traverse $\alpha$ at double speed for half the time, and then traverse $\beta$ at double speed for the rest of the time. If $\alpha : I \rightarrow X$ is a path from $a$ to $b$, then we define its \emph{reverse} to be the path $\overline\alpha(t) = \alpha(1-t)$, which goes from $b$ to $a$. Note that the loops $\overline\alpha * \alpha$ and $\alpha * \overline\alpha$ are homotopic to the constant loop relative end points. For a topological space $X$ we define $\Pi(X)$, called the \textbf{fundamental groupoid}, to be the category with objects points in $X$ and morphisms homotopy classes of paths relative end points. There is a lot more that can be said about these operations and constructions, but it will be covered in much greater generality in \cref{H-groups and H-cogroups}. 
+
+% This operation is not associative, but we do have $\gamma * (\beta * \alpha) \simeq (\gamma * \beta) * \alpha (\rel \lcb 0,1 \rcb)$, whenever this is defined. If we let $P_{a,b} X$ denote the space of paths that start at $a$ and end at $b$, then this operation is a map $* : P_{a,b} X \times P_{b,c} X \rightarrow P_{a,c} X$. In fact, this operation descends to the space of homotopy classes of paths relative end points. 
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+\begin{prop}
+\sloppyspace
+\begin{enumerate}
+	\item The based loop space $\Omega_* X$ has a canonical $H$-group structure. Also, $\Omega_* f$ is an $H$-group homomorphism for any based map $f : X \rightarrow Y$.
+	\item The based suspension $\Sigma_* X$ has a canonical $H$-cogroup structure. Also, $\Sigma_* f$ is an $H$-cogroup cohomomorphism for any based map $f : X \rightarrow Y$.
+\end{enumerate}
+\end{prop}
+\begin{proof}
+\sloppyspace
+\begin{enumerate}
+
+	\item Let $\alpha,\beta$ be two paths in $X$ based at $x_0$. We define their product $\mu(\alpha,\beta) = \beta * \alpha$ to be the path
+	\[ (\beta * \alpha)(t) = \begin{cases} \alpha(2t) & 0 \leq t \leq 1/2 \\ \beta(2t-1) & 1/2 \leq t \leq 1 \end{cases} \]
+	This just means to traverse $\alpha$ at double speed for half the time, and then traverse $\beta$ at double speed for the rest of the time. First we show that the constant loop $x_0$ is a homotopy identity for $*$. We can find a homotopy $H$ between $\alpha$ and $\alpha * x_0$ by defining
+	\[ H(s,t) = \begin{cases} x_0 & 0 \leq s \leq \frac{t}{2} \\ \alpha\left( \frac{2s-t}{2-t} \right) & \frac{t}{2} \leq s \leq 1 \end{cases} \]
+	A similar homotopy can be defined to show $\alpha \simeq x_0 * \alpha$, so $x_0$ is a homotopy identity for $*$. We define the homotopy inverse by $\nu(\alpha)(t) = \overline{\alpha}(t) = \alpha(1-t)$. To show this is indeed the inverse, we use the following homotopy between $x_0$ and $\alpha * \overline\alpha$
+	\[ H(s,t) = \begin{cases} \alpha(2st) & 0 \leq s \leq \frac{1}{2} \\ \alpha(2t(1-s)) & \frac{1}{2} \leq s \leq 1 \end{cases} \]
+	We can do something similar to show $x_0 \simeq \overline\alpha * \alpha$. Finally, to show $*$ is homotopy associative we use the following homotopy between $\gamma * (\beta * \alpha)$ and $(\gamma * \beta) * \alpha$
+	\[ H(s,t) = \begin{cases} \end{cases} \]
+	For a based map $f : X \rightarrow Y$ we clearly have $f(\beta*\alpha) = f(\beta) * f(\alpha)$, so $\Omega_* f$ is an $H$-group homomorphism.
+	
+	\item Thinking of $\Sigma_* X$ as $X \times I / X \times \lcb 0,1 \rcb \cup \lcb x_0 \rcb \times I$, we define the coproduct of $[x,t]$ to be
+	\[ \mu'([x,t]) = \begin{cases} ([x,2t],x_0) & 0 \leq t \leq \frac{1}{2} \\ (x_0,[x,2t-1]) & \frac{1}{2} \leq t \leq 1 \end{cases} \]
+	The inverse is defined by $\nu'([x,t]) = [x,1-t]$. The homotopies that show these operations make $\Sigma_* X$ into an $H$-cogroup are essentially the same as the homotopies we used for $\Omega_* X$.
+	
+\end{enumerate}
+\end{proof}
+
+
+\begin{prop}
+Let $(X,x_0)$ be an $H$-cogroup and $(Y,y_0)$ an $H$-group. Then for any based spaces $(Z,z_0)$ and $(W,w_0)$ and based map $f : Z \rightarrow W$ we have
+\begin{enumerate}
+	\item The set $[(Z,z_0),(Y,y_0)]$ has a canonical group structure, and the induced map $f_* : [(W,w_0),(Y,y_0)] \rightarrow [(Z,z_0),(Y,y_0)]$ is a homomorphism of groups.
+	\item The set $[(X,x_0),(Z,z_0)]$ has a canonical group structure, and the induced map $f_* : [(X,x_0),(Z,z_0)] \rightarrow [(X,x_0),(W,w_0)]$ is a homomorphism of groups.
+	\item The group structures induced on $[(X,x_0),(Y,y_0)]$ by the above are \emph{equal} (not just isomorphic), and this group is abelian.
+\end{enumerate}
+\end{prop}
+\begin{proof}
+\sloppyspace
+\begin{enumerate}
+
+	\item Let $\mu$ and $\nu$ denote the $H$-group operations on $Y$. Given two maps $f,g : (Z,z_0) \rightarrow (Y,y_0)$, we define their product $g * f$ as the composition
+	\[ Z \stackrel{\Delta}{\longrightarrow} Z \times Z \stackrel{f \times g}{\longrightarrow} Y \times Y \stackrel{\mu}{\longrightarrow} Y \]
+	where $\Delta$ is the diagonal map $\Delta(z) = (z,z)$. Note that we have switched the order of $f$ and $g$ in this composition since intuitively we want to think of $g * f$ as first apply $f$, then apply $g$. The inverse of $f$ is defined as $f^{-1} = \nu \circ f$, and the identity is the constant map $[c_{x_0}]$ at $x_0$. This operation descends to the homotopy classes of maps $[Z,Y]_*$, for if $F$ is a based homotopy between $f$ and $f'$ and $G$ is a based homotopy between $g$ and $g'$, then
+	\[ K(z,t) = \mu(F(z,t),G(z,t)) \]
+	is a homotopy between $g * f$ and $g' * f'$, and
+	\[ I(z,t) = \nu(F(z,t)) \]
+	is a homotopy between $\nu \circ f$ and $\nu \circ f'$. Show that these operations satisfy the group axioms is obvious.
+	
+	\item Let $\mu'$ and $\nu'$ denote the $H$-cogroup operations on $X$. Given two maps $f,g : (X,x_0) \rightarrow (Z,z_0)$, we define their product $g \cdot f$ as the composition
+	\[ X \stackrel{\mu'}{\longrightarrow} X \vee X \stackrel{f \vee g}{\longrightarrow} Z \vee Z \stackrel{\Delta'}{\longrightarrow} Z \]
+	where $\Delta'$ is the folding map $\Delta'(z,z_0)=z=\Delta'(z_0,z)$. Note that we have switched the order of $f$ and $g$ in this composition since intuitively we want to think of $g \cdot f$ as first apply $f$, then apply $g$. The inverse of $f$ is defined as $f^{-1} = f \circ \nu'$, and the identity is the constant map $c_{x_0}$ at $x_0$. Showing that this operation descends to $[X,Z]_*$ is essentially the same as before, and the group axioms obviously hold.
+	
+	\item We can see from the above that the homotopy class of the constant map $[x_0]$ is a mutual identity for $*$ and $\cdot$. A very lengthly calculation shows that the operations distribute over each other, i.e. $([f] \cdot [g]) * ([h] \cdot [k]) = ([f] * [h]) \cdot ([g] \cdot [k])$. So the result follows from the following general lemma.
+	
+\end{enumerate}
+\end{proof}
+
+\begin{lem}[Eckmann-Hilton Principle]
+\label{Eckmann-Hilton Principle}
+\label{set with two binary operations}
+If a set $X$ has two binary operations $\cdot$ and $*$ defined such that the following holds.
+\begin{enumerate}
+	\item There exists a mutual identity $e$, i.e. $x \cdot e = e \cdot x = x = x * e = e * x$.
+	\item The operations distribute over each other, i.e. $(x \cdot y) * (w \cdot z) = (x * w) \cdot (y * z)$.
+\end{enumerate}
+Then the binary operations are equal, associative and commutative.
+\end{lem}
+\begin{proof}
+The operations are equal since
+\[ x \cdot y = (x * e) \cdot (y * e) = (x * y) \cdot (e * e) = x * y \]
+Associativity follows from
+\[ x * (y * z) = (x \cdot e) * (y \cdot z) = (x * y) \cdot (e * z) = (x \cdot y) \cdot z \]
+Commutativity follows from
+\[ x \cdot y = (x * e) \cdot (y * e) = (e * x) \cdot (y * e) = (e \cdot y) * (x * e) = y * x = y \cdot x \]
+\end{proof}
+
+Thus we have that $[-,(Y,y_0)] : \hTopp \rightarrow \Grp$ is a cofunctor if $Y$ is an $H$-group, and $[(X,x_0),-] : \hTopp \rightarrow \Grp$ is a functor if $X$ is an $H$-cogroup. 
+
+
+
+
+
+
+\newpage
+\section{Fibrations}
+
+\subsection{The Universal Test Diagram}
+
+In geometry one naturally comes across fiber bundles when a collection of spaces is parameterized by another space. We want such a thing in homotopy theory too, but requiring local triviality is far too restrictive for the homotopy category. However, fiber bundles have another property  that is homotopy theoretic, called the homotopy lifting property. A continuous map $p : E \rightarrow B$ is said to have the \textbf{homotopy lifting property} with respect to a space $X$ if for every continuous map $H : X \times I \rightarrow B$ and $f : X \rightarrow E$ there is a map $\tilde{H} : X \times I \rightarrow E$ such that the following diagram commutes
+\begin{equation}
+\label{fibration test diagram}
+\xymatrix
+@R=2.5pc
+@C=2.5pc
+{
+	X \ar[d]_{i_0} \ar[r]^f & E \ar[d]^{p} \\
+	X \times I \ar[r]_H \ar@{-->}[ru]^{\tilde H} & B
+}
+\end{equation}
+where $i_0$ is the inclusion of $X$ into $X \times \lcb 0 \rcb$. We call this a \emph{test diagram} for the homotopy lifting problem. Commutativity of the lower triangle means that $\tilde H_t$ is a left of $H_t$ for all time $t$, and commutativity of the upper triangle means that the initial lift $\tilde H_0$ is precisely the given map $f$. We say that $p : E \rightarrow B$ is a \textbf{fibration} if it has the homotopy lifting property with respect to all spaces $X$, and we say it is a \textbf{Serre fibration} if it has the homotopy lifting property with respect to all discs $D^n$. Clearly such a map must be surjective. The fiber over a point $b \in B$ in the base is denoted by $E_p = p^{-1}(b)$.
+
+\begin{example}
+\label{loop space and path space fibrations}
+The prototypical example of a fibration is the \emph{path space fibration}. Let $e_0 : B^I \rightarrow B$ be evaluation at 0, $e_0(\alpha)=\alpha(0)$. Consider the homotopy lifting problem
+\begin{equation}
+\label{path space fibration test diagram}
+\xymatrix
+@R=2.5pc
+@C=2.5pc
+{
+	X \ar[d]_{i_0} \ar[r]^f & B^I \ar[d]^{e_0} \\
+	X \times I \ar[r]_-H \ar@{-->}[ur]^{\tilde H} & B
+}
+\end{equation}
+We need to construct $\tilde H$ such that $\tilde H(x,0)(s) = f(x)(s)$ and $\tilde H(x,t)(0) = H(x,t)$. The following function accomplishes this
+\begin{equation}
+\label{homotopy interpolation trick}
+\tilde H(x,t)(s) = \begin{cases} H(x,1-(1+t)s) & 0 \leq s \leq \frac{1}{1+t} \\ f(x)((1+t)s) & \frac{1}{1+t} \leq s \leq 1 \end{cases}
+\end{equation}
+This function is continuous since on the overlaps $s=\frac{1}{1+t}$ we have that the first piece is $H(x,0)$ and the second piece is $f(x)(0)$, which are equal by commutativity of \eqref{path space fibration test diagram}. Therefore $e_0 : B^I \rightarrow I$ is a fibration. The fiber $p^{-1}(b)$ of any point in the base is the space of paths in $B$ that start at $b$, i.e. $(B,b)^{(I,0)}$. 
+
+The same argument shows that $e_0 : (B,b_0)^{(I,1)} \rightarrow (B,b_0)$ is a fibration, called the \emph{based path space fibration}. The fiber over some point $b \in B$ is the space of paths starting at $b$ and ending at $b_0$. In particular, the fiber over $b_0$ is just the based loop space $\Omega_* (B,b_0)$.
+\end{example}
+
+\begin{prop}
+A fiber bundle over a paracompact space is a fibration.
+\end{prop}
+
+\begin{prop}
+The pullback of a fibration is a fibration.
+\end{prop}
+\begin{proof}
+Let $p : E \rightarrow B$ be a fibration and let $g : Y \rightarrow B$ be continuous. Consider the following test diagram for a homotopy lifting problem juxtaposed with the pullback square
+\[
+\xymatrix
+@R=3pc
+@C=3pc
+{
+	X \ar[d]_{i_0} \ar[r]^-f & E \times_B Y \ar[d]_{p'} \ar[r]^-{g'} & E \ar[d]^p \\
+	X \times I \ar[r]_-H & Y \ar[r]_g & B
+}
+\]
+Then the homotopy lifting problem $g \circ H$ and $g' \circ f$ can be solved since $E \rightarrow B$ is a fibration, so we get a map $G : X \times I \rightarrow E$ such that $G \circ i_0 = g' \circ f$ and $p \circ G = g \circ H$. But, the maps $G$ and $H$ induce a map $\tilde H : X \times I \rightarrow E \times_B Y$ uniquely determined by the property that $p' \circ \tilde H = H$ and $g' \circ \tilde H = G$ (by the universal property of pullbacks). See the diagram
+\[
+\xymatrix
+@R=1pc
+@C=1pc
+{
+	&  &  &  & & \\
+	& X \ar[dd]_{i_0} \ar[rr]^-f & & E \times_B Y \ar[dd]_{p'} \ar[rr]^-{g'} & & E \ar[dd]^p \\
+	& \\
+	& X \times I \ar[rr]_-H \ar@{-->}[uurr]^{\tilde H} \ar@{-->}`l/2pt[l]`u[luuu]`r[rrrruuu]^{G}[rrrruu] & & Y \ar[rr]_g & & B
+}
+\]
+By the universal property of pullbacks we have that $f$ is the unique map that satisfies $p' \circ f = H \circ i_0$. However, $\tilde H \circ i_0$ satisfies this equation since $p' \circ \tilde H \circ i_0 = H \circ i_0$, hence $\tilde H \circ i_0 = f$, and we have shown that $p' : E \times_B Y \rightarrow Y$ is a fibration.
+\end{proof}
+
+There is a universal test diagram such that if it has a solution, then all test diagrams will have a solution. First note that by using the adjoint of $- \times I$, which is $-^I$, we can rewrite the test diagram \eqref{fibration test diagram} as
+\begin{equation}
+\label{alternative fibration test diagram}
+\xymatrix
+{
+	E \ar[dd]_p &   & E^I \ar[dd]^{p^I} \ar[ll]_{e_0} \\
+	  & X \ar[ul]^f \ar[rd]_H \ar@{-->}[ru]^{\tilde H} & \\
+	B &   & B^I \ar[ll]^{e_0}
+}
+\end{equation}
+where $e_0$ denotes the evaluation at $t=0$ map. 
+
+\begin{prop}
+Let $p : E \rightarrow B$ be a map and let $e_0' : E \times_B B^I \rightarrow E$ and $p' : E \times_B B^I \rightarrow B^I$ denote the induced maps by the pullback of $E \stackrel{p}{\rightarrow} B \stackrel{e_0}{\leftarrow} B^I$. If \eqref{alternative fibration test diagram} can be solved for $X = E \times_B B^I$, $f = e_0'$ and $H = p'$, then any test diagram can be solved.
+\end{prop}
+\begin{proof}
+Let $\tilde H$ be a solution of \eqref{alternative fibration test diagram} for $X = E \times_B B^I$, $f=e_0'$ and $H=p'$. Then take any other space $X$ and consider its test diagram. By the universal property of pullbacks there is a unique map $\varepsilon : X \rightarrow E \times_B B^I$ making the following commute
+\[
+\xymatrix
+{
+	E \ar[ddd]_p & & & E^I \ar[ddd]^{p^I} \ar[lll]_{e_0} \\
+	  & & E \times_B B^I \ar[ull]^{e_0'} \ar[rdd]_{p'} \ar@{-->}[ru]^{\tilde H} & \\
+	  & X \ar@{-->}[ur]^\varepsilon \ar[uul]^f \ar[drr]_H & & \\
+	B & & & B^I \ar[lll]^{e_0}
+}
+\]
+Clearly $\tilde H \circ \varepsilon$ is now a solution of the diagram for $X$. 
+\end{proof}
+
+
+Therefore if \ref{alternative fibration test diagram} can be solved for $E \times_B B^I$, then it can be solved for any space, and so $p : E \rightarrow B$ would be a fibration. If $f : X \rightarrow Y$ is any map (not necessarily a fibration), then the pullback $X \times_Y Y^I$ is called the \textbf{mapping path space} of $f$, and concretely is defined as
+\begin{equation}
+\label{mapping path space}
+P_f = \lcb (x,\alpha) \in X \times Y^I \st f(x) = \alpha(0) \rcb
+\end{equation}
+
+For a map $p : E \rightarrow B$ (not necessarily a fibration), let $s : E^I \rightarrow P_p$ be the function $s(\alpha) = (\alpha(0), p \circ \alpha)$. A function $\lambda : P_p \rightarrow E^I$ such that $s \circ \lambda = \id$ is called a \textbf{path lifting function}. Given the initial data $(e,\alpha) \in E \times B^I$ such that $\alpha(0)=p(e)$, it gives us a lift to a path $\tilde\alpha = \lambda(e,\alpha)$ such that $\tilde\alpha(0)=e$ and $p \circ \tilde\alpha = \alpha$. 
+\begin{cor}
+A map $p : E \rightarrow B$ is a fibration if and only if it has a path lifting function.
+\end{cor}
+\begin{proof}
+Path lifting functions provide solutions to the universal test diagram and conversely.
+\end{proof}
+
+
+\begin{example}
+Let $p : D^2 \rightarrow D^1$ be the map $p(x,y) = x$, i.e. the projection of the unit disc onto the unit interval. This is clearly not a fiber bundle since $p^{-1}(1)$ is a point and $p^{-1}(0)$ is an interval. However, it is a fibration as it is easy to construct a path lifting function. 
+\end{example}
+
+\subsection{The Homotopy Fiber}
+
+Local triviality in fiber bundles gives us that the fiber above all points in the base space are homeomorphic (assuming the base is path connected). We will not have this with our weakened notion of fibration, but we get something good enough for homotopy theory. Let $\alpha : I \rightarrow B$ be a path, and consider the diagram
+\begin{equation}
+\label{translation of fibers diagram}
+\xymatrix
+@R=3pc
+@C=3pc
+{
+	E_{\alpha(0)} \ar@{^{(}->}[rr]^-i \ar[d]_{i_0} &  & E \ar[d]^p \\
+	E_{\alpha(0)} \times I \ar[r]_-{\pi_I} \ar@{-->}[urr]^{\tilde H} & I \ar[r]_\alpha & B
+}
+\end{equation}
+so that the composition of the bottom row is just the constant homotopy $(e,t) \mapsto \gamma(t)$. We can solve this homotopy lifting problem since $p$ is a fibration, so let $\tilde H$ be this lifted homotopy. Then, since $p \circ \tilde H_1 = \alpha(1)$ we have that $\tilde H_1$ maps $E_{\alpha(0)}$ to $E_{\alpha(1)}$. Let $\alpha_*$ denote this map; it is called the \emph{translation of fibers} along $\alpha$.
+\begin{prop}
+\label{fibration fibers are homotopy equivalent}
+The map $\alpha_* : E_{\alpha(0)} \rightarrow E_{\alpha(1)}$ depends only on the homotopy class of $\alpha$ relative end points, and is a homotopy equivalence. Further, if $\gamma$ is a curve with $\alpha(1) = \gamma(0)$, then $(\gamma * \alpha)_* \simeq \gamma_* \circ \alpha_*$.
+\end{prop}
+\begin{proof}
+Let $\alpha,\beta : I \rightarrow B$ be curves from $a$ to $b$ that are homotopic relative end points. Let $F : I \times I \rightarrow B$ be such a homotopy, i.e. $F_0 = \alpha$ and $F_1 = \beta$. These curves determine homotopies $\tilde H^\alpha, \tilde H^\beta : E_a \times I \rightarrow E$ that lift 
+$\alpha \circ \pi_I$ and $\beta \circ \pi_I$ respectively. We want to show that $\tilde H_1^\alpha$ is homotopic to $\tilde H_1^\beta$, and that both of these maps are homotopy equivalences. If we let $J$ be the space
+\[ J = \lcb 0,1 \rcb \times I \cup I \times \lcb 0 \rcb \subset I^2 \]
+then there is a homeomorphism of pairs $\varphi : (I^2,I \times \lcb 0 \rcb) \rightarrow (I^2,J)$. Note that this homeomorphism of pairs implies $\iota \circ \varphi = i_0$, where $\iota$ is the inclusion $E_a \times J \hookrightarrow E_a \times I \times I$ and $i_0$ is the inclusion $E_a \times I \times \lcb 0 \rcb \hookrightarrow E_a \times I \times I$. 
+
+Let $f : E_a \times J \rightarrow E$ be the map that is $\tilde H^\alpha$ on $E_a \times \lcb 0 \rcb \times I$, $\tilde H^\beta$ on $E_a \times \lcb 1 \rcb \times I$, and $i \circ \pi_I$ on $E_a \times I \times \lcb 0 \rcb$. Then the following homotopy lifting problem
+\[
+\xymatrix
+@C=2.5pc
+@R=3pc
+{
+	E_a \times I \times \lcb 0 \rcb \ar[d]_{i_0} \ar[r]^-\varphi & E_a \times J \ar[r]^-f \ar[dl]_{\iota} & E \ar[d]^p \\
+	E_a \times I \times I \ar[r]_-{\pi_{I \times I}} \ar@{-->}[rru]^{\tilde F} & I \times I \ar[r]_-F & B
+}
+\]
+can be solved to give a map $\tilde F : E_a \times I \times I \rightarrow E$ such that the whole diagram commutes. But then we see that $\tilde F = f$ when restricted to $E_a \times J$, so we have $\tilde F(e,0,1) = f(e,0,1) = \tilde H_1^\alpha$ and $\tilde F(e,1,1) = f(e,1,1) = \tilde H_1^\beta$, hence $\tilde F(-,-,1) : E_a \times I \rightarrow E_b$ is a homotopy between $\tilde H_1^\alpha$ and $\tilde H_1^\beta$.
+
+If $c_a$ denotes the constant path at $a$, then $c_{a*} : E_a \rightarrow E_a$ is just the identity since the constant homotopy $(e,t) \mapsto e$ is a lift in \eqref{translation of fibers diagram}. If $\gamma$ is a curve with $\alpha(1)=\gamma(0)$ and $\tilde H^\alpha$ and $\tilde H^\gamma$ are lifts like in \eqref{translation of fibers diagram}, then $\tilde H^\gamma * \tilde H^\alpha$ is a lift of $\gamma * \alpha$, where this juxtaposition happens in the second variable. Therefore $(\gamma * \alpha)_* \simeq \gamma_* \circ \alpha_*$. Finally, we have $\id_{E_a} \simeq (c_a)_* \simeq (\alpha * \overline\alpha)_* = \alpha_* \circ \overline\alpha_*$, and similarly the other way around, so $\alpha_*$ and $\overline\alpha_*$ are homotopy inverses of each other.
+\end{proof}
+
+\begin{cor}
+\label{fiber of a fibration}
+All fibers of a fibration over a path connected space are homotopy equivalent.
+\end{cor}
+
+\begin{cor}
+The association $\alpha \mapsto \alpha_*$ defines a functor $\Pi(B) \rightarrow \hTop$. In particular, it defines a group homomorphism $\pi_1(B) \rightarrow \Aut_{\hTop}(E_a)$.
+\end{cor}
+
+In view of \cref{fiber of a fibration}, we call the pre-image of any point in the base the \textbf{fiber} of the fibration, although this definition only makes sense \emph{up to homotopy}. A morphism of fibrations $p : E \rightarrow B$ and $p' : E' \rightarrow B'$ is a pair of maps $f : E \rightarrow E'$ and $f' : B \rightarrow B'$ such that $f' \circ p = p' \circ f$. Thus we can define the category of fibrations, denoted by $\Fib{}$, and it is easy to see that the categorical product in $\Fib{}$ is just $E \times E' \stackrel{p \times p'}{\longrightarrow} B \times B'$. We will usually be concerned with the morphisms of fibrations that are of the form $B=B'$ and $f'=\id$. We denote the full subcategory of fibrations over $B$ by $\Fib{B}$. By thinking of the identity map on $I$ as a fibration, we can define the notation of a homotopy between morphisms in $\Fib{}$, which we will call a \textbf{fiber homotopy}, as well as fiber homotopy equivalences. The following is a useful result, but the proof is long, so we omit it.
+
+\begin{prop}
+\label{homotopy equivalence of fibrations is a fiber homotopy equivalence}
+If $p : E \rightarrow B$ and $p' : E' \rightarrow B$ are fibrations, and $f : E \rightarrow E'$ a homotopy equivalence such that $p = p' \circ f$, then $f$ is a fiber homotopy equivalence.
+\end{prop}
+This theorem is somewhat surprising. Since $f$ is a homotopy equivalence, we can find a homotopy inverse $g : E' \rightarrow E$, but there is no guarantee that $g$ preserves the fibers. This proposition ensures that we can homotope $g$ to make it preserve the fibers.
+
+There is a canonical way of converting any map $f : X \rightarrow Y$ into a fibration, at least up to homotopy. Consider the maps $h : X \rightarrow P_f$, $h(x) = (x,c_{f(x)})$, and $p : P_f \rightarrow Y$, $p(x,\alpha)$, $p(x,\alpha)=\alpha(1)$, where $c_{f(x)}$ denotes the constant path at $f(x)$. Then the composition $X \stackrel{h}{\rightarrow} P_f \stackrel{p}{\rightarrow} Y$ is equal to $f$. 
+\begin{prop}
+\label{canonical fibration}
+$h$ is a homotopy equivalence and $p$ is a fibration. If $f$ is already a fibration, then $h$ is a fiber homotopy equivalence between the fibrations $f$ and $p$.
+\[
+\xymatrix
+{
+	X \ar[rr]^h \ar[rd]_f & & P_f \ar[ld]^p \\
+	& Y &
+}
+\]
+\end{prop}
+\begin{proof}
+Let $k : P_f \rightarrow X$ be defined by $k(x,\alpha) = x$. Then $k \circ h = \id$, and $h \circ k \simeq \id$ via the homotopy $H : P_f \times I \rightarrow X$
+\[ H((x,\alpha),t) = (x,\alpha^t) \]
+where $\alpha^t$ is the path defined by $\alpha^t(s)=\alpha(st)$. We can easily see that $H_0 = h \circ k$ and $H_1 = \id$, so $h$ is a homotopy equivalence.
+
+To see that $p$ is a fibration, consider the following test diagram
+\[
+\xymatrix
+@R=2.5pc
+@C=2.5pc
+{
+	X \ar[r]^g \ar[d]_{i_0} & P_f \ar[d]^p \\
+	X \times I \ar[r]_-H \ar@{-->}[ru]^-{\tilde H} & Y
+}
+\]
+We can write $g(x) = (g_1(x),g_2(x))$, where $g_1 : X \rightarrow X$ and $g_2 : X \rightarrow Y^I$, and such that $f(g_1(x)) = g_2(x)(0)$. Similarly, the lift $\tilde H : X \times I \rightarrow P_f$ that we need to construct will have two components $\tilde H(x,t) = (\tilde H_1(x,t),\tilde H_2(x,t))$, where $\tilde H_1 : X \times I \rightarrow X$ and $\tilde H_2 : X \times I \rightarrow Y^I$. Commutativity of the upper triangle means we need $\tilde H_1(-,0)=g_1, \tilde H_2(-,0)=g_2$, and commutativity of the lower triangle means we need $\tilde H_2(x,t)(1)=H(x,t)$. 
+
+So, we can just take $\tilde H_1$ to be the constant homotopy $\tilde H_1(x,t) = g_1(x)$. To define $\tilde H_2$ we use the standard trick for interpolating between two functions that we used in \eqref{homotopy interpolation trick}. In particular, we define
+\[ \tilde H_2(x,t)(s) = \begin{cases} g_2(x)((1+t)s) & 0 \leq s \leq \frac{1}{1+t} \\ H(a,(1+t)s-1) & \frac{1}{1+t} \leq s \leq 1 \end{cases} \]
+It is easy to see that this satisfies the conditions we need, and it is continuous on the overlap $s = \frac{1}{1+t}$ since $g_2(x)(1) = H(a,0)$ by commutativity of the square in the test diagram.
+\end{proof}
+
+So, every map can be factored into a homotopy equivalence followed by a fibration, and we call it the \textbf{canonical fibration} of $f$. We define the \textbf{homotopy fiber} of any map $f : X \rightarrow Y$ to be the fiber of its canonical fibration, and we denote it by $F_f$. Note that the homotopy fiber is precisely the pullback of the based path space fibration $e_0 : (Y,y_0)^{(I,1)} \rightarrow (Y,y_0)$ along the map $f$, which is just
+\begin{equation}
+\label{homotopy fiber of a map}
+F_f = \lcb (x,\alpha) \in X \times Y^I \st \alpha(0) = f(x) \text{ and } \alpha(1)=y_0 \rcb
+\end{equation}
+If $f$ is already a fibration, then the homotopy fiber is homotopy equivalent to the fiber of the fibration, and clearly fibrations that are fiber homotopy equivalent have homotopy equivalent fibers. \Cref{canonical fibration} gives another meaning to the universality of the mapping path space $P_f$ as it is used to canonically convert any map into a fibration.
+
+
+\begin{prop}
+\label{homotopy fiber of fiber inclusion}
+Let $(E,e_0) \stackrel{p}{\rightarrow} (B,b_0)$ be a fibration with fiber $F=p^{-1}(b_0)$ based at $e_0$. Then the homotopy fiber of $F \hookrightarrow E$ is homotopy equivalent to $\Omega_* B$.
+\end{prop}
+\begin{proof}
+Verifying this directly is difficult because a concrete description of the homotopy fiber of $F \hookrightarrow E$ in terms of $E$ and $B$ is quite messy. Instead, we find a simpler fibration that is fiber homotopy equivalent to the canonical fibration of $F \hookrightarrow E$, and its fiber will be easier to compute. Since $p$ is a fibration, we can find a path lifting function $\lambda : P_p \rightarrow E^I$ such that $s \circ \lambda = \id$, where $s(\alpha)=(\alpha(0),p \circ \alpha)$.
+
+Convert the inclusion $i : F \hookrightarrow E$ into a fibration $q : P_i \rightarrow E$, where $P_i \simeq F$, and let $F_p$ be the homotopy fiber of $p : E \rightarrow B$, with map $\pi : F_p \rightarrow E$ defined by $\pi(e,\beta)=e$. We already know that $\pi$ is a fibration (being a pullback of the based path space fibration), and we claim that $\pi$ is fiber homotopy equivalent to $q$. We define maps $g : P_i \rightarrow F_p$ and $h : F_p \rightarrow P_i$ by
+\[ g(e,\alpha) = (e,c_{b_0}) \]
+\[ h(e,\beta) = \left( \lambda(e,\beta)(1), c_{\lambda(e,\beta)(1)} \right) \]
+First we check that these maps do in fact map into their respective targets. If $(e,\alpha) \in P_i$, then $e \in F$ and $\alpha(0)=e$, hence $c_{b_0}(0)=b_0=p(e)$ and $c_{b_0}(1)=b_0$, so $g(e,\alpha) \in F_p$. On the other hand, if $(e,\beta) \in F_p$, then $\beta(0)=e$ and $\beta(1)=b_0$, so $\lambda(e,\beta)(1) \in F$ (since $\lambda$ liftings $\beta$ and $\beta$ ends at $b_0$), and clearly $c_{\lambda(e,\beta)(1)}(0) = \lambda(e,\beta)(1)$, therefore $h(e,\beta) \in P_i$. These maps are actually homotopy inverses of each other. 
+
+If we form the compositions
+\[ g \circ h(e,\beta) = \left( \lambda(e,\beta)(1), c_{b_0} \right) \]
+\[ h \circ g(e,\alpha) = \left( \lambda(e,c_{b_0})(1), c_{\lambda(e,c_{b_0})(1)} \right) \]
+then we see that each of these components can easily be homotoped to the identity maps. For example, a homotopy $g \circ h \simeq \id$ is given by
+\[ H((e,\beta),t) = (\lambda(e,\beta)(t),\beta^t) \]
+where for any path $\gamma$ we define $\gamma^t$ to be the path $\gamma^t(s)=\gamma(t+(1-t)s)$ so that $\gamma^0=\gamma$ and $\gamma^1=c_{\gamma(1)}$. Therefore $P_i$ is homotopy equivalent to $F_p$. Further, $g$ is a fibration map since $\pi \circ g = q$, so $g$ is actually a fiber homotopy equivalence by \cref{homotopy equivalence of fibrations is a fiber homotopy equivalence}, and so the fibers of $\pi$ and $q$ are homotopy equivalent. But, we can clearly see that
+\[ \pi^{-1}(e_0) = \lcb (e,\beta) \in E \times B^I \st \beta(0) = p(e) \text{ and } \beta(1) = b_0 \text{ and } e = e_0 \rcb \]
+and so there is an obvious identification of $\pi^{-1}(e_0)$ with $\Omega_* B$.
+\end{proof}
+
+Starting with a fibration $p : E \rightarrow B$, we can form the sequence $\Omega_* B \hookrightarrow F_p \stackrel{\pi}{\rightarrow} E \stackrel{p}{\rightarrow} B$. If we continued this and converted $\Omega_* B \hookrightarrow F_p$ into a fibration, and so on, we would get a sequence of maps
+\[ \cdots \longrightarrow F_\theta \longrightarrow F_\eta \stackrel{\theta}{\longrightarrow} F_\pi \stackrel{\eta}{\longrightarrow} F_p \stackrel{\pi}{\longrightarrow} E \stackrel{p}{\longrightarrow} B \]
+By \cref{homotopy fiber of fiber inclusion} we have $F_\pi \simeq \Omega_* B, F_\eta = \Omega_* E$, and so on. This means that, up to homotopy, we get a sequence of maps
+\begin{equation}
+\label{fiber sequence}
+\cdots \longrightarrow \Omega_*^n F \longrightarrow \Omega_*^n E \longrightarrow \Omega_*^n B \longrightarrow \Omega_*^{n-1} F \longrightarrow \cdots \longrightarrow \Omega_* B \longrightarrow F \longrightarrow E \longrightarrow B
+\end{equation}
+such that any two consecutive maps is a fibration preceded by the inclusion of its fiber.
+
+
+
+
+
+\subsection{Fiber Sequences}
+
+
+A composition $(X,x_0) \stackrel{f}{\rightarrow} (Y,y_0) \stackrel{g}{\rightarrow} (Z,z_0)$ is said to be an \textbf{exact sequence} of pointed sets if $\image f = g^{-1}(z_0)$. 
+
+\begin{prop}
+Let $p : E \rightarrow B$ be a fibration with fiber $F = p^{-1}(b_0)$, and let $i : F \rightarrow E$ be the inclusion of any fiber into $E$. Base the space of homotopy classes of maps $[Y,B]$ at constant at $b_0$. For any space $Y$, the induced sequence of sets
+\[ [Y,F] \stackrel{i_*}{\longrightarrow} [Y,E] \stackrel{p_*}{\longrightarrow} [Y,B] \]
+is exact.
+\end{prop}
+\begin{proof}
+For $[g] \in [Y,F]$ we have $p_* \circ i_*([g]) = [p \circ i \circ g] = [c_{b_0}]$, hence $\image i_* \subseteq g_*^{-1}([c_{b_0}])$. For the other inclusion, let $[g] \in [Y,E]$ such that $p_*[g] = [c_{b_0}]$. Let $G : Y \times I \rightarrow B$ be a homotopy between $p \circ g$ and $c_{b_0}$, and let $\tilde G : X \times I \rightarrow E$ be a solution of the following homotopy lifting problem
+\[
+\xymatrix
+@R=2.5pc
+@C=2.5pc
+{
+	Y \ar[r]^g \ar[d]_{i_0} & E \ar[d]^p \\
+	Y \times I \ar[r]_-G \ar@{-->}[ru]^{\tilde G} & B
+}
+\]
+Then $p \circ \tilde G(-,1) = G(-,1) = b_0$ and $H(-,1) : Y \rightarrow F$, so $[g] = i_*[H(-,1)]$. 
+\end{proof}
+\begin{prop}
+\label{based fiber exact sequence}
+Let $p : E \rightarrow B$ be a fibration with fiber $F = p^{-1}(b_0)$, and base $E$ and $F$ at the same point $e_0 \in F$. Let $i : F \rightarrow E$ be the inclusion of any fiber into $E$. For any space $(Y,y_0)$, the induced sequence of sets
+\[ [Y,F]_* \stackrel{i_*}{\longrightarrow} [Y,E]_* \stackrel{p_*}{\longrightarrow} [Y,B]_* \]
+is exact.
+\end{prop}
+
+Using \eqref{fiber sequence} and \cref{based fiber exact sequence} we now have
+\begin{prop}[Puppe]
+Let $(Y,y_0)$ be a based space and $(E,e_0) \rightarrow (B,b_0)$ a fibration with fiber $F = \pi^{-1}(b_0)$ based at $e_0$. Then there is a long exact sequence of sets (for $i \geq 0$), of groups (for $i \geq 1$) and of abelian groups (for $i \geq 2$)
+\[ \cdots \rightarrow [Y,\Omega_*^n F]_* \rightarrow [Y,\Omega_*^n E]_* \rightarrow [Y,\Omega_*^n B]_* \rightarrow \cdots \rightarrow [Y,\Omega_* B]_* \rightarrow [Y,F]_* \rightarrow [Y,E]_* \rightarrow [Y,B]_* \]
+\end{prop}
+
+
+
+
+
+
+
+
+\newpage
+\section{Cofibrations}
+
+\subsection{The Universal Test Diagram}
+
+In homology one comes across certain ``nice'' pairs of spaces $(X,A)$ such that the homology of $(X,A)$ is essentially equal to the homology of the quotient $X/A$. These nice pairs of spaces also have the property that a homotopy defined on $A$ with a specified extension to $X$ at time $t=0$ can be extended to $X$ for all time. More generally, a map $i : A \rightarrow X$ is said to have the \textbf{homotopy extension property} with respect to a space $Y$, if for every $H : A \times I \rightarrow A$ and $f : X \rightarrow X$ there exists a map $\tilde H : X \times I \rightarrow X$ such that the following diagrams commutes
+\[
+\xymatrix
+@R=2.5pc
+@C=2.5pc
+{
+	A \ar[rr]^{i_0} \ar[dd]_i & & A \times I \ar[dl]_H \ar[dd]^{i \times \id} \\
+	& Y & \\
+	X \ar[rr]_{i_0} \ar[ru]^f & & X \times I \ar@{-->}[ul]_{\tilde H}
+}
+\] 
+We call this a \emph{test diagram} for the homotopy extension problem. We say that $i : A \rightarrow X$ is a \textbf{cofibration} if it has the homotopy extension property with respect to all spaces $Y$. We call the quotient $X / i(A)$ the \textbf{cofiber} of the cofibration.
+
+\begin{prop}
+If $X$ is a CW-complex and $A$ a subcomplex, then the inclusion $i : A \hookrightarrow X$ is a cofibration.
+\end{prop}
+
+Recall that a subspace $A \subseteq X$ is said to be a retract of $X$ if there is a map $r : X \rightarrow A$ such that $r|_A = \id_A$. 
+
+
+
+
+\subsection{The Homotopy Cofiber}
+
+
+\subsection{Cofiber Sequences}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\section{Homotopy Groups}
+
+
+
+
+\newpage
+\section{Obstruction Theory}
+
+
+
+\newpage
+\section{Classifying Spaces}
+
+
+\subsection{The Brown Representability Theorem}
+
+
+Let $\mathscr C$ be a locally small category. A cofunctor $F : \mathscr C \rightarrow \Set$ is said to be \textbf{representable} if there is a natural isomorphism of functors
+\[ \eta : F \rightarrow \hom_{\mathscr C}(-,X) \]
+for some object $X$. The object $X$ is called a \textbf{classifying object} for $F$, or if $\mathscr C$ is a category of topological spaces we will call $X$ a \textbf{classifying space}. For example, we will see later that the cohomology functor $H^n(-;G)$ is representable with classifying space $K(G,n)$ so that $H^n(X;G)$ is naturally isomorphic to $[X,K(G,n)]_*$. This turns a problem in understand a functor into understand morphisms between objects.
+
+We are only going to be concerned with representability of functors in the homotopy category of CW-complexes. Consider a cofunctor $F : \hCWp \rightarrow \Setp$. For a collection of based spaces $\lcb X_\alpha \rcb$, let $i_\beta : X_\beta \rightarrow \bigvee_\alpha X_\alpha$ be the natural inclusions induced by the coproduct. The maps $F(i_\beta) : F(\bigvee_\alpha X_\alpha) \rightarrow F(X_\beta)$ then induce a map $f : F(\bigvee_\alpha X_\alpha) \rightarrow \prod_\beta F(X_\beta)$ by the universal property of products. We say that $F$ satisfies the \textbf{wedge axiom} if $f$ is a bijection for all collections $\lcb X_\alpha \rcb$. We say that $F$ satisfies the \textbf{weak wedge axiom} if $f$ is a bijection for all finite collections $\lcb X_i \rcb_{i=1}^n$. 
+
+For $(X;A,B)$ a CW-triad, i.e. $A$ and $B$ are subcomplexes of $X$ with $X = A \cup B$, consider the following inclusions
+\[
+\xymatrix
+@R=.7pc
+{
+	 & A \ar[rd]^{i_A} \\
+	A \cap B \ar[ru]^{j_A} \ar[rd]_{j_B} & & X \\
+	 & B \ar[ru]_{i_B}
+}
+\]
+We say that $F$ satisfies the \textbf{Mayer-Vietoris axiom} if for every CW-triad $(X;A,B)$ and every $x \in F(A),y \in F(B)$ such that
+\[ F(j_A)(x) = F(j_B)(y) \in F(A \cap B) \]
+there exists an element $z \in F(X)$ such that
+\[ F(i_A)(z) = x \ \ \ \ \ \text{and} \ \ \ \ \  F(i_B)(z) = y \]
+
+The functor $H^n(X-;G)$ satisfies both of these axioms. Note that the Mayer-Vietoris axiom is exactly what gives exactness at the middle group
+\[ \cdots \longleftarrow H^k(A \cap B) \longleftarrow H^k(A) \oplus H^k(B) \longleftarrow H^k(X) \longleftarrow \cdots \]
+in the Mayer-Vietoris sequence.
+
+We will sketch the proof of the following amazing theorem through many propositions and lemmas.
+\begin{thm}[Brown Representability Theorem]
+A cofunctor $F : \hCWp \rightarrow \Setp$ is representable if and only if $F$ satisfies the wedge and Mayer-Vietoris axioms.
+\end{thm}
+\begin{proof}(Sufficiency)
+Suppose $F$ is representable with classifying space $X$. We will show that $[-,X]_*$ satisfies the wedge and Mayer-Vietoris axioms, which implies $F$ does too. \todo{finish later}
+\end{proof}
+
+For a based CW-complex $(Y,y_0)$ and element $u \in F(Y)$ we can define a natural transformation $T_u : [-,Y]_* \rightarrow F$. For based CW-complex $(X,x_0)$, let $T_u(X) : [X,Y]_* \rightarrow F(X)$ be the morphisms that maps $[f]$ to $F([f])(u)$. It is easy to see that $T_u$ is a natural transformation. We will inductively build spaces $Y_n$ and elements $u_n \in F(Y_n)$ such that $T_{u_n}$ gets ``closer'' to being a natural isomorphism of functors. Taking the limit will give us a classifying space for the functor.
+
+
+\subsection{Applications}
+
+
+
+
+
+
+
+\newpage
+\section{Simplicial Objects}
+
+
+\subsection{The Simplicial Category}
+
+
+We will model simplicial objects on a monoidal category called the simplicial category. We will describe this category in detail before discussing simplicial sets and objects. Let $\Simp$ denote the category whose objects are the finite, totally ordered sets $[n] = \lcb 0,1,\ldots,n \rcb$ for each $n \geq 0$, and whose morphisms are regular set-theoretic functions $f : [n] \rightarrow [m]$ such that $f(i) \leq f(j)$ for all $i \leq j$ in $[n]$. We will also add the object $[-1]=\emptyset$ to the category, and so there is exactly one morphism from $\emptyset$ to any other object (the empty function). This category is called the simplicial category, and clearly $\emptyset$ is an initial object and $[0]$ is a terminal object. For each object $[n]$ in $\Simp$ and $0 \leq i \leq n$ there is a collection of particularly simple morphisms:
+\[ \delta_i : [n-1] \rightarrow [n] \ \ \ \ \ \delta_i(j) = \begin{cases} j & j < i \\ j+1 & j \geq i \end{cases} \]
+\[ \sigma_i : [n+1] \rightarrow [n] \ \ \ \ \ \sigma_i(j) = \begin{cases} j & j \leq i \\ j-1 & j > i \end{cases} \]
+More easily stated, $\delta_i$ is the inclusion of $[n-1]$ into the complement of $i$ in $[n]$, and $\sigma_i$ is the surjection of $[n+1]$ onto $[n]$ such that $\sigma_i(i) = \sigma_i(i+1) = i$. The morphisms $\delta_i$ are called the face maps, and the morphisms $\sigma_i$ are called the degeneracy maps. It is easy to check that these morphisms satisfy the following relations:
+\begin{align*}
+	\delta_j \circ \delta_i &= \delta_i \circ \delta_{j-1} \ \ \ \ \ \ i<j \\
+	\sigma_j \circ \sigma_i &= \sigma_i \circ \sigma_{j+1} \ \ \ \ \ i \leq j	 \\
+	\sigma_j \circ \delta_i &= \begin{cases} 
+															 \delta_i \circ \sigma_{j-1} & i < j \\ 
+															 \id & i=j \text{ or } i = j+1 \\ 
+															 \delta_{i-1} \circ \sigma_j & i > j+1 
+														 \end{cases}
+\end{align*}
+The face and degeneracy maps generate all of the morphisms of $\Simp$ in the sense that every morphism $f : [n] \rightarrow [m]$ can be written as the composition of some $\delta_i$'s and $\sigma_j$'s. 
+
+Let $f : [m] \rightarrow [m']$ and $g : [n] \rightarrow [n']$ be two morphisms in $\Simp$. We define a bifunctor $+ : \Simp \times \Simp \rightarrow \Simp$ by
+\[ [m] + [n] = [m + n + 1] \]
+\[ f+g : [m+n+1] \rightarrow [m'+n'+1] \]
+\[ (f+g)(j) = \begin{cases} f(i) & 0 \leq i \leq m \\  g(i-m-1) + m' + 1 & m < i \leq m+n+1 \end{cases} \]
+With this definition we clearly have $\emptyset + [n] = [n] = [n] + \emptyset$ and $\id_{\emptyset} + f = f = f + \id_{\emptyset}$. This makes $\Simp$ into a strict monoidal category with $\emptyset$ as the unit. 
+
+
+
+
+\subsection{Simplicial Objects}
+
+
+With the simplicial category defined we can say what we mean by a simplicial object. A simplicial object $X$ in a category $\mathscr C$ is just a cofunctor $X : \Simp \rightarrow \mathscr C$. When there is no cause for confusion we will sometimes use the notation $X_n$ to denote the object $X([n])$ of $\mathscr C$, as well as $d_i = X(\delta_i)$ and $s_i = X(\sigma_i)$ to denote the induced face and degeneracy maps. We will let $s\mathscr C$ denote the category of simplicial objects in $\mathscr C$ with morphisms given by natural transformations, i.e. $s\mathscr C$ is the functor category $\mathscr C^{\Delta}$. For example, $\sSet$ is the category of simplicial sets and $\sGrp$ is the category of simplicial groups. 
+
+This is a complicated definition, heavily encoded in abstract nonsense, so let us examine the definition in the case of a simplicial set. The idea of a simplicial set was around long before categories, so let us define this object in the classical sense and see why it is equivalent to the above definition. A simplicial set is a collection of sets $\lcb K_n \rcb_{n \geq 0}$ with maps $d_i : K_n \rightarrow K_{n-1}$ and $s_i : K_n \rightarrow K_{n+1}$, $0 \leq i \leq n$, which satisfy the following:
+\begin{align*}
+	d_i \circ d_j &= d_{j-1} \circ d_i \ \ \ \ \ \ i < j \\
+	s_i \circ s_j &= s_{j+1} \circ s_i \ \ \ \ \ \ i \leq j \\
+	d_i \circ s_j &= \begin{cases} s_{j-1} \circ d_i & i < j \\ \id & i=j \text{ or } i=j+1 \\ s_j \circ d_{i-1} & i > j+1 \end{cases}
+\end{align*}
+A simplicial map $f : K \rightarrow L$ between simplicial sets is a collection of maps $f_n : K_n \rightarrow L_n$ such that
+\[ f_n \circ d_i = d_i \circ f_{n+1} \]
+\[ f_n \circ s_i = s_i \circ f_{n-1} \]
+We will see how a functor $X : \Delta \rightarrow \Set$ gives such an object, and how a natural transformation between two such functors gives a morphism. Immediately we have that $X_n = X([n])$ is a set, and $d_i = X(\delta_i) : X_n \rightarrow X_{n-1}$ and $s_i = X(\sigma_i) : X_{n+1} \rightarrow X_n$. These maps satisfy the required identities:
+\begin{align*}
+ d_i \circ d_j = X(\delta_i) \circ X(\delta_j) = X(\delta_j \circ \delta_i) = X(\delta_i \circ \delta_{j-1}) = X(\delta_{j-1}) \circ X(\delta_i) = d_{j-1} \circ d_i \ \ \ \ &i<j \\
+ s_i \circ s_j = X(\sigma_i) \circ X(\sigma_j) = X(\sigma_j \circ \sigma_i) = X(\sigma_i \circ \sigma_{j+1}) = X(\sigma_{j+1}) \circ X(\sigma_i) = s_{j+1} \circ s_i \ \ \ \ &i \leq j 
+\end{align*}
+The last identity involving $d_i \circ s_j$ is just as easy to verify. So the functor $X$ has given us a simplicial set in the classical sense. Now let $f : X \rightarrow Y$ be a natural transformation between two functors $X,Y : \Delta \rightarrow \Set$. Then for each object $[n]$ in $\Delta$ we have a morphism $f_n : X_n \rightarrow Y_n$ such that for all morphisms $g : [n] \rightarrow [m]$ we have a commutative diagram:
+\[
+\xymatrix
+{
+	X_n \ar[r]^{f_n} & Y_n \\
+	X_m \ar[r]_{f_m} \ar[u]^{X(g)} & Y_m \ar[u]_{Y(g)}
+}
+\]
+However, we remarked earlier that any morphism $g : [n] \rightarrow [m]$ can be factored into a composition of $\delta_i$'s and $\sigma_i$'s, so if we can verify the above diagram commutes for each $d_i = X(\delta_i)$ and $s_i = X(\sigma_i)$ we will have that it commutes for all morphisms $g$. The diagrams we need to check are:
+\[
+\xymatrix
+{
+	X_{n-1} \ar[r]^{f_{n-1}} & Y_{n-1} \\
+	X_n     \ar[r]_{f_n} \ar[u]^{d_i} & Y_n \ar[u]_{d_i}
+} \ \ \ \ \ \ 
+\xymatrix
+{
+	X_n     \ar[r]^{f_n} & Y_n \\
+	X_{n+1} \ar[r]_{f_{n+1}} \ar[u]^{s_i} & Y_{n+1} \ar[u]_{s_i}
+}
+\]
+Commutativity of these diagrams is precisely the conditions we placed on the $f_n$'s to be a morphism of simplicial sets. Therefore the categorical definition of a simplicial set is equivalent to the classical notion of a simplicial set. The primary reason for defining simplicial sets as functors is that it allows us to abstract the idea of a simplicial set to other categories, such as groups and topological spaces.
+
+
+
+
+\comment{
+There is an important functor $F : \Simp \rightarrow \Top$ such that $F([n])$ is the standard $n$-simplex
+\[ F([n]) = \lcb \sum_{i=0}^n t_i e_i \st 0 \leq t_i \leq 1, \sum t_i = 1 \rcb \]
+where $\lcb e_i \rcb$ are the standard basis vectors in Euclidean space. If $f : [n] \rightarrow [m]$ is a morphism in $\Simp$, then $F(f) : F([n]) \rightarrow F([m])$ is given by mapping $e_i$ to $e_{f(i)}$ and extending linearly. In particular we see that $\delta_i$ is simply the inclusion of a face into $F([n])$ and $\sigma_i$ is the projection of $F([n+1])$ onto one of its faces, hence the name face and degeneracy maps. The fact that morphisms in $\Simp$ are order preserving means that we can give $F([n])$ the standard orientation, and the maps $F(f)$ will preserve orientations.
+}
+
+
+
+\subsection{Geometric Realization}
+
+In this section we will only consider simplicial sets. We will construct a very important functor $| \cdot | : \sSet \rightarrow \Top$ called geometric realization. First we will define the spaces on which our geometric realization is going to be modeled on. Let $\Delta_n$ denote the $n$-simplex in $\mathbb R^{n+1}$
+\[ \Delta_n = \lcb (t_0,t_1,\ldots,t_n) \in \mathbb R^{n+1} \st 0 \leq t_i \leq 1, \sum t_i = 1 \rcb \]
+We have some natural face and degeneracy maps $\delta_i : \Delta_{n-1} \rightarrow \Delta_n$ and $\sigma_i : \Delta_{n+1} \rightarrow \Delta_n$ defined by
+\[ \delta_i(t_0,t_1,\ldots,t_{n-1}) = (t_0,\ldots,t_{i-1},0,t_i,\ldots,t_{n-1}) \]
+\[ \sigma_i(t_0,t_1,\ldots,t_n) = (t_0,\ldots,t_{i-1},t_i+t_{i+1},\ldots,t_n) \]
+These maps are very similar to the $\delta_i$'s and $\sigma_i$'s in the simplicial category, but it will always be clear which maps are being used from the context. We can now define the geometric realization of a simplicial set $X$ by
+\[ |X| = \coprod_{n \geq 0} X_n \times \Delta_n / \sim \]
+where the equivalence relation $\sim$ is generated by
+\[ (d_i x, y) \sim (x, \delta_i y) \ \ \ \ \ x \in X_n, \ y \in \Delta_{n-1} \]
+\[ (s_i x, y) \sim (x, \sigma_i y) \ \ \ \ \ x \in X_n, \ y \in \Delta_{n+1} \]
+
+\subsection{Nerve of a Category}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\section{Characteristic Classes}
+
+
+
+
+
+
+
+
+
+\newpage
+
+
+\bibliography{Homotopy-Theory-Bibliography}
+\bibliographystyle{plain}
+\addcontentsline{toc}{section}{\refname}
+
+
+\end{document}

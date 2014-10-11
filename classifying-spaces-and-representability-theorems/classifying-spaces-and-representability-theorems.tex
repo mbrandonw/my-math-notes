@@ -1,0 +1,254 @@
+
+
+\input{"/Users/brandonwilliams/Documents/LaTeX Includes/hwpreamble.tex"}
+\input{"/Users/brandonwilliams/Documents/LaTeX Includes/extrapackages.tex"}
+\input{"/Users/brandonwilliams/Documents/LaTeX Includes/extracommands.tex"}
+
+
+\begin{document}
+
+
+\title{\Large Classifying Spaces and Representability Theorems}
+\author{\large Brandon Williams}
+
+\maketitle
+
+
+
+We will use the following notation for some common categories:
+\begin{enumerate}
+  \item[$\CW$] - The category of CW-complexes and continuous functions
+  \item[$\hCW$] - The category of CW-complexes and homotopy classes of continuous functions
+  \item[$\hCWp$] - The category of based CW-complexes and based homotopy classes of base point preserving continuous functions
+  \item[$\Set$] - The category of sets and functions
+  \item[$\Setp$] - The category of based sets and base point preserving functions
+\end{enumerate}
+
+
+\section{The Brown Representability Theorem}
+
+A contravariant functor $F : \mathscr C \rightarrow \Set$ is said to be representable if there exists an object $X$ in $\mathscr C$ (called a classifying object) and a natural isomorphism
+\[ \eta : \hom_{\mathscr C} (-, X) \longrightarrow F \]
+Examples:
+\begin{enumerate}
+  \item Clearly $\hom(-,X)$ is a representable functor on any category $\mathscr C$.
+  \item Singular cohomology $H^n(-;G)$ on $\hCW$ is representable since
+  \[ H^n(X;G) \cong [X,K(G,n)] \]
+  where $K(G,n)$ is the $n$-th Eilenberg-MacLane space of $G$. 
+  \item For a topological group $G$ let us define a functor $k_G : \hCWp \rightarrow \Setp$ by
+  \[ k_G(X) = \lcb \text{isomorphism classes of principal $G$-bundles over $X$} \rcb \]
+  For a morphism $X \stackrel{[f]}{\longrightarrow} Y$ the induced morphism $k_G([f]) : k_G(Y) \rightarrow k_G(X)$ is given by
+  \[ k_G([f])(\xi) = f^* \xi \]
+  As we will discuss later, it turns out that there is a space $BG$ such that
+  \[ k_G(-) \simeq [-,(BG,*)] \]
+\end{enumerate}
+When $\mathscr C = \hCWp$ we have necessary and sufficient conditions for a contravariant functor $F : \hCWp \rightarrow \Setp$ to be representable. This is the content of the Brown Representability Theorem. Before stating the theorem, we define two properties the functor $F$ might have. 
+
+Let $\lcb X_\alpha \rcb$ be a collection of spaces, and let $i_\beta : X_\beta \rightarrow \vee_\alpha X_\alpha$ be the natural inclusions (recall that the coproduct in $\hCWp$ is the wedge construction, so these are the maps provided by the coproduct). We say that $F$ satisfies the wedge axiom if for any collection of spaces $\lcb X_\alpha \rcb$, the map $i : F(\vee_\alpha X_\alpha) \rightarrow \prod_\alpha F(X_\alpha)$ induced by the maps $F(i_\beta) : F(\vee_\alpha X_\alpha) \rightarrow F(X_\beta)$ is bijective.
+
+Now let $(X;A,B)$ be a CW-triad, i.e. $A$ and $B$ are subcomplexes such that $X = A \cup B$. Let $j_A,j_B$ denote the inclusions of $A \cap B$ into the respective spaces, and let $i_A,i_B$ denote the inclusions of the respective spaces into $X$. Then we say that $F$ satisfies the Mayer-Vietoris axiom if for any CW-triad $(X;A,B)$ and for any $x \in F(A),y \in F(B)$ such that
+\[ F(j_A)(x) = F(j_B)(y) \in F(A \cap B) \]
+there exists an element $z \in F(X)$ such that
+\[ F(i_A)(z) = x \ \ \ \ \ F(i_B)(z) = y \]
+Notice that it is exactly this property that would allow us to conclude that $\image \subset \ker$ in the middle group of the Mayer-Vietoris sequence:
+\[ \cdots \longleftarrow H^k(A \cap B) \longleftarrow H^k(A) \oplus H^k(B) \longleftarrow H^k(X) \longleftarrow \cdots \]
+
+We can now state the Brown Representability Theorem:
+\begin{lem}[Brown]
+A contravariant functor $F : \hCWp \rightarrow \Setp$ is representable if and only if $F$ satisfies the wedge axiom and the Mayer-Vietoris axiom.
+\end{lem}
+
+The idea of the proof is to construct a CW-complex $(Y,y_0)$ and element $u \in F(Y)$ such that the natural transformation
+\[ T_u : [ - , (Y,y_0)] \longrightarrow F(-) \]
+\[ T_u(X)([f]) = F([f])(u) \]
+is actually an equivalence. The necessity of F to satisfiy the wedge and Mayer-Vietoris axioms is easy enough to prove. First we recall some basic constructions. For based spaces $(X,x_0),(Y,y_0)$ the smash product is defined to be
+\[ X \wedge Y = \frac{X \times Y}{X \vee Y} = \frac{X \times Y}{\lcb x_0 \rcb \times Y \cup X \times \lcb y_0 \rcb} \]
+This is a based space by taking the base point to be the image of $X \vee Y$ under the quotient map. For an unbased space $X$ let $X^+$ denote $X$ union a disjoint point, which is then considered to be the base point of $X^+$. This seems to be a nice candidate for the product in the category of based spaces, but is not the product; the regular topological product is still the categorical product. However, the smash product is very useful due to the adjoint relation
+\begin{equation}
+\label{smashmapadjoint}
+[(X \wedge Y,*),(Z,z_0)] \cong [(X,x_0), (Y,y_0)^{(Z,z_0)}] 
+\end{equation}
+It is easy to see that $X \wedge I^+ \simeq (X \times I) / (\lcb x_0 \rcb \times I)$, so we see that a based homopty $H : X \times I \rightarrow Y$ between maps $X \rightarrow Y$ descends to a map $H : X \wedge I^+ \rightarrow Y$. Conversely, any based map $H : X \wedge I^+ \rightarrow Y$ is also a based homotopy when considered as a map $H : X \times I \rightarrow Y$.
+
+\begin{lem}
+The functor $[-,(Y,y_0)]$ satisfies the wedge axiom and the Mayer-Vietoris axiom.
+\end{lem}
+\begin{proof}
+\sloppyspace
+\begin{enumerate}
+
+  \item[W.)] The maps $i_\beta^* : [\vee_\alpha X_\alpha] \rightarrow [X_\alpha,Y]$ induce a map $i : [\vee_\alpha X_\alpha] \rightarrow \prod_\alpha [X_\alpha,Y]$ as noted before. Let $\lcb [f_\alpha] \rcb \in \prod_\alpha [X_\alpha,Y]$, then we can fit the $f_\alpha$'s together to form a map $f : \vee_\alpha X_\alpha \rightarrow Y$ such that $f \circ i_\alpha = f_\alpha$. If we change an $f_\alpha$ by a homotopy, then $f$ also changes by a homotopy, hence we have $i([f]) = \lcb [f_\alpha] \rcb$, and so $i$ is surjective.
+  
+  Suppose $[f],[g] \in [\vee_\alpha X_\alpha,Y]$ such that $i([f]) = i([g])$. If we define $f_\alpha = f \circ i_\alpha$ and $g_\alpha = g \circ i_\alpha$, then we have $f_\alpha \simeq g_\alpha$, so let $H^\alpha : X_\alpha \wedge I^+ \rightarrow Y$ be the homotopies. These fit together to give us a map $H : \vee_\alpha (X_\alpha \wedge I^+) \rightarrow Y$ such that $H|_{X_\alpha \times 0} = f_\alpha$ and $H|_{X_\alpha \times 1} = g_\alpha$. But, since $\vee_\alpha (X_\alpha \wedge I^+) \cong (\vee_\alpha X_\alpha) \wedge I^+$, we have that $H$ is a map $(\vee_\alpha X_\alpha) \times I^+ \rightarrow Y$ such that $H_0 = f$ and $H_1 = g$, hence $[f] = [g]$, and so $i$ is injective.
+  
+  \item[MV.)] Let $(X;A,B)$ be a CW-triad, and let $[f] \in [(A,x_0),(Y,y_0)]$ and $[g] \in [(B,x_0),(Y,y_0)]$ such that $f|_{A \cap B} \simeq g|_{A \cap B}$. Let $\widetilde{H} : (A \cap B) \wedge I^+ \rightarrow Y$ be a homotopy between $f$ and $g$. Since $A \cap B \hookrightarrow A$ is a cofibration we can extend this homotopy to $H : A \wedge I^+ \rightarrow Y$ such that $H_0 = f$. Let $\widetilde{f} = H_1$, then we see that $[f]=[\widetilde{f}] \in [(A,a_0),(Y,y_0)]$, but now $\widetilde{f}|_{A \cap B} = g|_{A \cap B}$ (not just homotopic, but equal). Now we can easily extend this to a map $h : (X,x_0) \rightarrow (Y,y_0)$ such that $h|_A = \widetilde{f}$ and $h|_B = g$, and this verifies MV.
+\end{enumerate}
+\end{proof}
+
+
+
+We will say that an element $u \in F(Y)$ is $n$-universal if $T_u(S^q) : [(S^q,*),(Y,y_0)] \rightarrow F(S^q)$ is an isomorphism for $q<n$ and an epimorphism for $q=n$ (recall that $T_u$ is the natural transformation defined earlier). This element is called universal if it is $n$-universal for all $n$.
+
+
+\begin{thm}
+\label{mapping-of-universal-elements}
+If $f : (X,x_0) \rightarrow (Y,y_0)$ is a morphism in $\CWp$, and $u \in F(X),v \in F(Y)$ are universal elements such that $F(f)(v) = u$, then
+\[ f_* : \pi_*(X,x_0) \longrightarrow \pi_*(Y,y_0) \]
+is an isomorphism.
+\end{thm}
+\begin{proof}
+We have the following commutative diagram:
+\[
+\xymatrix
+{
+\pi_q(X,x_0) = [(S^q,*),(X,x_0)] \ar[rr]^{f_*} \ar[rd]_{T_u(S^q)} & & [(S^q,*),(Y,y_0)] = \pi_q(Y,y_0) \ar[ld]^{T_v(S^q)} \\
+& F(S^q) 
+}
+\]
+To see this let $[g] \in [(S^q,*),(X,x_0)]$, then $f_*([g]) = [f \circ g]$ and 
+\[ T_v(S^q)(f \circ g) = F(f \circ g)(v) = F(g) \circ F(f) (v) = F(g)(u) = T_u(S^q)(g) \]
+By assumption we have $T_u(S^q)$ and $T_v(S^q)$ are bijective, so we must have that $f_*$ is bijective, hence it is an isomorphism.
+\end{proof}
+
+
+Most of the steps of the proof of the Brown Representability Theorem come from trying to construct universal elements, and the proofs of the lemmas that lead to such a construction are very similar to the proof of the Whitehead's theorem. We only state this theorem for now:
+
+\begin{lem}
+For any contravariant functor $F : \hCWp \rightarrow \Setp$ there exists a CW-complex $(Y,y_0)$ and universal element $u \in F(Y)$. In fact, with a choice of $(Y,y_0)$ and universal $u \in F(Y)$, the natural transformation $T_u : [-,(Y,y_0)] \rightarrow F$ is an equivalence.
+\end{lem}
+
+The following lemma is useful for when trying to make the construction of classifying spaces into a functorial construction.
+
+\begin{lem}
+\label{inducedmapclassifyingspaces}
+Let $F,F' : \hCWp \rightarrow \Setp$ be two contravariant functors with classifying spaces $(Y,y_0),(Y',y'_0)$ and universal elements $u,u'$ respectively. If $T : F \rightarrow F'$ is a natural transformation, then there is a map $f : (Y,y_0) \rightarrow (Y',y'_0)$, unique up to homotopy, such that the diagram
+\[
+\xymatrix
+{
+  [(X,x_0),(Y,y_0)] \ar[r]^{f_*} \ar[d]_{T_u(X)} & [(X,x_0),(Y',y'_0)] \ar[d]^{T_{u'}(X)} \\
+  F(X) \ar[r]_{T(X)} & F'(X)
+}
+\]
+commutes for all $(X,x_0) \in \hCWp$.
+\end{lem}
+
+\begin{cor}
+The classifying space of $F$ is unique up to homotopy equivalence.
+\end{cor}
+\begin{proof}
+Suppose $F$ has two classifying spaces $(Y,y_0)$ and $(Y',y'_0)$ with universal elements $u,u'$ respectively. If we let $T : F \rightarrow F$ be the identity natural transformation, then \ref{inducedmapclassifyingspaces} gives us a map $f : (Y,y_0) \rightarrow (Y',y'_0)$ and commutative diagram (with $X = S^q$):
+\[
+\xymatrix
+{
+  \pi_q(Y,y_0) = [(S^q,*),(Y,y_0)] \ar[r]^{f_*} \ar[d]_{T_u(S^q)} & [(S^q,*),(Y',y'_0)] = \pi_q(Y',y'_0) \ar[d]^{T_{u'}(S^q)} \\
+  F(S^q) \ar[r]_{T(S^q)=\id_{F(S^q)}} & F(S^q)
+}
+\]
+Since $T_u(S^q)$ and $T_{u'}(S^q)$ are bijective (by the universality of $u$ and $u'$), we see that $f_*$ must be bijective, and hence an isomorphism. By Whitehead's theorem we have that $f$ is a homotopy equivalence.
+\end{proof}
+
+
+\section{Universal Bundles}
+
+
+We now want to apply these ideas to the theory of vector bundles. Before we can do this we recall some basic facts from the theory of fiber bundles. Let $\xi : F \rightarrow E \stackrel{\pi}{\rightarrow} B$ be a fiber bundle with structural group $G \subset \Diff(F)$. Then we have an atlas $U_\alpha \subset B$, $\varphi_\alpha : U_\alpha \times F \stackrel{\sim}{\longrightarrow} \pi^{-1}(U_\alpha)$. This atlas determines transition functions:
+\[ g_{\alpha\beta} : U_\alpha \cap U_\beta \rightarrow G \]
+such that
+\[ \psi_{\alpha\beta} := \varphi_\beta^{-1} \circ \varphi_\alpha : (U_\alpha \cap U_\beta) \times F \rightarrow (U_\alpha \cap U_\beta) \times F \]
+\[ \psi_{\alpha\beta}(p,v) = (p, g_{\alpha\beta}(p)(v)) \]
+If $G$ acts on another space $X$ on the left, then we can form the associated fiber bundle $\xi_X : X \rightarrow E' \rightarrow B$ from the data
+\[ \widetilde{\psi}_{\alpha\beta} : (U_\alpha \cap U_\beta) \times X \rightarrow (U_\alpha \cap U_\beta) \times X \]
+\[ \widetilde{\psi}_{\alpha\beta}(p,x) = (p,g_{\alpha\beta}(p) \cdot x) \]
+In particular, $\xi_G$ is a principal $G$-bundle, called the associated principal $G$-bundle.
+
+On the other hand, suppose $\xi : G \rightarrow E \stackrel{\pi}{\rightarrow} B$ is a principal $G$-bundle, and suppose $G$ acts on a space $X$ on the left. We can define an action of $G$ on $E \times X$ by:
+\[ g \cdot (p,x) = (pg^{-1},gx) \]
+Let $E \times_G X$ denote the quotient $(E \times X)/G$, and define $\pi_X : E \times_G X \rightarrow B$ by $\pi_X[p,x] = \pi(p)$. This makes a fiber bundle denoted by
+\[ \xi[X] : X \rightarrow E \times_G X \rightarrow B \]
+This is called the associated fiber bundle.
+
+It turns out these two constructions are inverses of each other, as stated in the following two theorems:
+
+\begin{thm}
+Let $\xi : F \rightarrow E \rightarrow B$ be a fiber bundle in which the structural group $G$ acts freely and transitively on $F$, then
+\[ \xi \cong \xi_G[F], \]
+that is the associated fiber bundle of the associated principal $G$-bundle is equivalent to the original fiber bundle.
+\end{thm}
+
+\begin{thm}
+Let $\xi : G \rightarrow E \rightarrow B$ be a principal $G$-bundle and $X$ a space on which $G$ acts freely and transitively. Then
+\[ \xi \cong \xi[X]_G, \]
+that is the associated principal $G$-bundle of the associated fiber bundle is equivalent to the original principal $G$-bundle.
+\end{thm}
+
+These theorems allow us to reduce the classification of (real, complex, quaternionic) vector bundles over a space to the classification of principal ($\GL(n),\U(n),\Sp(n)$)-bundles.
+
+For a topological group $G$ let us define a contravariant functor $k_G : \hCWp \rightarrow \Setp$ by
+\[ k_G(X) = \lcb \text{isomorphism classes of principal $G$-bundles over $X$} \rcb \]
+For $X \stackrel{[f]}{\longrightarrow} Y$ we define $k_G([f]) : k_G(Y) \rightarrow k_G(X)$ by
+\[ k_G([f])(\xi) = f^*\xi \]
+This function is well-defined by the fact that pullbacks of bundles under homotopic maps are equivalent. The base point of $k_G(X)$ is the equivalence class of the trivial $G$-bundle $G \rightarrow G \times X \rightarrow X$.
+
+\begin{thm}
+The functor $k_G$ satisfies the wedge axiom and the Mayer-Vietoris axiom.
+\end{thm}
+
+Therefore to each topological group $G$ there is a CW-complex $BG$ (determined up to homotopy type) and a principal $G$-bundle $G \rightarrow EG \rightarrow BG$ (this is the universal element) such that the natural transformation
+\[ T_G : [-,(BG,*)] \rightarrow k_G(-) \]
+defined by $T_G(X)([f]) = \lcb f^*EG \rcb$ is an equivalence. Therefore principal $G$-bundles are classified by homotopy classes of maps into $BG$. For this reason we call $BG$ the classifying space of $G$ and $EG \rightarrow BG$ the universal bundle of $G$. All principal $G$-bundles are pullbacks of the universal bundle. The classifying spaces $\BO(n)$, $\BU(n)$ and $\BSp(n)$ are very important in $K$-theory, and we can easily find explicit constructions of these spaces (not done here). One form of the Bott periodicity theorem in $K$-theory can be stated as
+\[ \mathbb Z \times \BU  \simeq \Omega^2 \BU  \]
+\[ \mathbb Z \times \BO  \simeq \Omega^4 \BSp \]
+\[ \mathbb Z \times \BSp \simeq \Omega^4 \BO  \]
+
+Let us now see how $B-$ can be turned into a functor. For now we will think of $B-$ as a functor from $\TopGrp$, the category of topological groups and continuous homomorphisms (these spaces are automatically based at the identity and homomorphisms preserve this point), to $\hCWp$. Clearly $B-$ will take a topological group $G$ to its classifying space $BG$. If $h : G \rightarrow G'$ is a morphism of topological groups, then we can define a natural transformation $T : k_G \rightarrow k_{G'}$ is the following way. Give a space $X$ and a principal $G$-bundle $\xi$ over $X$ with transition functions $\lcb g_{\alpha\beta} \rcb$, let $T(X)(\xi)$ be the principal $G'$-bundle over $X$ given by transition functions $\lcb h \circ g_{\alpha\beta} \rcb$. Then \ref{inducedmapclassifyingspaces} gives us an induced map $(BG,*) \rightarrow (BG',*)$, which we call $Bh$.
+
+Now let us apply this machinery to the case of $G$-bundles over the suspension, $\Sigma X$, of a space $X$. Here we are taking the reduced suspension $\Sigma X = X \wedge S^1$. By the adjoint relation \eqref{smashmapadjoint} we see that principal $G$-bundles over $\Sigma X$ are in one-to-one correspondence with
+\[ [(\Sigma X,*),(BG,*)] \cong [(X,*),(\Omega BG,*)] \]
+We can write $\Sigma X$ as the union of two contractible pieces that intersect in a space that deformation retracts onto $X$:
+\[ CX^+ = \lcb [x,t] \in \Sigma X \st t \in (1/4,1] \rcb \ \ \ \ \ \ CX^- = \lcb [x,t] \in \Sigma X \st t \in [0,3/4) \rcb \]
+\[ CX^+ \cap CX^- = \lcb [x,t] \in \Sigma X \st t \in (1/4,3/4) \rcb \simeq X \]
+Therefore every $G$-bundle over $\Sigma X$ can be constructed from a map $CX^+ \cap CX^- \rightarrow G$. For a map $f : X \rightarrow G$ let us define $\widetilde{f} : CX^+ \cap CX^- \rightarrow G$ by $\widetilde{f}[x,t] = f(x)$, and let $\xi(f)$ denote the $G$-bundle constructed via $\widetilde{f}$.
+\begin{lem}
+Two maps $f_0,f_1 : (X,x_0) \rightarrow (G,1)$ are homotopic rel $x_0$ if and only if $\xi(f_0) = \xi(f_1)$.
+\end{lem}
+This lemma tells us that the natural transformation
+\begin{equation}
+\label{suspension-classifying-natural-equivalent}
+T : [-,(G,1)] \rightarrow k_G \circ \Sigma
+\end{equation}
+is injective. It can also be shown that $T$ is actually a natural equivalence, hence principal $G$-bundles over $\Sigma X$ are classified by homotopy classes of maps of $X$ into $G$.
+\begin{cor}
+$G$ is homotopy equivalent to $\Omega BG$.
+\end{cor}
+\begin{proof}
+We have the following sequence of naturally equivalent functors
+\[ [-,\Omega BG] \longrightarrow [\Sigma-,BG] \longrightarrow k_G \circ \Sigma(-) \]
+Since naturally equivalent functors have homotopy equivalent classifying spaces we see that $\Omega BG$ is the classifying object of $k_G \circ \Sigma$. The natural equivalence of \eqref{suspension-classifying-natural-equivalent} now shows that $\Omega BG$ is homotopy equivalent to $G$.
+\end{proof}
+So we can think of $B-$ as a one-sided inverse to $\Omega$ when applied to certain spaces. By the adjoint relation \eqref{smashmapadjoint} we have
+\[ \pi_n(G) \cong \pi_n(\Omega BG) \cong \pi_{n+1}(BG) \]
+In particular, if $G$ is discrete, then
+\[ \pi_n(BG) \cong \pi_{n-1}(G) = \begin{cases} G & n=1 \\ 0 & n>1 \end{cases} \]
+hence $BG$ is a $K(G,1)$ space.
+
+\begin{lem}
+For any topological group $G$, the total space $EG$ of the universal bundle is weakly contractible.
+\end{lem}
+\begin{proof}
+\end{proof}
+
+
+
+\section{Examples}
+
+
+Here we will construct the universal bundles for some topological groups. Let us take the simplest non-trivial topological group, $G = S^1 = U(1)$. Then $BU(1)$ is a space such that $\pi_n(BU(1)) \cong \pi_{n-1}(G)$, so $BU(1)$ must be a $K(\mathbb Z,2)$ space. This space must be homotopy equivalent to $\mathbb CP^\infty$, infinite complex projective space.
+
+
+
+
+
+
+
+
+\end{document}

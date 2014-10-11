@@ -1,0 +1,834 @@
+
+
+\input{"/Users/brandonwilliams/Documents/LaTeX Includes/notespreamble.tex"}
+\input{"/Users/brandonwilliams/Documents/LaTeX Includes/extrapackages.tex"}
+\input{"/Users/brandonwilliams/Documents/LaTeX Includes/extracommands.tex"}
+\input{"/Users/brandonwilliams/Documents/LaTeX Includes/knots.tex"}
+
+
+\begin{document}
+
+
+\title{\Large Knot Theory}
+\author{Brandon Williams \\ \texttt{mbw@math.sunysb.edu}}
+\maketitle
+
+
+\tableofcontents
+
+
+
+\newpage
+\section{Knots, Links, Braids and Tangles}
+\label{Knots, Links, Braids and Tangles}
+
+
+
+In this section we develop the necessary combinatorial machinery needed for a serious study of knots, links, braids and tangles. We are motivated to study knots and links because they are intuitive, easy to visualize, and in a sense control the topology of 3- and 4-manifolds. Braids are also appealing since they have clear geometric meaning, yet turn out to be entirely algebraic. Then, one might wonder how much of the theory of knots, links and braids can be carried over to the more general setting of tangles, in which case one has opened a can of worms. 
+
+
+\subsection{Knots and Links}
+\label{Knots and Links}
+
+
+
+A classical knot $k$ is a smooth embedding of the circle $S^1$ in the 3-sphere $S^3$. We will almost always use $k$ to denote the image of the knot. We have chosen to use smooth embeddings, as opposed to topological embeddings, to prevent so called \emph{wild} knots from occurring. Equivalently we can consider PL embeddings. Two knots $k,k'$ in $S^3$ are said to be \textbf{isotopic} if they are ambiently isotopic, i.e. there is an isotopy $F : S^3 \times I \rightarrow S^3$ of the 3-sphere such that $F(-,0) = \id$ and $F(k,1) = k'$. The \textbf{unknot} is the standardly embedded circle in the 3-sphere (one can think of it as an equator). We can extend the concept of knot in the obvious way by defining a \textbf{link} to be a smooth embedding of finitely many disjoint copies of $S^1$. Our primary goal, at least in the beginning stages of the theory, will be to construct invariants that allow us to determine when two knots are not isotopic. This will be taken up in \cref{Classical Knot Invariants}.
+
+The most common method of constructing these invariants is from a knot diagram. Slightly perturbing a knot $k$ (if necessary) to miss the point at infinity in $S^3$, we can think of $k$ as being embedded in $\mathbb R^3$. If $\Pi$ is a plane in $\mathbb R^3$ disjoint from $k$, then we can orthogonally project $k$ onto $\Pi$ to obtain an immersed circle $D$ in $\Pi$. If $\Pi$ is chosen generically then $D$ will only have double point singularities, and so we can decorate these points with over and under crossings such that the strand in $k$ closest to $\Pi$ passes ``under'' the other strand. This decorated, immersed circle in the plane is called a \textbf{knot diagram} for $k$. Of course, a knot can have many different diagrams, and each diagram can look very different. 
+
+In order for these diagrams to be of mathematical interest to us we need to come up with a set of ``moves'' that can be performed so that any two diagrams for a knot can be related via a finite sequence of these moves. There are three moves shown in \cref{reidemeister-moves} that clearly change the diagram of a knot, but do not change the isotopy type of the knot. These moves are called the first, second and third Reidemeister moves, and amazingly these moves generate all isotopies.
+
+\begin{thm}[Redemeister's Theorem]
+\label{Reidemeister's Theorem}
+Two knots $k,k'$ are isotopic if and only if any of their diagrams can be connected via a finite sequence of Reidemeister moves of the first, second and third kind.
+\end{thm}
+
+\begin{figure}[tb]
+\centering
+\includegraphics{"\graphicspath/reidemeister-moves"}
+\caption{Reidemeister Moves}
+\label{reidemeister-moves}
+\end{figure}
+
+This theorem is crucial to defining invariants of knots, for it essentially tells that we can define invariants by first defining them on diagrams, and then showing the quantity remains unchanged under the Reidemeister moves. 
+
+Many times it will be useful to give a link an orientation, which we can simply think of as an arrow on each component of the link. A link $L$ with $n$ components has $2^n$ orientations. Two oriented links are said to be isotopic if there is an isotopy between the links that is compatible with the orientations. If $L$ is an oriented link, then $-L$ denotes the same link with the the orientation of each component reversed, and is called the \textbf{reverse}. A link isotopic to its reverse is called \textbf{invertible}. The trefoil is an example of an invertible knot.
+
+For an oriented knot $k$ and diagram $D$, let $w(D)$ be the sum of the signs of all crossings in the diagram $D$, where the sign of a crossing is shown in \cref{positive-negative-crossings}. This value is called the \textbf{writhe} of the diagram, and it is invariant under only the second and third Reidemeister moves, but not the first. If $k'$ is another oriented knot disjoint from $k$, and $D$ is a diagram for $k \cup k'$, then we define the linking number of $k$ and $k'$, denoted by $\lk(k,k')$, to be half of the sum of the signs of all crossings in $D$. One can easily check that this value remains invariant under the Reidemeister moves, hence it is an invariant of two component, oriented links. Clearly if one component, say $k$, is contained in a 3-ball disjoint from $k'$, then $\lk(k,k')=0$. Further, we have the relations $\lk(k,k')=\lk(k',k)$ and $\lk(-k,k')=-\lk(k,k')$.
+
+Let $N(k)$ denote a tubular neighborhood of $k$ in $S^3$. A simple, closed curve $\mu$ in $\partial N(k)$ is called a \textbf{meridian} if it bounds a disc in $N(k)$. Similarly, a simple, closed curve $\ell$ in $\partial N(k)$ is called a \textbf{canonical longitude} if it bounds a surface in $S^3 \backslash k$. These curves are uniquely defined, up to isotopy. Further, if $k$ is oriented, then we orient $\mu$ so that $\lk(k,\mu)=+1$ and orient $\ell$ so that it points in the same direction as $k$, i.e. the algebraic intersection number $\mu \cdot \ell$ is also $+1$.
+
+\begin{figure}
+\centering
+\includegraphics[scale=3]{"\graphicspath/up-cross-pos"} \ \ \ \ \ \ \ \ \ \ \ \ \includegraphics[scale=3]{"\graphicspath/up-cross-neg"}
+\caption{Positive and negative crossings}
+\label{positive-negative-crossings}
+\end{figure}
+
+
+
+
+\subsection{Braids}
+\label{Braids}
+
+
+An \textbf{$n$-stranded braid} is an embedding $\sigma$ of $n$ copies of $[0,1]$ in $\mathbb R^2 \times [0,1]$ such that the boundary points of the $k$-th strand are mapped to $(k,0)$ and $(k,1)$ in $\mathbb R^2 \times [0,1]$, and the composition $\pi_{[0,1]} \circ \sigma$ has no critical points (where $\pi_{[0,1]}$ is projection onto the second factor). For each $i=1,\ldots,n-1$ let $\sigma_i$ denote the braid whose stands are just the 
+
+
+
+\subsection{Tangles}
+\label{Tangles}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\section{Classical Knot Invariants}
+\label{Classical Knot Invariants}
+
+
+\subsection{Introduction}
+\label{Introduction}
+
+
+From our definition of equivalence of knots we can easily see that the homeomorphism type of the knot complement $S^3 \backslash k$ is an invariant of the knot. In fact, by a difficult theorem of Gordon and Luecke this is a \emph{complete} knot invariant (but not link invariant). We can get more computable invariants of the knot by taking common topological invariants of $S^3 \backslash k$, such as the fundamental group or homology groups. While we will discuss the fundamental group in \cref{The Knot Group}, the next proposition says that the homology groups do not give us anything interesting.
+\begin{prop}
+If $L$ is an $n$ component link, then $H_1(S^3 \backslash L) \cong \mathbb Z^n$ is generated by the meridians of the components of $L$.
+\end{prop}
+\begin{proof}
+We prove this for the case of a knot ($n=1$), and the general case will follow easily. The 3-sphere can be written as the union of the open sets $U = \nu k$ and $V = S^3 \backslash k$, so a part of the Mayer-Vietoris sequence gives us
+\[ 0 = H_2(S^3) \longrightarrow H_1(U \cap V) \longrightarrow H_1(U) \oplus H_1(V) \longrightarrow H_1(S^3) = 0 \]
+Clearly $U \cap V$ is homotopy equivalent to the 2-torus, and $U$ is homotopy equivalent to a circle, so $H_1(U \cap V) \cong \mathbb Z^2$ and $H_1(U) \cong \mathbb Z$. The middle map must be an isomorphism, so we have $H_1(S^3 \backslash k) \cong \mathbb Z$. Further, we can find a basis $\mu,\ell$ of simple, closed, oriented curves for $H_1(U \cap V)$ such that $\mu=0$ in $H_1(U)$ (i.e. $\mu$ is a meridian) and $\ell=0$ in $H_1(V)$ (i.e. $\ell$ is a longitude). Since the middle map can be defined as $(i_*,-j_*)$, where $i_*,j_*$ are the maps induced by the inclusions of $U \cap V$ into $U$ and $V$ respectively, we see that $j_*\mu$ generates $H_1(V)$.
+\end{proof}
+
+A \textbf{Seifert surface} for an oriented link $L$ is an oriented, smoothly embedded surface $F$ in $S^3$ such that $\partial F = L$ and the orientation induced on $L$ by $F$ agrees with the fixed orientation on $L$. These surfaces exist for all knots in $S^3$; in fact, there is an explicit algorithm we can use to get a picture for a Seifert surface from a diagram. The algorithm is as follows. Resolve all the crossings in the diagram in a manner that preserves orientations, resulting in a collection of closed, non-overlapping circles. Fill these circles with discs, but now layered in 3-dimensions, and for each crossing glue in a twisted band between corresponding discs. The result will be an orientable surface with boundary precisely $L$. If $L$ has $n$ components, and the diagram used in the above algorithm has $c$ crossings and $d$ circles in the oriented resolution, then the constructed Seifert surface will have Euler characteristic and genus
+\begin{equation}
+\label{euler characteristic genus seifert surface}
+\chi(F) = d - c \ \ \ \ \ \ \ \ \ \ g(F) = 1+\frac{c-d-n}{2}
+\end{equation}
+
+\begin{prop}
+Let $k,k'$ be disjoint, oriented knots, and $F'$ an oriented Seifert surface for $k'$. Then the linking number $\lk(k,k')$ can be computed as
+\begin{enumerate}
+	\item the algebraic intersection number $k \cdot F'$.
+	\item the integer $n$ such that as homology classes $[k] = n[\mu']$ in $H_1(S^3 \backslash k')$, where $\mu'$ is a meridian of $k'$.
+\end{enumerate}
+\end{prop}
+\begin{proof}
+
+\end{proof}
+
+A basic question is the following: how are two Seifert surfaces for isotopic knots related? Let us consider ``moves'' we can perform on Seifert surfaces to produce new Seifert surfaces. First, if $G$ is an isotopy of a knot $k$, then we can also isotope a Seifert surface $F$ with $G$. Next, we can cut two disjoint discs $D_1,D_2$ out of $F$, and glue in a smoothly embedded cylinder $S^1 \times I$ that is disjoint from $F$. This increases the genus of the Seifert surface by one, but does not change the boundary, so it is still a Seifert surface. This new surface is called the \textbf{stabilization} of $F$. Conversely, if we can find a simple closed curve $c$ embedded in $F$ such that there is a disc in $S^3 \backslash F$ bounded by $c$, then we can cut $F$ open along $c$, and close the surface up by gluing in two discs. We have now decreased the genus of the surface by one without changing the boundary. This new surface is called the \textbf{destabilization} of $F$.
+
+\begin{prop}
+\label{Seifert surface moves}
+If $k,k'$ are isotopic knots with Seifert surfaces $F,F'$ respectively, then $F$ and $F'$ are related by a finite sequence of isotopies, stabilizations and destabilizations.
+\end{prop}
+\begin{proof}
+Let $G : S^3 \times I \rightarrow S^3$ be an isotopy with $G(-,0)=\id$ and $G(k,1)=k'$. The set of points $M' = \lcb (G(x,t),t) \st x \in k,t\in I \rcb$ forms a smoothly embedded surface in $S^3 \times I$ with boundary precisely $k \times 0 \cup k' \times 1$. Let $M$ be the closed surface $F \times 0 \cup M' \cup F' \times 1$. There is a compact, smoothly embedded 3-manifold $W$ in $S^3 \times I$ such that $\partial W = M$. By perturbing $W$ slightly we can assume that the time slices $W_t := S^3 \times t \cap W$ are embedded surfaces for all but finitely many $t$. This description induces a Morse function $h : W \rightarrow \mathbb R$. The level sets $h^{-1}(t) = W_t$ change by a $k-1$ surgery when they cross a critical point of index $k$. We can arrange so that there are only critical points of index $1$ and $2$ for $0 < t < 1$, and so the level sets change by 0- and 1-surgeries. These surgeries are precisely stabilizations and destabilizations, hence $W$ provides a finite sequence of isotopies, stabilizations and destabilizations to obtain $F'$ from $F$.
+\end{proof}
+
+We will now describe many operations that can be performed on knots to obtain more complicated knots from simpler pieces. The first operation is the \textbf{connect sum} operation, which consists of first placing two knots $k_1,k_2$ in $\mathbb R^3$ such that they are separated by a plane $\Pi$. Remove a small open segment from each knot, and place the resulting boundary points on the separating plane such that the 4 points overlap in pairs. The resulting knot is denoted by $k_1 \# k_2$, and depends only on the isotopy class of $k_1$ and $k_2$. A knot is said to be \textbf{prime} if it cannot be written as a connect sum of non-trivial knots.
+
+\todo{satellites, doubles, ...}
+
+
+
+
+
+
+
+
+\subsection{Scalar Invariants}
+\label{Scalar Invariants}
+
+In this section we will derive some computable invariants from Seifert matrices. These invariants depend on the following result describing a pairing of the homology of a surface with the homology of the complement of the surface.
+\begin{prop}
+\label{pairing of H_1(F) and H_1(S^3 - F)}
+Let $F$ be a compact, orientable surface of genus $g$ with $n$ boundary components. Then there is a bilinear, non-singular pairing $\beta : H_1(F) \times H_1(S^3 \backslash F) \rightarrow \mathbb Z$ such that for homology classes $[c] \in H_1(F)$ and $[d] \in H_1(S^3 \backslash F)$ represented by simple, closed, oriented curves $c,d$ we have $\beta([c],[d])=\lk(c,d)$.
+\end{prop}
+\begin{proof}
+Recall that $H_1(F)$ is a free abelian group of rank $2g+n-1$. If $U = \nu F$, then $U$ is a 3-ball with $2g+n-1$ handles attached. Let $V$ be the complement of $F$ in $S^3$ so that $U \cap V$ is homotopy equivalent to a surface of genus $2g+n-1$. Then, part of the Mayer-Vietoris sequence gives us
+\[ 0 = H_2(S^3) \longrightarrow H_1(U \cap V) \longrightarrow H_1(U) \oplus H_1(V) \longrightarrow H_1(S^3) = 0 \]
+Since the middle map is an isomorphism we must have $H_1(V) \cong \mathbb Z^{2g+n-1}$. Let $\lcb x_i \rcb_{i=1}^{2g+n-1}$ and $\lcb y_j \rcb_{i=1}^{2g+n-1}$ be a bases represented by simple, closed, oriented curves for $H_1(F)$ and $H_1(S^3 \backslash F)$ such that $\lk(x_i,y_j) = \delta_{ij}$. This can be done because we can choose the first basis so that the curve $x_i$ runs once through the $i$-th handle, and then we can simply choose $y_i$ to be the meridian of this curve, and orient coherently. Define $\beta : H_1(F) \times H_1(S^3 \backslash F) \rightarrow \mathbb Z$ on this basis by
+\[ \beta(x_i,y_j) = \delta_{ij} \]
+and extend linearly. If $[c] \in H_1(F), [d] \in H_1(S^3 \backslash F)$ are homology classes represented by simple, closed, oriented curves $c,d$, then we can write $[c] = \sum c_i x_i$ and $[d] = \sum d_i y_i$ for some constants $c_i,d_i$. Then $\lk(x_i,d)$ is an integer $n$ such that $[d]=n[\mu_i] \in H_1(S^3 \backslash x_i)$, where $\mu_i$ is a meridian of $x_i$. However, this meridian is just $y_i$, hence
+\[ \sum d_j y_j = [d] = n_i y_i \]
+hence $n = d_i = \lk(x_i,d)$. Then we have
+\[ [c] = \sum c_i x_i = \sum c_i \lk(x_i,d) [\mu] = \sum c_i d_i [\mu] \]
+where $\mu$ is a meridian of $d$. Therefore $\lk(c,d)=\sum c_i d_i$, which is precisely $\beta([c],[d])$, and so the proposition is proved.
+\end{proof}
+
+Using this pairing we define another pairing $\alpha : H_1(F) \times H_1(F) \rightarrow \mathbb Z$ called the \textbf{Seifert form} of $F$. Since $F$ has an orientation we can take a tubular neighborhood $F \times [-1,1]$ of $F$ in $S^3$ such that the normal vector of $F$ points towards $F \times 1$. Let $i^\pm : F \rightarrow S^3 \backslash F$ denote the inclusion of $F$ into the $F \times \pm 1$ slice of the tubular neighborhood. For a homology class $x \in H_1(F)$ we will use the notation $x^\pm$ for the class $i_*^\pm x$ in $H_1(S^3 \backslash F)$. We now define the pairing by $\alpha(x,y) = \beta(x,y^+)$ (note that this pairing is not necessarily symmetric). If we have a basis $\lcb x_i \rcb_{i=1}^{2g+n-1}$ for $H_1(F)$, then the matrix $S = (\alpha(x_i,x_j))_{ij}$ is called the \textbf{Seifert matrix} of $F$ with respect to the basis $\lcb x_i \rcb$. If the basis elements are represented by simple, closed, oriented curves in $F$, then $S = (\lk(x_i,x_j^+))_{ij} = (\lk(x_i^-,x_j))_{ij}$. Let $\lcb y_i \rcb_{i=1}^{2g+n-1}$ be a basis for $H_1(S^3 \backslash F)$ dual to $\lcb x_i \rcb$ with respect to $\beta$; that is, $\beta(x_i,y_j) = \delta_{ij}$. If the entries of the Seifert matrix are written as $S = (s_{ij})$, then we have $x_i^\pm$ can be written in the basis $\lcb y_i \rcb$ as follows
+\begin{equation}
+\label{x_i^+ in y basis}
+x_i^+ = \sum_j s_{ji} y_j
+\end{equation}
+\begin{equation}
+\label{x_i^+- in y basis}
+x_i^- = \sum_j s_{ij} y_j
+\end{equation}
+
+If we choose a different basis $\lcb x_i' \rcb$ for $H_1(F)$, and let $S'$ be the associated Seifert matrix, then $S$ and $S'$ are related by $S' = U^T S U$, where $U$ is an invertible, integral matrix (i.e. $\det U = \pm 1$). The process of transforming a Seifert matrix $S$ to $U^T S U$ will be called an $S_1$ move on Seifert matrices.
+
+By \cref{Seifert surface moves} we have a set of moves that can be performed on Seifert surfaces that generate \emph{all} Seifert surfaces for a knot. We want to see how these moves change the Seifert matrix. Clearly isotopy leaves the Seifert matrix unchanged since we can isotopy our basis along with the surface. Let $F'$ be a new Seifert surface obtained by stabilizing $F$ once. Then we can form a basis for $H_1(F')$ by adding two new generators to the basis $\lcb x_i \rcb$ for $H_1(F)$. Let $y_2$ be a meridian of the cylinder glued in during the stabilization process, and let $y_1$ be a longitude. Then $y_2$ does not link with any of the other $x_i^+$'s, $y_1$ and $y_2^+$ link either positively or negatively exactly once while $y_2$ and $y_1^+$ do not link, and $y_1$ links with the $x_i^+$'s in an unpredictable manner. Therefore the Seifert matrix $S'$ of $F'$ is of the form
+\begin{equation}
+\label{S_2 move}
+S' = \begin{pmatrix} & & & * & 0 \\ & S & & \vdots & \vdots \\ & & & * & 0 \\ * & \cdots & * & * & \pm 1 \\ 0 & \cdots & 0 & 0 & 0 \end{pmatrix}
+\end{equation}
+where the $*$ entries can be arbitrary integers. Transforming a Seifert matrix $S$ to a matrix in the above form will be called an $S_2$ move. From \cref{Seifert surface moves} we now know that any function on the isotopy classes of oriented links defined in terms of Seifert matrices will be well-defined it the function remains invariant under $S_1$ and $S_2$ moves.
+
+Before defining such invariants, let us look at how Seifert matrices change under other operations. For example, if we change the orientation of the link (this means changing the orientation of \emph{every} component), then the orientation of the Seifert surface $F$ is reversed. Pushing curves off the surface in the normal direction will also be reversed, hence the Seifert matrix of $-F$ is simply $S^T$. On the other hand, let $\overline L$ denote the \textbf{mirror} of $L$, i.e. the reflection of $L$ through any plane in $\mathbb R^3$. In a diagram we can take this to be switching all crossings. We can also reflect the Seifert surface $F$ to obtain a surface $\overline F$ for $\overline L$, as well as the basis curves to obtain $\lcb \overline x_i \rcb$. Clearly the Seifert matrix with respect to this basis will simply be $-S$.
+
+\begin{prop}
+Let $S$ be a Seifert matrix for an oriented link $L$. Then $|\det(S+S^T)|$ is invariant under the $S_1$ and $S_2$ moves on Seifert matrices.
+\end{prop}
+\begin{proof}
+Let $S' = U^T S U$, where $U$ is an invertible integral matrix, then
+\[ \det(S'+S'^T) = \det(U^T(S+S^T)U) = \det(S+S^T) \]
+so this quantity is invariant under $S_1$ moves. Next let $S'$ be the Seifert matrix obtained from applying the $S_2$ move (as in \cref{S_2 move}), then
+\[ \det(S'+S'^T) = \det \begin{pmatrix} & & & * & 0 \\ & S+S^T & & \vdots & \vdots \\ & & & * & 0 \\ * & \cdots & * & * & \pm 1 \\ 0 & \cdots & 0 & \pm 1 & 0 \end{pmatrix} \]
+By performing a cofactor expansion along the last column, and then another expansion along the last row, we are left with $\det(S+S^T)$, up to sign. Therefore $|\det(S+S^T)|$ is invariant under the $S_1$ moves.
+\end{proof}
+
+This proposition gives us our first link invariant: the \textbf{determinant} of an oriented link $L$, denoted by $\det(L)$, is the determinant of the symmetrization of a Seifert matrix for $L$. One can easily check that the determinant satisfies $\det(L)=\det(-L)$, hence it can be considered an invariant of unoriented knots, but it can behave unpredictably with respect to reversing orientations on specific components of links. Further, we have $\det(L)=\det(\overline L)$, so the determinant cannot detect when mirrors are non-isotopic.
+
+\begin{prop}
+Let $S$ be a Seifert matrix for an oriented link $L$ and $\omega \neq 1$ a complex number of unit modulus. Then $\sigma((1-\omega)S+(1-\overline\omega S^T)$ is invariant under the $S_1$ and $S_2$ moves on Seifert matrices, where $\sigma$ denotes the signature of a Hermitian matrix.
+\end{prop}
+\begin{proof}
+Since signature is invariant under transformations $U^T S U$ we clearly have invariance under $S_1$ moves. Next let $S'$ be the Seifert matrix obtained from applying the $S_2$ move (as in \cref{S_2 move}), then
+\[ (1-\omega)S' + (1-\overline\omega)S'^T = \begin{pmatrix} & & & * & 0 \\ & (1-\omega)S+(1-\overline\omega)S^T & & \vdots & \vdots \\ & & & * & 0 \\ * & \cdots & * & * & \pm (1-\omega) \\ 0 & \cdots & 0 & \pm (1-\overline\omega) & 0 \end{pmatrix} \]
+By adding multiples of the last column and last row to the other columns and rows we obtain a matrix with the same signature of the form
+\[ \begin{pmatrix} & & & 0 & 0 \\ & (1-\omega)S+(1-\overline\omega)S^T & & \vdots & \vdots \\ & & & 0 & 0 \\ 0 & \cdots & 0 & 0 & \pm (1-\omega) \\ 0 & \cdots & 0 & \pm (1-\overline\omega) & 0 \end{pmatrix} \]
+The signature of this matrix is the sum of the signatures of the block matrices. The bottom block matrix has signature zero, therefore we have invariance under the $S_2$ move.
+\end{proof}
+
+We can now define the $\omega$-signature of an oriented link $L$ to be the signature of the Hermitian matrix $(1-\omega)S+(1-\overline\omega)S^T$, and we denote this number by $\sigma_\omega(L)$. We will usually consider signatures with $\omega=-1$, which we call \emph{the} signature and write it simply as $\sigma(L)$. Again we have $\sigma_\omega(L)=\sigma_\omega(-L)$, so signature can be considered an unoriented knot invariant, however this time we have $\sigma_\omega(L) = -\sigma_\omega(\overline L)$. Therefore if a link is isotopic to its mirror (also known as \textbf{amphichiral}), then its signature is zero.
+
+\begin{prop}
+Signature is additive with respect to connect sum: $\sigma(k_1 \# k_2) = \sigma(k_1) + \sigma(k_2)$.
+\end{prop}
+\begin{proof}
+Let $F_1,F_2$ be Seifert surfaces for $k_1,k_2$ respectively, and let $\lcb x_i \rcb_{i=1}^{2g_1}$ and $\lcb y_i \rcb_{i=1}^{2g_2}$ be bases for the groups $H_1(F_1)$ and $H_1(F_2)$. Then $\lcb x_1,\ldots,x_{2g_1},y_1,\ldots,y_{2g_2} \rcb$ forms a basis for $H_1(F_1 \natural F_2)$, and the $x_i$'s do not link with any of the $y_i$'s, hence the Seifert matrix is of the form
+\[ S = \begin{pmatrix} S_1 & 0 \\ 0 & S_2 \end{pmatrix} \]
+where $S_1,S_2$ are the Seifert matrices for $k_1,k_2$. The signature of the symmetrization of this is just $\sigma(S_1+S_1^T)+\sigma(S_2+S_2^T)$, so the proposition follows.
+\end{proof}
+
+Although the genus of a Seifert surface is not a link invariant (since we can stabilize and destabilize the surfaces), we can take the minimum genus over all Seifert surfaces. The \textbf{genus} of a link $L$ is defined to be the minimum value of $g(F)$, where $F$ ranges over all Seifert surfaces for $L$, and is denoted by $g(L)$. Clearly isotopic links have equal genus, and the only knot with genus 0 is the unknot. 
+
+\begin{prop}
+The genus of a knot is additive with respect to connect sum: $g(k_1 \# k_2) = g(k_1) + g(k_2)$.
+\end{prop}
+\begin{proof}
+If $F_1,F_2$ are Seifert surfaces for $k_1,k_2$ respectively, then we can form the boundary sum $F_1 \natural F_2$ to obtain a surface of genus $g(F_1)+g(F_2)$ bounding $k_1 \# k_2$, hence $g(k_1 \# k_2) \leq g(k_1) + g(k_2)$. 
+
+On the other hand, let $F$ be a Seifert surface for $k_1 \# k_2$. We can arrange $k_1 \# k_2$ in $S^3$ such that there is a sphere $\Sigma$ intersecting $k_1 \# k_2$ in precisely two points, and the arc running between these two points inside $\Sigma$ is the part of $k_2$ in the connect sum. By slightly perturbing $F$ and $\Sigma$, if necessary, we can assume that $F \cap \Sigma = \beta \cup c_1 \cup \cdots c_n$, where $\beta$ is an arc with boundary $k_1 \# k_2 \cap \Sigma$, and the $c_i$'s are simple, closed curves. Let $c$ be one of these curves such that the disc it bounds in $\Sigma$ does not contain any other $c_i$'s. If we cut out an annular region of $c$ in $F$, then the resulting surface has two new boundary components. Glue in two parallel discs to close up this surface, which we will denote by $F'$. This can be done since we assume the spanning disc of $c$ in $\Sigma$ did not contain any other curves. We claim that $F'$ has genus less than or equal to the genus of $F$. If $c$ does not separate $F$, then $F'$ is connected and has genus $g(F)-1$ since we cut open a handle and capped it off. If $c$ separates $F$, then $F'$ has two components, one of which is closed and one of which has boundary $k_1 \# k_2$. Let $F''$ be the latter component, then clearly $F''$ has genus less than or equal to the genus of $F$. We now have a Seifert surface with genus no greater than $g(F)$, but now it has one less intersection with $\Sigma$. Repeating this we obtain a Seifert surface $F'''$ which intersects $\Sigma$ only at $\beta$, and which has genus no greater than the genus of the original surface $F$. Let $F_1$ and $F_2$ be the surfaces lying on either side of $\beta$ in $F'''$, then $F_1$ and $F_2$ have boundary $k_1 \cup \beta$ and $k_2 \cup \beta$, which are isotopic to $k_1$ and $k_2$. Therefore
+\[ g(k_1) + g(k_2) \leq g(F_1) + g(F_2) = g(F''') \leq g(F) \]
+and since this works for any initial surface $F$, we have $g(k_1)+g(k_2) \leq g(k_1 \# k_2)$.
+\end{proof}
+
+Similar to the genus of a link is the \textbf{4-ball genus} of a link. This is the minimum of $g(F)$, where $F$ ranges over all smoothly embedded, compact, orientable surfaces in $D^4$ with boundary $\partial F = L \subset \partial D^4$, and is denoted by $g^*(L)$. If we relax the requirement of smoothly embedded to be only a locally flat, topological embedding, then we obtain the \textbf{topological 4-ball genus} denoted by $g^T(L)$. We clearly have $g^T(L) \leq g^*(L) \leq g(L)$. A link $L$ with $g^*(L)=0$ is called \textbf{smoothly slice}, or usually just \textbf{slice}.
+
+\begin{prop}
+If $k$ is a slice knot, then there is a $2g \times 2g$ Seifert matrix for $k$ of the form
+\[ \begin{pmatrix} 0 & P \\ Q & R \end{pmatrix} \]
+where $P,Q,R$ are $g \times g$ integral matrices.
+\end{prop}
+
+\begin{cor}
+If $k$ is a slice knot, then $\sigma(k) = 0$.
+\end{cor}
+\begin{proof}
+By the previous proposition we have that the symmetrization of a Seifert matrix for $k$ is of the form
+\[ \begin{pmatrix} 0 & P \\ P^T & Q \end{pmatrix} \]
+where $P$ is any integral matrix and $Q$ is a symmetric. By a result we will prove later (\todo{insert reference}) we have that $\det(k) \neq 0$, hence the above matrix is a symmetric, non-degenerate, bilinear form which vanishes on a half dimensional space. The signature of such forms is zero, hence $\sigma(k)=0$.
+\end{proof}
+
+Two knots $k_1,k_2$ in $S^3$ are said to be \textbf{concordant} if we can smoothly embed the cylinder $S^1 \times I$ in $S^3 \times I$ such that the $t=0$ slice of the cylinder is precisely $k_1$ in $S^3 \times 0$, and the $t=1$ slice is precisely $k_2$ in $S^3 \times 1$. If $k$ is a slice knot, then we can cut a small disc out of a slicing disc to obtain an concordance of $k$ with the unknot. Conversely, if $k$ is concordant to the unknot, then we can cap off the cylinder to obtain a slicing disc for $k$, hence $k$ is slice. We can compose concordances by stacking them (just like cobordisms), so we have that concordance defines an equivalence relation on the set of knots in $S^3$. Let $\mathcal C_1$ denote the set of concordance classes. We claim that $\mathcal C_1$ forms a group under the connect sum operation. First we show that the connect sum operation descends to a well defined function on $\mathcal C_1$. If $k_i,k_i'$ ($i=1,2$) are knots such that $k_i$ is concordance to $k_i'$, then we can splice together the cylinder between $k_1$ and $k_1'$ with the cylinder with $k_2$ and $k_2'$ to obtain a concordance between $k_1\# k_2$ and $k_1'\# k_2$. The concordance class of the unknot serves as the identity. Finally, the inverse of a class $[k]$ is the class of $k$'s mirror, $[\overline k]$. To see this we only need to prove that for any knot $k$, $k \# \overline k$ is slice.
+
+\begin{prop}
+For any knot $k$, the connect sum $k \# \overline k$ is slice.
+\end{prop}
+\begin{proof}
+We construct a slicing disc explicitly. Arrange $k \# \overline k$ in $\mathbb R^3$ such that the plane $\mathbb R^2 \times 0 \subset \mathbb R^3$ intersects it in precisely two points, those points being on the connect sum band. Let $k_+$ be the part of $k \# \overline k$ that lines in the half space $\mathbb R^2 \times \lcb z \geq 0 \rcb$. We will spin this part of the knot through $\mathbb R^4$ about the plane $\mathbb R^2 \times 0 \times 0$ by $\pi$. In particular, let $D$ be the set of points
+\[ D = \lcb (x,y,z \cos \theta,z \sin \theta) \in \mathbb R^4 \st (x,y,z) \in k_+, 0 \leq \theta \leq 1 \rcb \]
+Then $D$ is a disc embedded in $\mathbb R^4$ with boundary precisely $k \# \overline k$. 
+\end{proof}
+
+\begin{cor}
+The set of concordance classes of knots $\mathcal C_1$ is a group under $\#$.
+\end{cor}
+
+\begin{cor}
+Signature descends to a homomorphism $\sigma_\omega : \mathcal C_1 \rightarrow \mathbb Z$.
+\end{cor}
+
+Another scalar invariant we can derive from Seifert matrices is the \textbf{determinant}. If $L$ is an oriented link and $S$ a Seifert matrix, then we define the determinant to be $\det(L) := |\det(S+S^T)|$. 
+\begin{prop}
+The determinant is a well-defined invariant of oriented links.
+\end{prop}
+\begin{proof}
+The determinant $|\det(S+S^T)|$ is clearly invariant under $S_1$ moves. Let $S'$ be a Seifert matrix for $L$ obtained from $S$ by an $S_2$ move. Then
+\[ \det(S'+S'^T) = \det\begin{pmatrix} & & * & 0 \\ & S+S^T & \vdots & \vdots \\ & & * & 0 \\ * & \cdots & * & \pm 1 \\ 0 & \cdots & \pm 1 & 0 \end{pmatrix} \]
+By performing a cofactor expansion along the last column, and then along the last row of the result matrix we get $\det(S+S^T)$, up to sign, hence the determinant is invariant under $S_2$ moves.
+\end{proof}
+
+
+
+
+
+
+
+\subsection{The Alexander Polynomial I}
+\label{The Alexander Polynomial I}
+
+
+The Alexander polynomial is an invariant of oriented links that takes values in the formal Laurent polynomials $\mathbb Z[t^{1/2},t^{-1/2}]$. There are many constructions of this invariant, two of which we will describe in the current section, and others will be discussed later on. Let $L$ be an oriented link with oriented Seifert surface $F$.
+
+First we describe the construction of an infinite cyclic covering space $p : X_\infty \rightarrow X$ of the link complement $X = S^3 \backslash \nu L$; that is, the group deck transformations of $p$ is isomorphic to $\mathbb Z$. Cut open $X$ along $F$ to obtain a new space $Y$ with two boundary components: $\partial Y = F^+ \coprod F^-$. Take a countable collection of copies of this space $Y_i = Y \times \lcb i \rcb$ ($i \in \mathbb Z$), and form the quotient spaces $X_\infty$ from $\coprod_i Y_i$ by identifying $F_i^-$ in $Y_i$ with $F_{i+1}^+$ in $Y_{i+1}$. Define the map $p : X_\infty \rightarrow X$ on the piece $Y_i$ by $p(x,i) = x$. This map is clearly well-defined and continuous, and turns $X_\infty$ into a covering space. Let $t : X_\infty \rightarrow X_\infty$ be the map defined on $Y_i$ by $t(x,i) = (x,i+1)$. Then $t$ is a deck transformation (i.e. a homeomorphism commuting with the projection map), and $t$ generates the infinite cyclic group of deck transformations of $p$. 
+
+\begin{prop}
+Let $p : X_\infty \rightarrow X$ and $p' : X_\infty' \rightarrow X$ be the infinite cyclic coverings of the link complement associated to two Seifert surfaces $F$ and $F'$, respectively. Then $p$ is isomorphic to $p'$ via a homeomorphism that is equivariant with respect to the $\mathbb Z$ actions on each space.
+\end{prop}
+\begin{proof}
+A loop $\gamma$ in $X$ lifts to a loop $\widetilde\gamma$ in $X_\infty$ if and only if $\widetilde\gamma(0)$ and $\widetilde\gamma(1)$ are in the same copy of $Y$ in $X_\infty$. This means that each time $\widetilde\gamma$ passes through the wall $F_i^-=F_{i+1}^+$ between $Y_i$ and $Y_{i+1}$ in one direction, it must also pass through the same wall in the other direction, i.e. $\gamma$ algebraically intersects $F$ zero times. This happens if and only if $\gamma$ links with $L$ zero times; in other words, the sum of the linking numbers of $\gamma$ with each component of $L$ is zero. So, the notion of lifting paths in $p$ and $p'$ is independent of $F$, hence $p_*(\pi_1(X_\infty))$ and $p_*'(\pi_1(X_\infty'))$ are equal, and therefore $p$ is isomorphic to $p'$.
+
+Let $h : X_\infty \rightarrow X_\infty'$ be the homeomorphism such that $p' \circ h = p$, as constructed above. We want to show that $th(x)=h(tx)$ for all $x \in X_\infty$. Let $\widetilde\gamma$ be a path in $X_\infty$ from $x$ to $tx$. Then $\gamma=p\circ\widetilde\gamma$ is a path in $X$ that links exactly $+1$ with $L$. We clearly have $p' \circ h \circ \widetilde\gamma = p \circ \widetilde\gamma = \gamma$, hence $h \circ \widetilde\gamma$ is a lift of $\gamma$ with respect to $p'$. This implies that $h \circ \widetilde\gamma$ is a path in $X_\infty'$ from $h(x)$ to $th(x)$, hence we have $th(x)=h(tx)$.
+\end{proof}
+
+This proposition tells us that the isomorphism class of the covering space constructed from a Seifert surface is actually an invariant of the oriented link $L$, and so all of its computable invariants will also be invariants for $L$. For example, the abelian group $H_1(X_\infty)$ is an invariant of $L$. In fact, we can give this abelian group more structure by extending the action of $t$ on $H_1(X_\infty)$ to an action of  $\mathbb Z[t,t^{-1}]$, where $t$ also denotes the automorphism of $H_1(X_\infty)$ induced by the deck transformation $t$. This $\mathbb Z[t,t^{-1}]$-module is called the \textbf{Alexander module}. We can extract useful invariants from this module, but first we recall some basic ideas concerning presentation matrices.
+
+Let $R$ be a commutative ring with unit, and let $M$ be an $R$-module. A \textbf{presentation} of this module is an exact sequence
+\[ E \stackrel{\alpha}{\longrightarrow} F \stackrel{\phi}{\longrightarrow} M \longrightarrow 0 \]
+of $R$-modules, where $E$ and $F$ are free. If $\lcb x_i \rcb$ is a basis for $E$ and $\lcb y_j \rcb$ a basis for $F$, then there are elements $a_{ij} \in R$ such that $\alpha(x_i) = \sum_j a_{ji} y_j$. The matrix $A = (a_{ij})$ of elements in $R$ is called a presentation matrix for $M$. If this matrix is $m \times n$, then the \textbf{$r$-th elementary ideal} of $M$ is defined to be the ideal $\mathcal I_r \subset R$ generated by the determinant of all $(m-r+1) \times (m-r+1)$ minors of $A$. One can show that these ideals do not depend on the presentation of $M$. If $m=n$, then only one of the elementary ideals can be non-zero; in particular, $\mathcal I_1$ is just the ideal generated by $\det A$.
+
+\begin{thm}
+\label{presentation matrix of H_1 of infinite cyclic covering}
+Let $F$ be a Seifert surface, and $S$ an associated Seifert matrix, for an oriented link $L$. Then $tA - A^T$ is a presentation matrix for $H_1(X_\infty)$ as a $\mathbb Z[t,t^{-1}]$-module.
+\end{thm}
+\begin{proof}
+We can write $X_\infty = U \cup V$ where $U = \cup_i Y_{2i}$ and $V = \cup_i Y_{2i+1}$. Then we have $U \cap V = \cup_i F_i$, where $F_i$ is the copy of $F$ in $X_\infty$ where $F_i^-$ is identified with $F_{i+1}^+$. Part of the Mayer-Vietoris sequences gives us
+\[ H_1(X_\infty) \longrightarrow H_0(U \cap V) \stackrel{(-i_*,j_*)}{\longrightarrow} H_0(U) \oplus H_0(V) \]
+where $i_*,j_*$ are the maps induced by inclusion of $U \cap V$ into $U$ and $V$, respectively. Note that $H_0(U)$ and $H_0(V)$ are not $\mathbb Z[t,t^{-1}]$-modules but their direct sum is, so the above maps are $\mathbb Z[t,t^{-1}]$-module homomorphisms. We can identify $H_0(U \cap V)$ with $H_0(F) \otimes_{\mathbb Z} \mathbb Z[t,t^{-1}]$ generated by $1 \otimes 1$, as well as $H_0(U) \oplus H_0(V)$ with $H_0(Y) \otimes_{\mathbb Z} \mathbb Z[t,t^{-1}]$. The second map sends the generator $1 \otimes 1$ to $-(1 \otimes 1) + (1 \otimes t)$. Therefore this map is injective, and so the first map in the above is the zero map. This means another part of the Mayer-Vietoris sequence can be written as
+\[ H_1(U \cap V) \stackrel{(-i_*,j_*)}{\longrightarrow} H_1(U) \oplus H_1(V) \longrightarrow H_1(X_\infty) \longrightarrow 0 \]
+hence we have a presentation of $H_1(X_\infty)$. To compute the presentation matrix let $\lcb x_i \rcb$ be a basis for $H_1(F)$, and let $\lcb y_i \rcb$ be the dual basis for $H_1(S^3 \backslash F)$ with respect to the pairing $\beta$ defined in \cref{pairing of H_1(F) and H_1(S^3 - F)}. Then we can identify $H_1(U \cap V)$ with $H_1(F) \otimes_{\mathbb Z} \mathbb Z[t,t^{-1}]$, which has basis $\lcb x_i \otimes 1 \rcb$, and we can identify $H_1(U) \oplus H_1(V)$ with $H_1(Y) \otimes_{\mathbb Z} \mathbb Z[t,t^{-1}]$, which has basis $\lcb y_i \otimes 1 \rcb$. Under the first map the generator $x_i \otimes 1$ is mapped to $-(x_i^- \otimes 1) + (x_i^+ \otimes t)$, which according to \cref{x_i^+ in y basis,x_i^+- in y basis} can be written as
+\[ -\sum_j s_{ji} y_j \otimes 1 + \sum_j s_{ij} \otimes t \]
+Therefore the matrix of this map is precisely $tS - S^T$.
+\end{proof}
+
+The polynomial $\det(tS-S^T)$ is a generator of the elementary first ideal of $H_1(X_\infty)$. It is called the \textbf{Alexander polynomial} of the link $L$, and is denoted by $\Delta_L(t)$. Note that right now $\Delta_L(t)$ is defined only up to a multiple of $\pm t^{-\pm n}$. We will see soon that there is a naturally chosen normalization so that $\Delta_L(t)$ is a symmetric Laurent polynomial, except now we have to allow Laurent polynomials in $\mathbb Z[t^{1/2},t^{-1/2}]$. Since for the time being we can only talk about the Alexander polynomial up to multiplication by a unit in $\mathbb Z[t,t^{-1}]$ we introduce the notation $p(t) \dotequal q(t)$ to mean the polynomials $p,q \in \mathbb Z[t,t^{-1}]$ are equal up to a multiplication by a unit. 
+
+\begin{prop}
+\sloppyspace
+\begin{enumerate}
+	\item For any oriented link $L$, $\Delta_L(t) \dotequal \Delta_L(t^{-1})$.
+	\item For any knot $k$, $\Delta_k(1) = \pm 1$.
+	\item For any oriented link $L$, $\Delta_L(1) = 0$.
+	\item For an oriented link $L$, $|\Delta_L(-1)| = \det(L)$.
+	\item For a slice knot $k$, $\Delta_k(t) \dotequal p(t)p(t^{-1})$ for some polynomial $p \in \mathbb Z[t]$.
+	\item If $L$ is a split link, then $\Delta_L(t)=0$.
+\end{enumerate}
+\end{prop}
+\begin{proof}
+\sloppyspace
+\begin{enumerate}
+	\item We have
+	\[ \Delta_L(t^{-1}) = \det(t^{-1} S - S^T) = \det(t^{-1} (S - t S^t)) = \pm t^{-n} \det(t S^t - S) \dotequal \det(tS-S^T) \dotequal \Delta_L(t) \]
+	where $n$ is the dimension of the Seifert matrix $S$. 
+	\item When evaluating $\Delta_k(t)$ at 1, it does not matter which representative of $\Delta_k(t)$ we choose (at least up to sign). We have
+	\[ \Delta_k(1) = \det(S-S^T) = \det\left( \lk(x_i,x_j^+) - \lk(x_i^-,x_j) \right) \]
+	This latter matrix is easily seen to be the intersection form on $F$, which is an anti-symmetric, non-degenerate, bilinear form. As such, it can be written as a direct sum of the matrices $\begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$, hence has determinant equal to 1.
+	\item We can use similar reasoning as shown above, except now the intersection form on a surface with more than one boundary component is degenerate, and hence its determinant is zero.
+	\item We have
+	\[ |\Delta_L(-1)| = |\det(-S-S^T)| = |\pm \det(S+S^T)| = \det(L) \]
+	\item Since $k$ is slice there is a Seifert matrix for $k$ of the form
+	\[ \begin{pmatrix} 0 & P \\ Q & R \end{pmatrix} \]
+	Therefore we have
+	\[ \Delta_k(t) \dotequal \det(tP-Q)\det(tQ-p) \]
+	and the proposition follows.
+	\item If $L$ is split then it can be written as $L = L_1 \cup L_2$, where $L_1$ and $L_2$ can be separated by a plane. If $F_1,F_2$ are Seifert surfaces of $L_1,L_2$ respectively, then $F = F_1 \# F_2$ is a Seifert surface for $L$. However, if we choose one of the generators of $H_1(F)$ to be the meridian of the cylinder used to perform the connect sum, then the associated Seifert matrix will have a column and row of all zeros (since this meridian does not link with any other generators). Therefore $\det(tS-S^T)=0$.
+\end{enumerate}
+\end{proof}
+
+
+We now pin down the indeterminacy in the definition of $\Delta_L(t)$. We do this by defining it absolutely by
+\[ \Delta_L(t) = \det(t^{1/2}S-t^{-1/2}S^T) \]
+where $S$ is a Seifert matrix for the oriented link $L$. This is called the \textbf{Conway normalization} of the Alexander polynomial. If $F$ is the Seifert surface associated to $S$, then $S$ is a $(2g+n-1) \times (2g+n-1)$ matrix, where $g$ is the genus of $F$ and $n$ is the number of components in $L$. It is clear now that $\Delta_L(t)$ consists only of powers of $t^{\pm 1}$ if $n$ is odd; otherwise, it consists only of \emph{odd} powers of $t^{\pm 1/2}$. Of course, we need to check that this polynomial is well-defined.
+
+\begin{prop}
+The Laurent polynomial $\det(t^{1/2}S-t^{-1/2}S^T)$ is an isotopy invariant of oriented links.
+\end{prop}
+\begin{proof}
+We just need to check that this polynomial is invariant under the $S_1$ and $S_2$ moves on Seifert matrices. We clearly have
+\[ \det(t^{1/2}U^TSU - t^{-1/2}U^TS^TU) = \det(U^T)\det(t^{1/2}S-t^{-1/2}S^T)\det(U) = \det(t^{-1/2}S-t^{-1/2}S^T) \]
+so it remains invariant under $S_1$ moves. If $S'$ is a Seifert matrix for $L$ obtained from applying an $S_2$ move to $S$, then we have
+\[ \det(t^{1/2}S'-t^{-1/2}S'^T) = \begin{pmatrix} & & & * & 0 \\ & t^{1/2}S-t^{-1/2}S^T & & \vdots & \vdots \\ & & & * & 0 \\ * & \cdots & * & * & \pm t^{1/2} \\ 0 & \cdots & 0 & \pm t^{-1/2} & 0 \end{pmatrix} \]
+If we perform a cofactor expansion along the last column and then on the last row of the result matrix we see that the above determinant is precisely
+\[ \pm t^{1/2} \left( \pm t^{-1/2} \left( \det(t^{1/2}S - t^{-1/2}S^T) \right) \right) = \det(t^{1/2}S - t^{-1/2}S^T) \]
+Therefore the polynomial is invariant under the $S_2$ moves.
+\end{proof}
+
+This allows us to prove many fundamental properties of the invariants we have defined so far.
+
+\begin{cor}
+\sloppyspace
+\begin{enumerate}
+	\item For a knot $k$, $\det(k)$ is an odd integer.
+	\item For a knot $k$, $\sigma(k)$ is an even integer.
+	\item For a knot $k$, $\deg \Delta_k(t) \leq 2g(k)$.
+\end{enumerate}
+\end{cor}
+\begin{proof}
+\sloppyspace
+\begin{enumerate}
+	\item Let us write $\Delta_k(t) = a_0+a_1(t+t^{-1} + \cdots a_n(t+t^{-1})$. Then $1=\Delta_k(1) = a_0+2a_1+\cdots+2a_n$, hence $a_0$ is odd. This implies $\det(k)=\Delta_k(-1)=a_0-2a_1-\cdots-2a_n$ is odd.
+	\item Suppose $S$ is a $2g \times 2g$ matrix. Since $\det(S+S^T) \neq 0$, we have $b^++b^-=2g$, where $b^\pm$ is the dimension of the maximal positive/negative-definite subspace of $S+S^T$ on $\mathbb Z^{2g}$. It follows that $\sigma(k)=b^+-b^-$ is even.
+	\item Let $F$ be a Seifert surface of minimal genus $g$, and let $S$ be a $2g \times 2g$ Seifert matrix associated to $F$. This means that the highest positive power of $t$ that can appear in $\Delta_k(t)$ is $g$, hence $\deg \Delta_k(t) \leq 2g = 2g(k)$.
+\end{enumerate}
+\end{proof}
+
+\begin{example}
+Let us compute all the invariants we have constructed above for the right-handed trefoil $k$ (see \cref{left-handed-trefoil}). Applying Seifert's algorithm to this diagram produces a surface $F$ from two discs with three twisted bands attached. Using the counting formulas from \ref{euler characteristic genus seifert surface} shows that $F$ is of genus 1. Choose generators $x_1,x_2$ of $H_1(F)$ as shown in \cref{left-trefoil-seifert-algorithm}. One can easily compute the associated Seifert matrix to be
+\[ S = \begin{pmatrix} 1 & 0 \\ 1 & 1 \end{pmatrix} \]
+From this we can compute
+\[ \sigma(S+S^T) = \sigma\begin{pmatrix} 2 & 1 \\ 1 & 2 \end{pmatrix} = 2 \]
+\[ \det(S+S^T) = 3 \]
+\[ \Delta_k(t) = t - 1 + t^{-1} \]
+Since we produced a Seifert surface of genus 1, and clearly $k$ is not the unknot, we have $g(k) = 1$. Further, $k$ is not a slice knot since $\sigma(k) \neq 0$. This can also be seen by noticing that $\Delta_k(t)$ does not factor as $p(t)p(t^{-1})$. This shows that $g^*(k)=1$.
+
+\begin{figure}
+\centering
+\includegraphics{"\graphicspath/left-trefoil"}
+\caption{The left-handed trefoil}
+\label{left-handed-trefoil}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{"graphics/left-trefoil-seifert-algorithm"}
+\caption{Generating curves on the Seifert surface for the trefoil}
+\label{left-trefoil-seifert-algorithm}
+\end{figure}
+\end{example}
+
+
+\begin{example}
+For odd integers $p,q,r$, the $(p,q,r)$ pretzel knot is shown in \cref{pretzel-knot}, and is denoted by $P(p,q,r)$. Even though all the crossings in \cref{pretzel-knot} are drawn to be positive, we are taking the convention that if $p>0$, then the twists are positive, and if $p<0$, then the twists are negative. Note that $P_{(1,1,1)}$ is the right-hand trefoil. Applying the Seifert algorithm to this diagram produces a genus 1 surface, and we can pick generators $x_1,x_2$ for $H_1(F)$ in the same way as above. Oriented in a specific way we get that the Seifert matrix is
+\[ S = \frac{1}{2} \begin{pmatrix} p+q & q+1 \\ q-1 & q+r \end{pmatrix} \]
+Therefore the Alexander polynomial is
+\[ \Delta_{P(p,q,r)}(t) = \frac{1}{4} \left( t(pq+pr+qr+1) -2(pq+pr+qr-1) + t^{-1}(pq+pr+qr+1) \right) \]
+If we choose $(p,q,r)$ such that $pq+pr+qr=-1$, then we have $\Delta_{P(p,q,r)}(t)=1$, which is the same as the unknot. An example of such a triple is $(p,q,r)=(-3,5,7)$. It is interesting to note that by a theorem of Freedman any knot whose Alexander polynomial is 1 is topologically slice.
+
+\begin{figure}
+\centering
+\includegraphics[scale=1]{"\graphicspath/pretzel-knot"}
+\caption{The $(p,q,r)$ pretzel knot}
+\label{pretzel-knot}
+\end{figure}
+\end{example}
+
+
+
+
+\subsection{The Knot Group}
+\label{The Knot Group}
+
+Since the homeomorphism type of the link complement $S^3 \backslash L$ is an invariant of the link we can use the tools from algebraic topology to obtain other, more computable, invariants for $L$. However, as we saw before, the homology of $S^3 \backslash L$ does not provide anything interesting. It turns out the fundamental group of $S^3 \backslash L$ gives a wealth of information, and we call it the \textbf{knot group} of $L$. 
+
+We will begin with describing how to obtain a presentation of $\pi_1(S^3 \backslash L)$ from a diagram of $L$ called the \textbf{Wirtinger presentation}. Orient $L$ in any way (this is just for convenience), and fix a diagram for $L$. Let $\ell_1,\ldots,\ell_k$ be the arcs in the diagram that run from one under crossing to the very next under crossing. For example, the diagram for the trefoil in \cref{left-handed-trefoil} has three such arcs. Each arc $\ell_i$ gives a generator $x_i$ of $\pi_1(S^3 \backslash L)$ in the following way. Let $x_i$ be the loop that starts at the point at infinity (which we think of as the viewer's eye in the diagram), travels around the arc $\ell_i$ once, and then goes back to the point at infinity. We orient $x_i$ so that it links positively with the arc $\ell_i$. Each crossing in the diagram with give a relation in $\pi_1(S^3 \backslash L)$. Let $\ell_i$ be the over strand at a crossing, and $\ell_j$ and $\ell_k$ the strands that travel into and out of the crossing, respectively. If the crossing is positive, then we add the relation $x_ix_j=x_kx_i$, and if the crossing is negative we add the relation $x_jx_i=x_ix_k$. This presentation is by no means the most efficient, as we will see soon, but it is useful as a theoretic tool and for simple computations.
+
+
+\begin{example}
+trefoil...
+\end{example}
+
+\begin{example}
+The Wirtinger presentation can given very inefficient presentations of the knot group. For example, for the standard diagram of the $(p,q)$ torus knot the Wirtinger presentation would have $pq+p+q-1$ generators and $(q-1)p$ relations. However, we will show that this knot group has a very simple presentation: $\< x,y \st x^p=y^q \>$. Give $S^3$ the standard genus one Heegaard splitting $H_1 \cup H_2$, and let $T_{p,q}$ be embedded in the torus $H_1 \cap H_2 = \partial H_1 = \partial H_2$ so that it wraps $p$ times around the meridian of $\partial H_1$ and $q$ times around the longitude of $\partial H_1$. Let $U = H_1 \backslash T_{p,q}$ and $V = H_2 \backslash T_{p,q}$. These spaces are homotopy equivalent to $H_1$ and $H_2$, hence their fundamental groups are free on one generator, say $x$ and $y$ respectively. Their intersection is an annulus, and this fundamental group is also free on one generator $z$. By the Seifert-van Kampen theorem we have that $\pi_1(S^3 \backslash T_{p,q})$ is generated by $x$ and $y$, and the relation comes from setting $z$ represented as a word in $\pi_1(U)$ equal to $z$ represented as a word in $\pi_1(V)$. We can easily see that including $z$ into $\pi_1(U)$ becomes the word $x^p$, and including $z$ into $\pi_1(V)$ becomes the word $y^q$, and so we have computed a presentation of $\pi_1(S^3 \backslash T_{p,q})$. 
+\end{example}
+
+
+It is possible to compute the Alexander polynomial of a knot (up to multiplication by units in $\mathbb Z[t,t^{-1}]$) from a presentation of its knot group. To describe this we introduce Fox's free differential calculus. Let $X$ be a bouquet of $n$ circles, $F = \< x_1,\ldots,x_n \st \ \>$ the fundamental group of $X$, and $\tilde X$ the universal cover of $X$. We can give $\tilde X$ a simplicial decomposition by thinking of it as an $n$-valent tree. Let $X_i$ denote the simplex that is the lift of the loop $x_i$. Let $G$ be a group that is finitely presented as $\< x_1,\ldots,x_n \st r_1,\ldots,r_m \>$, and let $M$ be the $\mathbb Z[G]$-module freely generated by the simplices $X_i$. Define a map $\Delta : G \rightarrow M$ by the following properties:
+\begin{enumerate}
+\item $\Delta(x_i) = X_i$
+\item $\Delta(x_i^{-1}) = -x_i^{-1} X_i$
+\item $\Delta(x_ix_j) = X_i + x_i X_j$
+\end{enumerate}
+These properties allow us to recursively compute $\Delta(w)$ for any word $w$ in the $x_i$'s. Given a word $w$ in the $x_i$'s, we define the \textbf{Fox derivative} of $w$ with respect to the generator $x_i$ to be the coefficient of $X_i$ in $\Delta(w)$, and we denote it by $\pfrac{w}{x_i}$. This is an element of $\mathbb Z[G]$. With these definitions we have
+\[ \Delta(w) = \pfrac{w}{x_1} X_1 + \cdots + \pfrac{w}{x_n} X_n \]
+and the following properties
+\begin{enumerate}
+\item $\displaystyle\pfrac{x_i}{x_j} = \delta_{ij}$
+\item $\displaystyle\pfrac{(x^k)}{x} = \begin{cases} 1+x+\cdots+x^{k-1} & k \geq 0 \\ x^k+x^{k+1}+\cdots+x^{-1} & k<0 \end{cases}$
+\item $\displaystyle\pfrac{(w_1w_2)}{x} = \pfrac{w_1}{x} + w_1 \pfrac{w_2}{x}$
+\end{enumerate}
+The Jacobian of this presentation of $G$ is the $n \times m$ matrix $\left( \pfrac{x_i}{r_j} \right)_{ij}$ of elements of $\mathbb Z[G]$. 
+
+We now apply this strange formalism to the knot group of a knot. Suppose $\pi_1(S^3 \backslash k)$ is presented as $\< x_1,\ldots,x_n \st r_1,\ldots,r_m \>$, and let $J$ be the Jacobian of this presentation. The group $H_1(S^3 \backslash k)$ is isomorphic to $\mathbb Z$ and generated by a meridian, which we will denote by $t$, and we will write the group structure multiplicatively. The abelianization map $\phi : \pi_1(S^3 \backslash k) \rightarrow H_1(S^3 \backslash F)$ sends each generator $x_i$ to a power of $t$, and can be extended to a map $\phi : \mathbb Z[\pi_1(S^3 \backslash k)] \rightarrow \mathbb Z[t,t^{-1}]$. Let $J^\phi$ denote the $n \times m$ matrix with entries in $\mathbb Z[t,t^{-1}]$ obtained by applying $\phi$ to each entry. Amazingly, we can compute the Alexander polynomial from $J^\phi$.
+\begin{prop}
+The Alexander polynomial $\Delta_k(t)$ of $k$ is the \unfinished (up to multiplication by units in $\mathbb Z[t,t^{-1}]$) ...
+\end{prop}
+
+\begin{example}
+Let $k$ be the left-handed trefoil. We already saw that $\pi_1(S^3 \backslash k) = \< x,y \st xyx = yxy \>$. Let $r = xyxy^{-1}x^{-1}y^{-1}$, then we can easily compute the derivatives of this relation with respect to $x$ and $y$ to get the following Jacobian
+\[ J = \begin{pmatrix} 1+xy-xyxy^{-1}x^{-1} & x+xy-xyxy^{-1}-xyxy^{-1}x^{-1}y^{-1} \end{pmatrix} \]
+Since our presentation of $\pi_1(S^3 \backslash k)$ came from the Wirtinger presentation we have that $x$ and $y$ are meridians of $k$, hence $\phi(x)=\phi(y)=t$. Then $J^\phi$ can be seen to be
+\[ J^\phi = \begin{pmatrix} 1+t^2-t & t+t^2-1  \end{pmatrix} \]
+This matrix has two minors, both of which are equal, and so we see (again) that the Alexander polynomial of the trefoil is $1-t+t^2$ (up to units).
+\end{example}
+
+\begin{example}
+Let $p,q \geq 1$ be relatively prime integers. We saw that the knot group of the torus knot can be presented as $\pi_1(S^3 \backslash T_{p,q}) = \< x,y \st x^p=y^q \>$. Let $r=x^py^{-q}$, then the Jacobian of this presentation is
+\[ J = \begin{pmatrix} 1+x+x^2 + \cdots x^{p-1} & x^p(y^{-q}+y^{-q+1}+\cdots+y^{-1}) \end{pmatrix} \]
+With this presentation we have $\phi(x)=t^q$ and $\phi(y)=t^p$, hence $J^\phi$ is
+\[ J^\phi = \begin{pmatrix} 1+t^q+t^{2q}+\cdots+t^{q(p-1)} & t^{pq}(t^{-pq}+t^{p(-q+1)}+\cdots+t^{-p}) \end{pmatrix} \]
+We need to find the greatest common denominator of these two polynomials. We can drop the $t^{pq}$ factor in the second polynomial since it is a unit in $\mathbb Z[t,t^{-1}]$. Then we can rewrite these polynomials as
+\[ \frac{1-t^{pq}}{1-t^q}, \ \ \ \ \ \frac{1-t^{pq}}{1-t^p} \]
+To compute the $\gcd$ of these polynomials we notice that the following basic identity holds
+\[ \gcd\left( \frac{a}{b},\frac{a}{c} \right) = \frac{a \cdot \gcd(b,c)}{bc} \]
+Since $p$ and $q$ are relatively prime we have $\gcd(1-t^p,1-t^q)=1-t$, hence
+\[ \Delta_k(t) \dotequal \gcd\left(\frac{1-t^{pq}}{1-t^q},\frac{1-t^{pq}}{1-t^p}\right) = \frac{(1-t)(1-t^{pq})}{(1-t^p)(1-t^q)} \]
+If we normalize this polynomial so that it is a symmetric Laurent polynomial in $\mathbb Z[t,t^{-1}]$, then we see that its degree is $(p-1)(q-1)$, hence the genus of $T_{p,q}$ is \emph{at least} $\frac{(p-1)(q-1)}{2}$. On the other hand, applying Seifert's algorithm to the standard diagram of $T_{p,q}$ produces a Seifert surface of genus $\frac{(p-1)(q-1)}{2}$, hence we have
+\[ g(T_{p,q}) = \frac{(p-1)(q-1)}{2} \]
+\end{example}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\section{Polynomial Invariants}
+\label{Polynomial Invariants}
+
+
+
+\subsection{The Kauffman Bracket}
+\label{The Kauffman Bracket}
+
+
+
+
+\subsection{The Alexander Polynomial II}
+\label{The Alexander Polynomial II}
+
+We will show that the Conway normalization of the Alexander polynomial satisfies what is known as a skein relation. This relations fits into a more modern framework for knot polynomials that generalizes to an infinite family of polynomial invariants. For an oriented link $L$, let $L_+,L_-,L_0$ be the three links which are identical to $L$ outside a neighborhood of a crossing, but at the crossing differ by changing the crossing to be positive, negative, or resolving the crossing in an orientation preserving fashion. A \textbf{skein relation} is a formula that relates the Alexander polynomial of the links $L_+,L_-$ and $L_0$.
+
+\begin{thm}
+For an oriented knot $L$ the Alexander polynomial $\Delta_L(t)$ satisfies the skein relation
+\[ \Delta_{L_+}(t) - \Delta_{L_-}(t) = (t^{1/2}-t^{-1/2}) \Delta_{L_0}(t) \]
+\end{thm}
+\begin{proof}
+Let $F_0$ be a Seifert surface for $L_0$. We can form Seifert surfaces $F_+,F_-$ for $L_+,L_-$ by attaching a twisted band to $F_0$. This band adds one generator to $H_1$, so let $\lcb x_i \rcb_{i=1}^n$ be a basis for $H_1(F_0)$ and $x_{n+1}$ a curve that runs once through this band. Then the associated Seifert matrices $S_+,S_-$ take the form
+\[ S_+ = \begin{pmatrix} & & & a_1 \\ & S_0 & & \vdots \\ & & & a_n \\ b_1 & \cdots & b_n & N \end{pmatrix} \ \ \ \ \ \ \ S_- = \begin{pmatrix} & & & a_1 \\ & S_0 & & \vdots \\ & & & a_n \\ b_1 & \cdots & b_n & N-1 \end{pmatrix} \]
+for some integer $N$. Then we have $\Delta_{L_+}(t)$ and $\Delta_{L_+}(t)$ are of the form
+\begin{align*}
+\Delta_{L_+}(t) &= \det\begin{pmatrix} & & & t^{1/2}a_1-t^{-1/2}b_1 \\ & t^{1/2}S_0-t^{-1/2}S_0^T & & \vdots \\ & & & t^{1/2}a_n-t^{-1/2}b_n \\ t^{1/2}b_1-t^{-1/2}a_1 & \cdots & t^{1/2}b_n-t^{-1/2}a_n & (t^{1/2}-t^{-1/2})N  \end{pmatrix} \\
+\Delta_{L_-}(t) &= \det\begin{pmatrix} & & & t^{1/2}a_1-t^{-1/2}b_1 \\ & t^{1/2}S_0-t^{-1/2}S_0^T & & \vdots \\ & & & t^{1/2}a_n-t^{-1/2}b_n \\ t^{1/2}b_1-t^{-1/2}a_1 & \cdots & t^{1/2}b_n-t^{-1/2}a_n & (t^{1/2}-t^{-1/2})(N-1)  \end{pmatrix} 
+\end{align*}
+If we compute these determinants by performing a cofactor expansion along the last column, then we see that all the terms in $\Delta_{L_+}(t)-\Delta_{L_-}(t)$ cancel except for the last, which is just
+\[ (t^{1/2}-t^{-1/2}) \det(t^{1/2}S_0-t^{-1/2}S_0^T) = (t^{1/2}-t^{-1/2})\Delta_{L_0}(t) \]
+This verifies the skein relation.
+\end{proof}
+
+The skein relation allows us to calculate $\Delta_L(t)$ in a recursive fashion, although in practice it can be quite complicated and unwieldy. 
+
+
+
+
+
+
+\subsection{The Jones Polynomial}
+\label{The Jones Polynomial}
+
+\subsection{The HOMFLYPT Polynomial}
+\label{The HOMFLYPT Polynomial}
+
+
+
+
+
+
+
+
+
+\newpage
+\section{Quantum Invariants}
+\label{Quantum Invariants}
+
+
+
+There is an interesting way to view tangles and their invariants from the perspective of quantum field theory, and this leads to a large collection of invariants known as \emph{quantum invariants}. Before getting to this let us see how quantum mechanics might lead us to invariants of \emph{flat tangles} (i.e. 1-dimensional manifolds). Dirac introduced the \textbf{bra} $\<a|\right.$ and \textbf{ket} $\left.|b\>$ notation for quantum mechanics. Mathematically $\<a|\right.$ is just a vector in some complex Hilbert space $V$ (the space of states), which we will take to be finite dimensional, and $\left.|b\>$ is just a covector in the dual space $V^*$. By $\<a|b\>$ we mean to evaluate the covector on the vector, and so this is a complex number. Physically $a$ and $b$ are states of some process, and the number $\<a|b\>$ is known as the \textbf{amplitude}. The amplitude behaves similarly to a probability measure so that if a process $a \rightarrow b$ can be factored as $a \rightarrow c \rightarrow b$, then $\<a|b\>=\<a|c\>\<c|b\>$, and if a process $a \rightarrow b$ consists of two disjoint processes $a_1 \rightarrow b_1$ and $a_2 \rightarrow b_2$, then $\<a|b\>=\<a_1|b_1\>+\<a_2|b_2\>$. For a process $a \rightarrow b$ we have $\left.|b\> \in V^*$ by definition, but we can also think of $\<a|\right.$ as the map $\mathbb C \rightarrow V$ that sends $1$ to $\<a|\right.$. Then we can think of the process $a \rightarrow b$ as the map $\left.|b\>\<a|\right. : \mathbb C \rightarrow \mathbb C$, and the amplitude is just the evaluation of this map at $1$.
+
+We now consider something similar to the above, but now in one spatial dimension and one time dimension (a $(1+1)$ quantum field theory). In this theory we start at time $t=0$ with a finite collection of particles (possibly empty) on a line, and as time travels to $t=1$ these particles will trace out a flat tangle in $\mathbb R \times [0,1]$. During the evolution of this system some particles may come together and annihilate (corresponding to maxima in the tangle), or there may be a creation of new particles (corresponding to minima). Drawing our inspiration from quantum field theory we describe this process as a linear map $V^{\otimes i} \rightarrow V^{\otimes j}$, where there are $i$ particles at time $t=0$ and $j$ particles at time $t=1$. We decide now that we want this theory to depend only on the topological data of the system, so that if we can deform one tangle into the another, then the associated linear maps are the same. In order to do this we need to know how we can deform one tangle into another. 
+
+By slightly perturbing the tangle, if necessary, we can assume that its projection onto $[0,1]$ is a Morse function such that all critical points occur at distinct heights. Basic Morse theory tells us that all flat tangles are generated by cups, caps and vertical line segments, and their deformations are generated by the isotopy that creates a minimum/maximum pair from a vertical line segment, or the reverse. With this we can think of the tangle as the being a stack of many simpler tangles, each of which consists of a bunch of vertical line segments and at most one cup or cap. The vertical line segments correspond to the identity map $V \rightarrow V$, and let $\alpha = \<a|\right. : \mathbb C \rightarrow V \otimes V$ be the map associated to the simple creation of two particles, and $\beta = \left.|b\> : V \otimes V \rightarrow \mathbb C$ the map from a simple annihilation of two particles (see ??). Now the linear map $V^{\otimes i} \rightarrow V^{\otimes j}$ can be thought of as a composition of the maps induced by the elementary tangles that form our tangle. We cannot just pick any maps $\alpha,\beta$ and expect to give this to give us something well-defined. However, since we can get between any two diagrams of our tangle via a finite sequence of maximum/minimum pair creations and deletions we just need check that the map associated to a maximum/minimum pair is the identity (see ??).
+
+The two ways of creating a minimum/maximum pair from a vertical line segment correspond to the maps $(\id \otimes \beta) \circ (\alpha \otimes \id)$ and $(\beta \otimes \id) \circ (\id \otimes \alpha)$. Choose a basis $\lcb e^1,\ldots,e^n \rcb$ for $V$, and let $\lcb c_{ij} \rcb$ and $\lcb c^{ij} \rcb$ be complex numbers such that $\alpha(1) = c_{ij} e^i \otimes e^j$ and $\beta(e^i\otimes e^j)=c^{ij}$. Then $(\id \otimes \beta) \circ (\alpha \otimes \id) = \id$ implies that
+\begin{align*}
+	e^k &= (\id \otimes \beta) \circ (\alpha \otimes \id)(1 \otimes e^k) \\
+	    &= (\id \otimes \beta) \left( c_{ij} e^i \otimes e^j \otimes e^k \right) \\
+	    &= c_{ij} c^{jk} e^i
+\end{align*}
+therefore $c_{ij} c^{jk} = \delta_i^k$, hence the matrices $(c_{ij})$ and $(c^{ij})$ are inverses of each other. The other map $(\beta \otimes \id) \circ (\id \otimes \alpha)$ gives the same restriction on $\alpha$ and $\beta$, so all we need in order to get a well defined topological quantum field theory is for $\beta$ to be a non-degenerate bilinear form on $V$, and $\alpha$ to be the inverse.
+ 
+A mathematically succinct way of describing our work above is that we found a ``monoidal representation'' of the category of flat tangles. Let us describe this loaded statement. 
+
+
+%Consider the category whose objects are non-negative integers, and a morphism between $m$ and $n$ is an isotopy class of 1-dimensional manifolds embedded in $\mathbb R \times [0,1]$ whose boundary is precisely $\lcb 1,\ldots,m \rcb \times \lcb 0 \rcb \cup \lcb 1,\ldots,n \rcb \times \lcb 1 \rcb$. The identity morphism on $n$ is simply $\lcb 1,\ldots,n \rcb \times [0,1]$, and composition of morphisms is done by stacking the flat tangles vertically. This is called the \textbf{category of (unoriented, unframed) flat tangles}, and it forms a strict monoidal category, where $m \otimes n = m+n$ and the product of morphisms is the horizontal ``stacking'' of tangles. This category is freely generated by the object 1 and the morphism that look like a cup and cap modulo the planar move relation. Then the invariant constructed above can be thought as the monoidal functor $F$ from the category of flat tangles to $\catvect{\mathbb C}$, the category of complex vector spaces, that sends $1$ to $V$, the cup morphism to $\alpha$ and the cap morphism to $\alpha$. If $T$ is a flat tangle, then the invariant constructed above is simply $F(T)$. 
+
+
+
+
+\subsection{Operator Invariants}
+\label{Operator Invariants}
+
+
+
+
+
+
+%We can use ideas from quantum field theory, as we did above, to define invariants of arbitrary tangles (not just flat tangles), and indeed arbitrary manifolds. Mathematically this 
+
+%Again using inspiration from quantum field theory we will try to repeat the above program for tangles. We start with a complex vector space $V$. Let $T$ be a tangle embedded in $\mathbb R^2 \times [0,1]$ whose endpoints lie in $\mathbb R \times \lcb 0 \rcb \times \lcb 0,1 \rcb$, and let $D$ be a diagram of this tangle in $\mathbb R \times [0,1]$. If $T$ has $i$ lower end points and $j$ upper end points, then we will define a linear map $\< D \> \in \Hom(V^{\otimes i},V^{\otimes j})$, called the \textbf{bracket} of $D$, and show that it is an invariant of the tangle. 
+
+%Recall that 
+
+
+
+%Recall that we can choose the diagram $D$ such that there are finitely many points $a_0=0 < a_1 < \ldots < a_{n-1} < a_n = 1$ in $[0,1]$ with the property that the part of the diagram in $[a_{i-1},a_i]$ is an elementary tangle. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\appendix
+
+
+
+\section{Appendices}
+
+
+\subsection{Flavors of Algebras}
+\label{Ribbon Hopf Algebras}
+
+
+\subsubsection{Hopf Algebras}
+\label{Regular Hopf Algebras}
+
+
+\subsubsection{Quasi-Triangular Hopf Algebras}
+\label{Quasi-Triangular Hopf Algebras}
+
+
+\subsubsection{Ribbon Hopf Algebras}
+\label{Ribbon Hopf Algebras}
+
+
+\subsubsection{A Diagrammatic Calculus}
+\label{A Diagrammatic Calculus}
+
+
+
+
+
+
+
+
+\newpage
+\subsection{Some Category Theory}
+\label{Some Category Theory}
+
+
+Here we introduce the necessary category theory background for doing knot theory, but we assume the basics of category theory (categories, functors, natural families of morphisms, adjoints) are already known to the reader. This section starts by defining the important concept of a monoidal category theory, and then systematically adds additional structure piece by piece until we arrive at the the concept of a ribbon category. One can consider these definitions to be motivated by one of the simplest objects in low dimensional topology (1-dimensional manifolds), and it turns out that many invariants of knots, links and tangles arise as functors into these special categories. At the end of the section we will develop a graphical calculus for dealing with ribbon categories that is inspired from the theory of tangles.
+
+\subsubsection{Monoidal Categories}
+\label{Monoidal Categories}
+
+A \textbf{(strict) monoidal category} is a category $\mathscr C$ equipped with a bifunctor $\otimes : \mathscr C \times \mathscr C \rightarrow \mathscr C$ and distinguished object $1$ such that the following axioms hold:
+\begin{enumerate}
+	\item $\otimes$ is associative in the sense that $(- \otimes -) \otimes - = - \otimes (- \otimes -)$ as functors $\mathscr C \times \mathscr C \times \mathscr C \rightarrow \mathscr C$.
+	\item $1$ is a unit for $\otimes$ in the sense that $- \otimes 1 = 1 \otimes - = \id_{\mathscr C}$ as functors $\mathscr C \rightarrow \mathscr C$.
+\end{enumerate}
+This definition may seem a little strict, hence the name, since in category theory we usually consider objects only up to isomorphism type and formulas involving functors up to natural isomorphism. So, suppose we require associativity to hold only up to natural isomorphism; that is, there is a natural family of isomorphisms $a$ between the functors $(- \otimes -) \otimes -,- \otimes (- \otimes -) : \mathscr C \times \mathscr C \times \mathscr C \rightarrow \mathscr C$. However, when taking the product of more than three objects we do not want the resulting object to depend on the way we distribute the parentheses, and so $a$ must satisfy extra conditions. Saunders Mac Lane found exactly what conditions $a$ must satisfy, using ideas on higher associativity laws in homotopy theory developed by James Stasheff, in what has become known as Mac Lane's coherence theorem. We will not discuss this theorem, but we will state now the axioms of a relaxed monoidal category.
+
+A \textbf{(relaxed) monoidal category} is a category $\mathscr C$ with a bifunctor $\otimes : \mathscr C \times \mathscr C \rightarrow \mathscr C$, a distinguished object $e$, and natural family of isomorphisms $a : - \otimes (- \otimes -) \rightarrow (- \otimes -) \otimes -, l : 1 \otimes - \rightarrow \id_{\mathscr C}, r : - \otimes 1 \rightarrow \id_{\mathscr C}$ that satisfy the following axioms
+\begin{enumerate}
+\item The pentagonal diagram
+\[
+\xymatrix
+@C=2pc
+@R=2pc
+{
+  & (A \otimes B) \otimes (C \otimes D) \ar[rd]^{a_{A\otimes B,C,D}} &   \\
+A \otimes (B \otimes (C \otimes D)) \ar[d]_{\id_A \otimes a_{B,C,D}} \ar[ur]^{a_{A,B,C \otimes D}} &   & ((A \otimes B) \otimes C) \otimes D \\
+A \otimes ((B \otimes C) \otimes D) \ar[rr]_{a_{A,B\otimes C,D}} &   & (A \otimes (B \otimes C)) \otimes D \ar[u]_{a_{A,B,C} \otimes \id_D}
+}
+\]
+commutes for all objects $A,B,C,D$ in $\mathscr C$.
+
+\item The triangular diagram
+\[
+\xymatrix
+@C=2pc
+@R=2pc
+{
+ & A \otimes B & \\
+A \otimes (1 \otimes B) \ar[rr]_{a_{A,1,B}} \ar[ur]^{\id_A \otimes l_B} & & (A \otimes 1) \otimes B \ar[ul]_{r_A \otimes \id_B}
+}
+\]
+commutes for all objects $A,B$ in $\mathscr C$.
+
+\item The morphisms $l_1, r_1 : 1 \otimes 1 \rightarrow 1$ are equal.
+\end{enumerate}
+Note that a strict monoidal category is nothing but a relaxed one for which the natural families of isomorphisms $a,l,r$ are the identity.
+
+\begin{example}
+The category of vector spaces over a field $k$ is the prototypical example of a monoidal category. Products of objects and linear maps are given by tensor products, and the 1-dimensional vector space $k$ serves as the unit object. This is not a strict monoidal category, but there is an obvious natural family of isomorphisms $A \otimes (B \otimes C) \rightarrow (A \otimes B) \otimes C$ making all the above diagrams commute.
+\end{example}
+
+
+
+
+% CATEGORY OF FLAT TANGLES
+
+%The prototypical example of a monoidal category is the \textbf{category of (unoriented) flat tangles}. The objects of this category are finite collections of points in $[0,1]$, and a morphism between objects $A$ and $B$ is an ambient isotopy class (relative boundary) of smooth embeddings of a 1-manifold in $[0,1] \times [0,1]$ whose boundary is precisely $A \times \lcb 0 \rcb \cup B \times \lcb 1 \rcb$. Composition of morphisms $f : A \rightarrow B, g : B \rightarrow C$ is done by stacking the 1-manifold representing $g$ on top of $f$ in $[0,1] \times [0,2]$, and then shrinking this square to fit in $[0,1] \times [0,1]$. The identity morphism on an object $A$ is $A \times I$, and these constructions clearly give us a category. Note that the isomorphism class of an object is completely determined by the size $|A|$ of the set. The product $A \otimes B$ of two objects is the set $1/2 A \cup 1/2(1+B)$, where the arithmetic on a set is done element-wise, i.e. set the points of $B$ on the right of $A$ in $[0,2]$, and then shrink the interval to fit in $[0,1]$. If $f : A \rightarrow B, g : C \rightarrow D$ are morphism, then $f \otimes g$ is the morphism obtained by placing $g$ on the right of $f$ in $[0,2] \times [0,1]$, and then shrinking the square to fit in $[0,1] \times [0,1]$. The identity object for this product is the empty set $\emptyset$, and these constructions make our category into a strict monoidal category. We can also find an explicit set of generators and relations for this category. All objects (except for the identity) are generated by the object $1$ with one element by taking products. Let $| : 1 \rightarrow 1$ denote the identity morphism on $1$, $\cup : \emptyset \rightarrow 1 \otimes 1$ be the morphism that is a simple cup and $\cap : 1 \otimes 1 \rightarrow \emptyset$ the morphism that is a simple cap. Then every morphism in this category can be constructed by taking compositions and products of $\cup$ and $\cap$. There are relations among these generating morphisms given by Morse theory. In particular, we know that 
+%\[ (| \otimes \cap) \circ (\cup \otimes |) = | = (\cap \otimes |) \circ (| \otimes \cup) \]
+%This gives a complete set of generators and relations for the category of flat tangles.
+
+
+
+
+We want to define a monoidal functor as a functor between monoidal categories that preserves the monoidal structure. However, since the domain and target of the functor can be any combination of strict and relaxed, and the functor itself can be strict or relaxed, there are many definitions for monoidal functor that could be made. We will give the definition in the most general form (relaxed functor and relaxed categories) and one can get the stricter versions by requiring the appropriate family of natural morphisms to be isomorphisms. A \textbf{monoidal functor} between monoidal categories $(\mathscr C,\otimes,1,a,l,r)$ and $(\mathscr C',\otimes',1',a',l',r')$ consists of a functor $F : \mathscr C \rightarrow \mathscr C'$, a natural family of \emph{morphisms} $\varphi  : (F-) \otimes' (F-) \rightarrow F(-\otimes-)$ and a \emph{morphism} $f : 1' \rightarrow F(1)$ such that the following axioms hold:
+\begin{enumerate}
+\item The hexagonal diagram
+\[
+\xymatrix
+@R=2pc
+@C=1pc
+{
+ & F(A) \otimes' (F(B) \otimes' F(C)) \ar[dl]_{\id_{F(A)} \otimes \varphi_{A,B}} \ar[dr]^{a'} & \\
+F(A) \otimes' (F(B \otimes C)) \ar[d]_{\varphi_{A,B\otimes C}} & & (F(A) \otimes' F(B)) \otimes' F(C) \ar[d]^{\varphi_{A,B} \otimes \id_{F(C)}} \\
+F(A \otimes (B \otimes C)) \ar[dr]_{F \circ a} & & (F(A \otimes B)) \otimes' F(C) \ar[dl]^{\varphi_{A\otimes B,C}} \\
+& F((A \otimes B) \otimes C) &
+}
+\]
+for all objects $A,B,C$ in $\mathscr C$. 
+
+\item The rectangular diagrams
+\[
+\xymatrix
+@R=3pc
+@C=3pc
+{
+F(A) \otimes' 1' \ar[r]^{r_{F(A)}'} \ar[d]_{\id_{F(A)} \otimes f} & F(A) \\
+F(A) \otimes' F(1) \ar[r]_{\varphi_{A,1}} & F(A \otimes 1) \ar[u]_{F \circ r_A}
+}
+\ \ \ \ \ \ \ 
+\xymatrix
+@R=3pc
+@C=3pc
+{
+1' \otimes' F(A) \ar[r]^{l_{F(A)}'} \ar[d]_{f \otimes \id_{F(A)}} & F(A) \\
+F(1) \otimes' F(A) \ar[r]_{\varphi_{1,A}} & F(1 \otimes A) \ar[u]_{F \circ l_A}
+}
+\]
+\end{enumerate}
+A monoidal functor is said to be \textbf{strong} if the family of morphisms $\varphi$ and morphism $f$ are \emph{isomorphisms}, and called \textbf{strict} if these morphisms are the \textbf{identity}. We note that the distinction between strict and relaxed monoidal categories is not necessary because one can show that all relaxed monoidal categories are monoidally equivalent to a strict monoidal category.
+
+Since the category of vector spaces over $k$ is our prototypical example of a monoidal category it is natural to wonder if the notion of a dual vector space can be generalized to monoidal categories. Recall that given a finite dimensional vector space $V$, there is a natural map $\cap_V : V^* \otimes V \rightarrow k$ given by $\lambda \otimes v \mapsto \lambda(v)$. If we fix a basis $\lcb e_i \rcb$ for $V$, then there is also a map $\cap_V : k \rightarrow V \otimes V^*$ given by $1 \mapsto \sum e_i \otimes e^i$, where $\lcb e^i \rcb$ is the dual basis for $V^*$. One can show that $\cup_V$ does not depend on the basis chosen used to define it, and these maps satisfy $(\id_V \otimes \cap_V)(\cup_V \otimes \id_V) = \id_V$ and $(\cap_V \otimes \id_{V^*})(\id_{V^*} \otimes \cup_V) = \id_{V^*}$. These are the properties we will use to generalize the idea of duality.
+
+In particular, 
+
+
+
+The category of vector spaces has the property that there is a natural family of isomorphisms $V \otimes W \rightarrow W \otimes V$ that behaves nicely with associativity of tensor products. The generalization of this property to monoidal categories is known as a braiding. In particular, a \textbf{braiding} in a monoidal category $(\mathscr C,\otimes,e,a,l,r)$ is a natural family of isomorphisms $c_{A,B} : A \otimes B \rightarrow B \otimes A$ which satisfies the following axioms:
+\begin{enumerate}
+\item The triangular diagram
+\[
+\xymatrix
+@R=2pc
+@C=2pc
+{
+& A & \\
+1 \otimes A \ar[ru]^{l_A} \ar[rr]_{c_{1,A}} & & A \otimes 1 \ar[ul]_{r_A}
+}
+\]
+commutes for all objects $A$ in $\mathscr C$.
+
+\item Both of the hexagonal diagrams
+\[
+\xymatrix
+@R=2pc
+@C=0pc
+{
+  & (A \otimes B) \otimes C \ar[ld]_{a_{A,B,C}^{-1}} \ar[rd]^{c_{A \otimes B,C}} & \\
+A \otimes (B \otimes C) \ar[d]_{\id_A \otimes c_{B,C}} &   & C \otimes (A \otimes B) \ar[d]^{a_{C,A,B}} \\
+A \otimes (C \otimes B) \ar[dr]_{a_{A,C,B}} &   & (C \otimes A) \otimes B \ar[dl]^{c_{C,A} \otimes \id_B} \\
+  & (A \otimes C) \otimes B &
+}
+\ \ \ \ \ \ \ 
+\xymatrix
+@R=2pc
+@C=0pc
+{
+  & A \otimes (B \otimes C) \ar[ld]_{a_{A,B,C}} \ar[rd]^{c_{A,B \otimes C}} & \\
+(A \otimes B) \otimes C \ar[d]_{c_{A,B} \otimes \id_C} &   & (B \otimes C) \otimes A \ar[d]^{a_{B,C,A}^{-1}} \\
+(B \otimes A) \otimes C \ar[dr]_{a_{B,A,C}^{-1}} &   & B \otimes (C \otimes A) \ar[dl]^{\id_B \otimes c_{C,A}} \\
+  & B \otimes (A \otimes C) &
+}
+\]
+commute for all objects $A,B,C$ in $\mathscr C$.
+\end{enumerate}
+Note that the inverse $c^{-1}$ of the braiding is also a braiding. A braided monoidal category $(\mathscr C,\otimes,e,a,l,r,c)$ is said to be \textbf{symmetric} if $c^2 = \id$. 
+
+
+
+
+
+
+\newpage
+
+
+\bibliography{knot-theory-bib}
+\bibliographystyle{plain}
+\addcontentsline{toc}{section}{\refname}
+
+
+
+
+
+
+
+
+
+\end{document}
+
