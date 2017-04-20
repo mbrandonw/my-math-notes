@@ -1,6 +1,6 @@
 # My Math
 
-I was in [graduate school](http://math.sunysb.edu/~mbw) for a number of years, and this is a collection of the notes/papers I wrote.
+I was in graduate school for a number of years, and this is a collection of the notes/papers I wrote.
 
 ## [Classifying Spaces and Representability Theorems](./classifying-spaces-and-representability-theorems)
 
