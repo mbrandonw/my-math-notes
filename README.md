@@ -18,7 +18,7 @@ The foundations and statement of the Brown Representability Theorem, a very gene
 
 Just some examples of how to compute an object known as [Khovanov Homology](http://en.wikipedia.org/wiki/Khovanov_homology).
 
-## [Gauge Theory](./guage-theory)
+## [Gauge Theory](./gauge-theory)
 
 I spent one summer trying to learn some physics and this is the resulting notes.
 
